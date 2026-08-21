@@ -14,14 +14,16 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #f5f6f8;
-    color: #25282d;
+    color: #24272b;
     height: 100vh;
     overflow: hidden;
 }
 
+/* TOP */
+
 .topbar {
     height: 58px;
-    background: #fff;
+    background: white;
     border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
@@ -29,19 +31,20 @@ body {
 }
 
 .back {
-    color: #555;
     text-decoration: none;
+    color: #555;
     font-size: 15px;
 }
 
 .progress-wrap {
-    width: min(430px, 55vw);
+    width: 420px;
+    max-width: 55vw;
     margin: auto;
 }
 
-.progress-background {
-    height: 8px;
-    background: #e4e6e9;
+.progress-bg {
+    height: 9px;
+    background: #e5e7ea;
     border-radius: 20px;
     overflow: hidden;
 }
@@ -50,21 +53,24 @@ body {
     width: 0%;
     height: 100%;
     background: #55b979;
-    transition: width .3s ease;
+    border-radius: 20px;
+    transition: width .5s cubic-bezier(.2,.8,.2,1);
 }
 
+/* PAGE */
+
 .page {
-    max-width: 900px;
     height: calc(100vh - 58px);
+    max-width: 900px;
     margin: auto;
-    padding: 20px;
+    padding: 16px 20px;
     display: flex;
     flex-direction: column;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 14px;
+    flex-shrink: 0;
 }
 
 .header small {
@@ -73,61 +79,67 @@ body {
 }
 
 .header h1 {
+    font-size: 26px;
     margin: 5px 0;
-    font-size: 27px;
 }
 
 .header p {
-    margin: 0;
-    color: #646a72;
-    font-size: 15px;
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 10px;
 }
+
+/* MAIN CARD */
 
 .card {
     background: white;
-    border: 1px solid #e0e2e5;
-    border-radius: 15px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    border: 1px solid #dddfe3;
+    border-radius: 14px;
+    padding: 14px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .meal-image {
-    display: block;
     width: 100%;
-    height: 190px;
+    height: min(27vh, 190px);
     object-fit: contain;
-    margin: auto;
+    flex-shrink: 1;
 }
+
+/* FOOD POOL */
 
 .instruction {
     text-align: center;
-    color: #60666d;
-    margin: 7px 0 13px;
-    font-size: 15px;
+    color: #656b73;
+    font-size: 14px;
+    margin: 5px 0 9px;
 }
 
-/* FOOD CARDS */
-
-.foods {
+.food-pool {
+    min-height: 55px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
     flex-wrap: wrap;
-    min-height: 68px;
 }
 
 .food {
-    min-width: 130px;
-    min-height: 60px;
-    padding: 10px 14px;
-    border: 2px solid #d9dde2;
-    border-radius: 10px;
     background: white;
+    border: 2px solid #d8dce1;
+    border-radius: 9px;
+    min-width: 105px;
+    min-height: 50px;
+    padding: 8px 12px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
     font-weight: bold;
+    font-size: 14px;
     cursor: grab;
     user-select: none;
 }
@@ -141,29 +153,31 @@ body {
 .categories {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 15px;
+    gap: 10px;
+    margin-top: 10px;
+    flex: 1;
+    min-height: 0;
 }
 
 .category {
-    min-height: 135px;
-    border: 2px dashed #cdd2d8;
-    border-radius: 12px;
-    padding: 10px;
+    border: 2px dashed #cbd0d6;
+    border-radius: 11px;
+    padding: 8px;
     background: #fafbfc;
+    min-height: 100px;
 }
 
 .category h2 {
+    font-size: 16px;
     text-align: center;
-    font-size: 17px;
-    margin: 4px 0 12px;
+    margin: 3px 0 8px;
 }
 
-.category .items {
+.category-items {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 7px;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .category.over {
@@ -172,9 +186,9 @@ body {
 }
 
 .category .food {
-    min-width: 110px;
-    min-height: 48px;
-    font-size: 14px;
+    min-width: 90px;
+    min-height: 43px;
+    font-size: 13px;
     cursor: grab;
 }
 
@@ -182,178 +196,171 @@ body {
 
 .feedback {
     display: none;
-    margin: 12px auto 0;
-    max-width: 650px;
-    padding: 11px 15px;
-    border-radius: 9px;
+    text-align: center;
+    margin: 7px auto 0;
+    padding: 8px 12px;
+    border-radius: 8px;
     font-size: 14px;
 }
 
 .feedback.green {
     display: block;
     background: #e8f6ed;
-    border: 1px solid #9bd2aa;
-    color: #28653b;
+    border: 1px solid #9bd1aa;
+    color: #28643b;
 }
 
 .feedback.yellow {
     display: block;
     background: #fff5d8;
-    border: 1px solid #e5c96c;
-    color: #705b17;
+    border: 1px solid #e4c96e;
+    color: #705a17;
 }
 
 .feedback.red {
     display: block;
     background: #fdeaea;
-    border: 1px solid #e0a0a0;
+    border: 1px solid #dfa0a0;
     color: #862e2e;
 }
 
+/* HINT */
+
 .hint {
     display: none;
-    max-width: 650px;
-    margin: 9px auto 0;
-    padding: 11px 15px;
+    text-align: center;
+    max-width: 600px;
+    margin: 7px auto 0;
+    padding: 8px 12px;
+    border-radius: 8px;
     background: #eef4ff;
-    border: 1px solid #b9cef5;
-    border-radius: 9px;
-    color: #315b9a;
-    font-size: 14px;
+    border: 1px solid #b8cef4;
+    color: #315c9e;
+    font-size: 13px;
 }
 
-.buttons {
-    margin-top: auto;
-    padding-top: 10px;
-    text-align: center;
+/* BUTTONS */
+
+.controls {
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 button {
-    font-family: inherit;
-}
-
-.check,
-.continue,
-.hint-button {
-    border: none;
-    border-radius: 9px;
-    padding: 12px 27px;
-    font-size: 15px;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
     cursor: pointer;
 }
 
-.check,
-.continue {
+.check {
+    border: none;
     background: #4b88dc;
     color: white;
+    font-weight: bold;
+    padding: 11px 28px;
+    border-radius: 8px;
+    font-size: 15px;
 }
 
 .hint-button {
-    background: #fff;
-    color: #4b88dc;
     border: 1px solid #b9cef5;
-    margin-left: 7px;
+    background: white;
+    color: #4b88dc;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
-.continue {
-    display: none;
+/* CORRECT ANIMATION */
+
+.correct-pop {
+    animation: correctPop .35s ease;
 }
 
-/* FOLLOW UP */
+@keyframes correctPop {
+    0% {
+        transform: scale(1);
+    }
 
-.followup {
-    display: none;
-}
+    50% {
+        transform: scale(1.025);
+    }
 
-.followup-question {
-    text-align: center;
-    font-size: 22px;
-    margin: 5px 0 15px;
-}
-
-.answer-box {
-    height: 75px;
-    max-width: 450px;
-    margin: auto;
-    border: 2px dashed #cbd0d6;
-    border-radius: 11px;
-    background: #fafbfc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #777;
-}
-
-.answer-box.over {
-    border-color: #4b88dc;
-    background: #eef4ff;
-}
-
-.answer-box.correct {
-    border-color: #55b979;
-    background: #e8f6ed;
-}
-
-.answer-box.wrong {
-    border-color: #d65c5c;
-    background: #fdeaea;
-}
-
-.followup-options {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 13px;
-}
-
-.followup-options .food {
-    cursor: grab;
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* COMPLETE */
 
 .complete {
     display: none;
-    max-width: 650px;
-    margin: auto;
+    height: calc(100vh - 58px);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.complete-box {
     background: white;
     border: 1px solid #ddd;
     border-radius: 15px;
     padding: 35px;
-    text-align: center;
+    max-width: 550px;
 }
 
-.complete h1 {
+.complete-box h1 {
     margin-top: 0;
 }
 
+/* MOBILE */
+
 @media(max-width:650px) {
 
-    body {
-        overflow: auto;
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .progress-wrap {
+        max-width: 45vw;
     }
 
     .page {
-        height: auto;
-        min-height: calc(100vh - 58px);
-        padding: 14px 10px;
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 21px;
+    }
+
+    .header p {
+        font-size: 13px;
     }
 
     .meal-image {
-        height: 145px;
+        height: 21vh;
     }
 
     .categories {
-        grid-template-columns: 1fr;
+        gap: 7px;
     }
 
-    .category {
-        min-height: 100px;
+    .category h2 {
+        font-size: 14px;
     }
 
     .food {
-        min-width: 110px;
+        min-width: 90px;
+        min-height: 45px;
+        font-size: 12px;
+    }
+
+    .category .food {
+        min-width: 75px;
+        min-height: 38px;
     }
 }
 </style>
@@ -366,7 +373,7 @@ button {
     <a href="../index.html" class="back">Back</a>
 
     <div class="progress-wrap">
-        <div class="progress-background">
+        <div class="progress-bg">
             <div class="progress" id="progress"></div>
         </div>
     </div>
@@ -378,86 +385,101 @@ button {
 
     <div class="header">
 
-        <small id="questionNumber"></small>
+        <small id="questionNumber">
+            Question 1 of 3
+        </small>
 
         <h1>Where do the carbs go?</h1>
 
-        <p>Put each food into the group you think it belongs in.</p>
+        <p>
+            Move each food into the group you think it belongs in.
+        </p>
 
     </div>
 
 
-    <div class="card">
+    <div class="card" id="mainCard">
 
         <img
-            id="mealImage"
             class="meal-image"
+            id="mealImage"
             src=""
             alt="Meal"
         >
 
         <div class="instruction">
-            Move each food into <strong>Little or no carbs</strong>
-            or <strong>Higher in carbs</strong>.
+            Drag the foods into the correct group.
         </div>
 
 
-        <!-- FOODS WAITING TO BE SORTED -->
+        <div
+            class="food-pool"
+            id="foodPool"
+        ></div>
 
-        <div class="foods" id="foodPool"></div>
-
-
-        <!-- TWO CATEGORIES -->
 
         <div class="categories">
 
             <div
                 class="category"
-                id="lowCategory"
                 data-category="low"
             >
 
                 <h2>Little or no carbs</h2>
 
-                <div class="items"></div>
+                <div
+                    class="category-items"
+                    id="lowItems"
+                ></div>
 
             </div>
 
 
             <div
                 class="category"
-                id="highCategory"
                 data-category="high"
             >
 
                 <h2>Higher in carbs</h2>
 
-                <div class="items"></div>
+                <div
+                    class="category-items"
+                    id="highItems"
+                ></div>
 
             </div>
 
         </div>
 
 
-        <div class="feedback" id="feedback"></div>
+        <div
+            class="feedback"
+            id="feedback"
+        ></div>
 
-        <div class="hint" id="hint"></div>
+
+        <div
+            class="hint"
+            id="hint"
+        ></div>
 
     </div>
 
 
-    <div class="buttons">
+    <div class="controls">
 
-        <button class="check" id="checkButton">
+        <button
+            class="check"
+            id="checkButton"
+        >
             Check
         </button>
 
-        <button class="hint-button" id="hintButton">
+        <button
+            class="hint-button"
+            id="hintButton"
+        >
             Hint
-        </button>
-
-        <button class="continue" id="continueButton">
-            Continue
         </button>
 
     </div>
@@ -465,23 +487,26 @@ button {
 </main>
 
 
-<section class="complete" id="complete">
+<section
+    class="complete"
+    id="complete"
+>
 
-    <h1>Well done</h1>
+    <div class="complete-box">
 
-    <p>
-        You completed Carb Counting 1.
-    </p>
+        <h1>Lesson complete</h1>
 
-    <p>
-        You can now start spotting which foods contain
-        more carbohydrate.
-    </p>
+        <p>
+            You can now start spotting foods that contain
+            more carbohydrate.
+        </p>
 
-    <p>
-        Next we'll learn how to find the actual amount
-        of carbohydrate in food.
-    </p>
+        <p>
+            Next you'll learn how to use food labels
+            and weighing to work out carbohydrate amounts.
+        </p>
+
+    </div>
 
 </section>
 
@@ -494,80 +519,127 @@ const meals = [
         image: "carbcount1images/1.jpg",
 
         foods: [
-            { name: "Egg", category: "low" },
-            { name: "Cheese", category: "low" },
-            { name: "Milk", category: "high" },
-            { name: "Toast", category: "high" }
+            {
+                name: "Egg",
+                category: "low"
+            },
+            {
+                name: "Cheese",
+                category: "low"
+            },
+            {
+                name: "Milk",
+                category: "high"
+            },
+            {
+                name: "Toast",
+                category: "high"
+            }
         ],
 
         hints: [
-            "Think about which foods are similar to bread, cereal or other carbohydrate foods.",
-            "Toast is made from bread, so it contains carbohydrate. Milk also contains carbohydrate.",
-            "Egg and cheese are the two foods in this meal with little carbohydrate."
+            "Think about which foods are more like bread or other carbohydrate foods.",
+            "Toast is made from bread. Milk also contains carbohydrate.",
+            "Egg and cheese are the two foods in this activity with little or no carbohydrate."
         ]
     },
+
 
     {
         image: "carbcount1images/2.jpg",
 
         foods: [
-            { name: "Cucumber", category: "low" },
-            { name: "Cheese", category: "low" },
-            { name: "Crisps", category: "high" },
-            { name: "Sandwich", category: "high" }
+            {
+                name: "Cucumber",
+                category: "low"
+            },
+            {
+                name: "Cheese",
+                category: "low"
+            },
+            {
+                name: "Crisps",
+                category: "high"
+            },
+            {
+                name: "Sandwich",
+                category: "high"
+            }
         ],
 
         hints: [
-            "Think about what crisps are made from, and what a sandwich is made from.",
+            "Think about what crisps and sandwiches are made from.",
             "Crisps are made from potatoes. A sandwich contains bread.",
-            "The cucumber and cheese are the two foods with little carbohydrate."
+            "Cucumber and cheese are the two foods with little or no carbohydrate in this activity."
         ]
     },
+
 
     {
         image: "carbcount1images/3.jpg",
 
         foods: [
-            { name: "Broccoli", category: "low" },
-            { name: "Chicken wing", category: "low" },
-            { name: "Yoghurt", category: "high" },
-            { name: "Rice", category: "high" }
+            {
+                name: "Broccoli",
+                category: "low"
+            },
+            {
+                name: "Chicken wing",
+                category: "low"
+            },
+            {
+                name: "Yoghurt",
+                category: "high"
+            },
+            {
+                name: "Rice",
+                category: "high"
+            }
         ],
 
         hints: [
             "Think about which food is made from grains.",
             "Rice is a carbohydrate food. Yoghurt can also contain carbohydrate.",
-            "The broccoli and chicken are the two foods with little carbohydrate in this activity."
+            "Broccoli and chicken are the two foods with little or no carbohydrate in this activity."
         ]
     }
 
 ];
 
 
-let mealIndex = 0;
-let placedFoods = [];
-let hintLevel = 0;
-let mistakes = [];
-
+let currentMeal = 0;
 let draggedFood = null;
+let hintNumber = 0;
+let locked = false;
 
 
-/* -----------------------------
-   LOAD MEAL
------------------------------ */
+/* -------------------------
+   LOAD QUESTION
+------------------------- */
 
 function loadMeal() {
 
-    const meal = meals[mealIndex];
+    locked = false;
+    hintNumber = 0;
+
+    const meal = meals[currentMeal];
 
     document.getElementById("mealImage").src =
         meal.image;
 
     document.getElementById("questionNumber").textContent =
-        "Meal " + (mealIndex + 1) + " of " + meals.length;
+        "Question " +
+        (currentMeal + 1) +
+        " of " +
+        meals.length;
+
 
     document.getElementById("feedback").className =
         "feedback";
+
+    document.getElementById("feedback").textContent =
+        "";
+
 
     document.getElementById("hint").style.display =
         "none";
@@ -575,312 +647,439 @@ function loadMeal() {
     document.getElementById("hint").textContent =
         "";
 
-    hintLevel = 0;
 
-    placedFoods = [];
+    document.getElementById("foodPool").innerHTML =
+        "";
 
-    document.getElementById("foodPool").innerHTML = "";
+    document.getElementById("lowItems").innerHTML =
+        "";
 
-    document.querySelector("#lowCategory .items").innerHTML = "";
+    document.getElementById("highItems").innerHTML =
+        "";
 
-    document.querySelector("#highCategory .items").innerHTML = "";
-
-    document.getElementById("continueButton").style.display =
-        "none";
 
     document.getElementById("checkButton").style.display =
         "inline-block";
 
+
     document.getElementById("hintButton").style.display =
         "inline-block";
 
-    const shuffled =
+
+    const foods =
         [...meal.foods].sort(() => Math.random() - .5);
 
-    shuffled.forEach(food => {
 
-        createFoodCard(food);
+    foods.forEach(food => {
+
+        createFood(food);
 
     });
+
 
     updateProgress();
 
 }
 
 
-/* -----------------------------
-   CREATE FOOD CARD
------------------------------ */
+/* -------------------------
+   CREATE FOOD
+------------------------- */
 
-function createFoodCard(food) {
+function createFood(food) {
 
-    const card =
+    const element =
         document.createElement("div");
 
-    card.className = "food";
+    element.className = "food";
 
-    card.textContent = food.name;
+    element.textContent =
+        food.name;
 
-    card.draggable = true;
+    element.draggable = true;
 
-    card.dataset.category =
+    element.dataset.category =
         food.category;
 
-    card.addEventListener("dragstart", function() {
 
-        draggedFood = card;
+    element.addEventListener(
+        "dragstart",
+        function() {
 
-        card.classList.add("dragging");
+            if (locked) return;
 
-    });
+            draggedFood = element;
 
-    card.addEventListener("dragend", function() {
+            element.classList.add("dragging");
 
-        card.classList.remove("dragging");
+        }
+    );
 
-        draggedFood = null;
 
-    });
+    element.addEventListener(
+        "dragend",
+        function() {
 
-    document.getElementById("foodPool")
-        .appendChild(card);
+            element.classList.remove("dragging");
+
+            draggedFood = null;
+
+        }
+    );
+
+
+    document
+        .getElementById("foodPool")
+        .appendChild(element);
 
 }
 
 
-/* -----------------------------
-   DROP ZONES
------------------------------ */
+/* -------------------------
+   DROP AREAS
+------------------------- */
 
-document.querySelectorAll(".category")
+document
+.querySelectorAll(".category")
 .forEach(category => {
 
-    category.addEventListener("dragover", function(e) {
 
-        e.preventDefault();
+    category.addEventListener(
+        "dragover",
+        function(event) {
 
-        category.classList.add("over");
+            event.preventDefault();
 
-    });
+            if (locked) return;
 
+            category.classList.add("over");
 
-    category.addEventListener("dragleave", function() {
-
-        category.classList.remove("over");
-
-    });
+        }
+    );
 
 
-    category.addEventListener("drop", function(e) {
+    category.addEventListener(
+        "dragleave",
+        function() {
 
-        e.preventDefault();
+            category.classList.remove("over");
 
-        category.classList.remove("over");
+        }
+    );
 
-        if (!draggedFood) return;
 
-        category
-            .querySelector(".items")
-            .appendChild(draggedFood);
+    category.addEventListener(
+        "drop",
+        function(event) {
 
-    });
+            event.preventDefault();
+
+            category.classList.remove("over");
+
+            if (!draggedFood || locked) return;
+
+
+            category
+                .querySelector(".category-items")
+                .appendChild(draggedFood);
+
+        }
+    );
 
 });
 
 
-/* -----------------------------
+/* -------------------------
    CHECK
------------------------------ */
+------------------------- */
 
-document.getElementById("checkButton")
-.addEventListener("click", function() {
+document
+.getElementById("checkButton")
+.addEventListener(
+    "click",
+    function() {
 
-    const allFoods =
-        document.querySelectorAll(".food");
+        if (locked) return;
 
-    let allPlaced = true;
-    let correct = 0;
 
-    allFoods.forEach(food => {
+        const foods =
+            document.querySelectorAll(".food");
 
-        if (!food.parentElement.classList.contains("items")) {
+        let placed = 0;
+        let correct = 0;
 
-            allPlaced = false;
+
+        foods.forEach(food => {
+
+            const parent =
+                food.parentElement;
+
+
+            if (
+                parent.classList.contains(
+                    "category-items"
+                )
+            ) {
+
+                placed++;
+
+
+                const category =
+                    parent.parentElement.dataset.category;
+
+
+                if (
+                    category ===
+                    food.dataset.category
+                ) {
+
+                    correct++;
+
+                }
+
+            }
+
+        });
+
+
+        if (placed < meals[currentMeal].foods.length) {
+
+            showFeedback(
+                "yellow",
+                "Move every food into a group first."
+            );
 
             return;
 
         }
 
-        const actualCategory =
-            food.parentElement.parentElement.dataset.category;
 
-        if (actualCategory === food.dataset.category) {
+        if (
+            correct ===
+            meals[currentMeal].foods.length
+        ) {
 
-            correct++;
+            correctAnswer();
 
         }
 
-    });
+        else if (correct >= 2) {
 
+            showFeedback(
+                "yellow",
+                "Almost there. Have another look at the foods."
+            );
 
-    const total =
-        meals[mealIndex].foods.length;
+        }
 
+        else {
 
-    if (!allPlaced) {
+            showFeedback(
+                "red",
+                "Not quite. Try again. You can use a hint if you need one."
+            );
 
-        showFeedback(
-            "yellow",
-            "Move all of the foods into a group first."
-        );
-
-        return;
-    }
-
-
-    if (correct === total) {
-
-        showFeedback(
-            "green",
-            "Correct. You sorted all of the foods correctly."
-        );
-
-        document.getElementById("checkButton")
-            .style.display = "none";
-
-        document.getElementById("hintButton")
-            .style.display = "none";
-
-        document.getElementById("continueButton")
-            .style.display = "inline-block";
-
-        return;
+        }
 
     }
+);
 
 
-    mistakes.push(mealIndex);
+/* -------------------------
+   CORRECT
+------------------------- */
 
-    if (correct >= 2) {
+function correctAnswer() {
 
-        showFeedback(
-            "yellow",
-            "Good try. Some of your answers are right. Have another look and try again."
-        );
+    locked = true;
 
-    } else {
-
-        showFeedback(
-            "red",
-            "Not quite. Try moving the foods again. You can use a hint if you need one."
-        );
-
-    }
-
-});
-
-
-/* -----------------------------
-   HINTS
------------------------------ */
-
-document.getElementById("hintButton")
-.addEventListener("click", function() {
-
-    const hints =
-        meals[mealIndex].hints;
-
-    const hint =
-        document.getElementById("hint");
-
-    if (hintLevel < hints.length) {
-
-        hint.textContent =
-            "Hint: " + hints[hintLevel];
-
-        hint.style.display =
-            "block";
-
-        hintLevel++;
-
-    }
-
-});
-
-
-/* -----------------------------
-   FEEDBACK
------------------------------ */
-
-function showFeedback(type, text) {
 
     const feedback =
         document.getElementById("feedback");
 
+
     feedback.className =
-        "feedback " + type;
+        "feedback green";
+
 
     feedback.textContent =
-        text;
+        "Correct!";
+
+
+    document
+        .getElementById("mainCard")
+        .classList.add("correct-pop");
+
+
+    document
+        .getElementById("checkButton")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("hintButton")
+        .style.display =
+        "none";
+
+
+    /* Move progress immediately */
+
+    const nextProgress =
+        ((currentMeal + 1) / meals.length) * 100;
+
+
+    document
+        .getElementById("progress")
+        .style.width =
+        nextProgress + "%";
+
+
+    /*
+       Automatically move to the next meal
+       after the child gets it right.
+    */
+
+    setTimeout(
+        function() {
+
+            currentMeal++;
+
+
+            if (
+                currentMeal >=
+                meals.length
+            ) {
+
+                finishLesson();
+
+            }
+
+            else {
+
+                document
+                    .getElementById("mainCard")
+                    .classList.remove("correct-pop");
+
+                loadMeal();
+
+            }
+
+        },
+        900
+    );
 
 }
 
 
-/* -----------------------------
+/* -------------------------
+   HINT
+------------------------- */
+
+document
+.getElementById("hintButton")
+.addEventListener(
+    "click",
+    function() {
+
+        const hints =
+            meals[currentMeal].hints;
+
+
+        if (
+            hintNumber >=
+            hints.length
+        ) {
+
+            return;
+
+        }
+
+
+        const hint =
+            document.getElementById("hint");
+
+
+        hint.textContent =
+            "Hint: " +
+            hints[hintNumber];
+
+
+        hint.style.display =
+            "block";
+
+
+        hintNumber++;
+
+    }
+);
+
+
+/* -------------------------
+   FEEDBACK
+------------------------- */
+
+function showFeedback(
+    colour,
+    message
+) {
+
+    const feedback =
+        document.getElementById("feedback");
+
+
+    feedback.className =
+        "feedback " + colour;
+
+
+    feedback.textContent =
+        message;
+
+}
+
+
+/* -------------------------
    PROGRESS
------------------------------ */
+------------------------- */
 
 function updateProgress() {
 
-    const total =
-        meals.length;
-
     const percentage =
-        (mealIndex / total) * 100;
+        (currentMeal /
+        meals.length) *
+        100;
 
-    document.getElementById("progress")
+
+    document
+        .getElementById("progress")
         .style.width =
         percentage + "%";
 
 }
 
 
-/* -----------------------------
-   NEXT
------------------------------ */
-
-document.getElementById("continueButton")
-.addEventListener("click", function() {
-
-    mealIndex++;
-
-    if (mealIndex >= meals.length) {
-
-        finishLesson();
-
-        return;
-
-    }
-
-    loadMeal();
-
-});
-
-
-/* -----------------------------
-   FINISH
------------------------------ */
+/* -------------------------
+   COMPLETE
+------------------------- */
 
 function finishLesson() {
 
-    document.getElementById("progress")
-        .style.width = "100%";
+    document
+        .getElementById("progress")
+        .style.width =
+        "100%";
 
-    document.getElementById("lesson")
-        .style.display = "none";
 
-    document.getElementById("complete")
-        .style.display = "block";
+    document
+        .getElementById("lesson")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("complete")
+        .style.display =
+        "flex";
 
 }
 
