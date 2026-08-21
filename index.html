@@ -15,7 +15,6 @@
     --purple-dark: #51309b;
     --purple-light: #f0eaff;
     --purple-border: #d8c9f5;
-    --green: #58b947;
     --text: #29233a;
     --muted: #716b7d;
     --border: #e2dfe8;
@@ -29,8 +28,6 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
-/* TOP */
 
 .topbar {
     height: 62px;
@@ -76,8 +73,6 @@ body {
     transition: width .45s ease;
 }
 
-/* PAGE */
-
 .page {
     height: calc(100vh - 62px);
     max-width: 900px;
@@ -110,8 +105,6 @@ body {
     margin: 0 0 12px;
 }
 
-/* CARD */
-
 .card {
     background: white;
     border: 1px solid var(--border);
@@ -133,8 +126,6 @@ body {
     height: min(62vh, 500px);
     object-fit: contain;
 }
-
-/* ANSWER */
 
 .answer-area {
     display: none;
@@ -169,8 +160,6 @@ body {
     color: #625b70;
 }
 
-/* FEEDBACK */
-
 .feedback {
     display: none;
     text-align: center;
@@ -194,8 +183,6 @@ body {
     border: 1px solid #dfa4a4;
     color: #862e2e;
 }
-
-/* CONTROLS */
 
 .controls {
     height: 65px;
@@ -234,8 +221,6 @@ button {
     box-shadow: none;
 }
 
-/* COMPLETE */
-
 .complete {
     display: none;
     height: calc(100vh - 62px);
@@ -264,8 +249,6 @@ button {
     color: var(--muted);
     line-height: 1.5;
 }
-
-/* MOBILE */
 
 @media(max-width:650px) {
 
@@ -320,15 +303,14 @@ button {
     <div class="header">
 
         <small id="slideNumber">
-            Slide 1
+            Slide 1 of 9
         </small>
 
         <h1 id="title">
             Carb Counting
         </h1>
 
-        <p id="subtitle">
-        </p>
+        <p id="subtitle"></p>
 
     </div>
 
@@ -414,70 +396,61 @@ button {
 const slides = [
 
     {
-        image: "carbcount1images/4.jpg",
+        image: "carbcount2/4.jpg",
         type: "continue",
-        title: "Using food labels",
-        subtitle: ""
+        title: "Using food labels"
     },
 
     {
-        image: "carbcount1images/5.jpg",
+        image: "carbcount2/5.jpg",
         type: "continue",
-        title: "Calculating carbohydrate",
-        subtitle: ""
+        title: "Calculating carbohydrate"
     },
 
     {
-        image: "carbcount1images/6.jpg",
+        image: "carbcount2/6.jpg",
         type: "question",
         answer: 45,
-        title: "Calculate the carbohydrate",
-        subtitle: ""
+        title: "Calculate the carbohydrate"
     },
 
     {
-        image: "carbcount1images/7.jpg",
+        image: "carbcount2/7.jpg",
         type: "question",
         answer: 5,
-        title: "Calculate the carbohydrate",
-        subtitle: ""
+        title: "Calculate the carbohydrate"
     },
 
     {
-        image: "carbcount1images/8.jpg",
+        image: "carbcount2/8.jpg",
         type: "question",
         answer: 90,
-        title: "Calculate the carbohydrate",
-        subtitle: ""
+        title: "Calculate the carbohydrate"
     },
 
     {
-        image: "carbcount1images/9.jpg",
+        image: "carbcount2/9.jpg",
         type: "continue",
-        title: "Quick tip",
-        subtitle: ""
+        title: "Quick tip"
     },
 
     {
-        image: "carbcount1images/10.jpg",
+        image: "carbcount2/10.jpg",
         type: "continue",
-        title: "Method 2",
-        subtitle: ""
+        title: "Method 2"
     },
 
     {
-        image: "carbcount1images/11.jpg",
+        image: "carbcount2/11.jpg",
         type: "question",
         answer: 20.4,
-        title: "Calculate the carbohydrate",
-        subtitle: ""
+        title: "Calculate the carbohydrate"
     },
 
     {
-        image: "carbcount1images/12.jpg",
-        type: "tip",
-        title: "Quick tip",
-        subtitle: ""
+        image: "carbcount2/12.jpg",
+        type: "continue",
+        title: "Quick tip"
     }
 
 ];
@@ -485,41 +458,17 @@ const slides = [
 
 let currentSlide = 0;
 
-const image =
-    document.getElementById("lessonImage");
-
-const slideNumber =
-    document.getElementById("slideNumber");
-
-const title =
-    document.getElementById("title");
-
-const subtitle =
-    document.getElementById("subtitle");
-
-const answerArea =
-    document.getElementById("answerArea");
-
-const answerInput =
-    document.getElementById("answerInput");
-
-const feedback =
-    document.getElementById("feedback");
-
-const continueButton =
-    document.getElementById("continueButton");
-
-const checkButton =
-    document.getElementById("checkButton");
-
-const progress =
-    document.getElementById("progress");
-
-const lesson =
-    document.getElementById("lesson");
-
-const complete =
-    document.getElementById("complete");
+const image = document.getElementById("lessonImage");
+const slideNumber = document.getElementById("slideNumber");
+const title = document.getElementById("title");
+const answerArea = document.getElementById("answerArea");
+const answerInput = document.getElementById("answerInput");
+const feedback = document.getElementById("feedback");
+const continueButton = document.getElementById("continueButton");
+const checkButton = document.getElementById("checkButton");
+const progress = document.getElementById("progress");
+const lesson = document.getElementById("lesson");
+const complete = document.getElementById("complete");
 
 
 function loadSlide() {
@@ -534,11 +483,7 @@ function loadSlide() {
         " of " +
         slides.length;
 
-    title.textContent =
-        slide.title;
-
-    subtitle.textContent =
-        slide.subtitle || "";
+    title.textContent = slide.title;
 
     answerInput.value = "";
 
@@ -555,24 +500,19 @@ function loadSlide() {
     if (slide.type === "question") {
 
         answerArea.style.display = "flex";
-
         checkButton.style.display = "inline-block";
 
-        setTimeout(() => {
+        setTimeout(function() {
             answerInput.focus();
         }, 100);
 
-    }
-
-    else {
+    } else {
 
         continueButton.style.display = "inline-block";
 
     }
 
-
     updateProgress();
-
 }
 
 
@@ -583,7 +523,6 @@ function updateProgress() {
 
     progress.style.width =
         percentage + "%";
-
 }
 
 
@@ -592,24 +531,18 @@ function nextSlide() {
     currentSlide++;
 
     if (currentSlide >= slides.length) {
-
         finishLevel();
-
         return;
-
     }
 
     loadSlide();
-
 }
 
 
 continueButton.addEventListener(
     "click",
     function() {
-
         nextSlide();
-
     }
 );
 
@@ -618,12 +551,10 @@ checkButton.addEventListener(
     "click",
     function() {
 
-        const slide =
-            slides[currentSlide];
+        const slide = slides[currentSlide];
 
         const value =
             parseFloat(answerInput.value);
-
 
         if (isNaN(value)) {
 
@@ -634,7 +565,6 @@ checkButton.addEventListener(
                 "Enter an answer first.";
 
             return;
-
         }
 
 
@@ -648,29 +578,22 @@ checkButton.addEventListener(
             feedback.textContent =
                 "Correct!";
 
-
             checkButton.style.display =
                 "none";
 
             answerInput.disabled =
                 true;
 
+            setTimeout(function() {
 
-            setTimeout(
-                function() {
+                answerInput.disabled =
+                    false;
 
-                    answerInput.disabled =
-                        false;
+                nextSlide();
 
-                    nextSlide();
+            }, 700);
 
-                },
-                700
-            );
-
-        }
-
-        else {
+        } else {
 
             feedback.className =
                 "feedback red";
@@ -689,9 +612,7 @@ answerInput.addEventListener(
     function(event) {
 
         if (event.key === "Enter") {
-
             checkButton.click();
-
         }
 
     }
