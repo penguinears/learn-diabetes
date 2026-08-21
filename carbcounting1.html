@@ -358,7 +358,6 @@ button {
 
 </header>
 
-
 <main class="page" id="lesson">
 
     <div class="card" id="mainCard">
@@ -386,9 +385,7 @@ button {
                 data-category="low"
             >
 
-                <h2>
-                    Little or no carbs
-                </h2>
+                <h2>Little or no carbs</h2>
 
                 <div
                     class="category-items"
@@ -397,15 +394,12 @@ button {
 
             </div>
 
-
             <div
                 class="category"
                 data-category="high"
             >
 
-                <h2>
-                    Higher in carbs
-                </h2>
+                <h2>Higher in carbs</h2>
 
                 <div
                     class="category-items"
@@ -416,12 +410,10 @@ button {
 
         </div>
 
-
         <div
             class="feedback"
             id="feedback"
         ></div>
-
 
         <div
             class="hint"
@@ -429,7 +421,6 @@ button {
         ></div>
 
     </div>
-
 
     <div class="controls">
 
@@ -451,7 +442,6 @@ button {
 
 </main>
 
-
 <section
     class="complete"
     id="complete"
@@ -459,9 +449,7 @@ button {
 
     <div class="complete-box">
 
-        <h1>
-            Lesson complete
-        </h1>
+        <h1>Lesson complete</h1>
 
         <p>
             You can now start spotting foods that contain
@@ -477,24 +465,19 @@ button {
 
 </section>
 
-
 <script>
 
 const meals = [
 
     {
         image: "carbcount1/14.jpg",
-
         foods: [],
-
         hints: []
     },
 
     {
         image: "carbcount1/15.jpg",
-
         foods: [],
-
         hints: []
     },
 
@@ -522,9 +505,7 @@ const meals = [
 
         hints: [
             "Think about which foods are more like bread or other carbohydrate foods.",
-
             "Toast is made from bread. Milk also contains carbohydrate.",
-
             "Egg and cheese are the two foods in this activity with little or no carbohydrate."
         ]
     },
@@ -553,9 +534,7 @@ const meals = [
 
         hints: [
             "Think about what crisps and sandwiches are made from.",
-
             "Crisps are made from potatoes. A sandwich contains bread.",
-
             "Cucumber and cheese are the two foods with little or no carbohydrate in this activity."
         ]
     },
@@ -565,29 +544,23 @@ const meals = [
 
         foods: [
             {
-                name: "Broccoli",
-                category: "low"
-            },
-            {
-                name: "Chicken wing",
-                category: "low"
-            },
-            {
-                name: "Yoghurt",
+                name: "Bread",
                 category: "high"
             },
             {
-                name: "Rice",
-                category: "high"
+                name: "Cheese",
+                category: "low"
+            },
+            {
+                name: "Ham",
+                category: "low"
             }
         ],
 
         hints: [
-            "Think about which food is made from grains.",
-
-            "Rice is a carbohydrate food. Yoghurt can also contain carbohydrate.",
-
-            "Broccoli and chicken are the two foods with little or no carbohydrate in this activity."
+            "Think about which part of the sandwich is made from a carbohydrate food.",
+            "Bread contains carbohydrate, while cheese and ham have little or no carbohydrate.",
+            "Bread is the food in this sandwich with the most carbohydrate."
         ]
     },
 
@@ -596,44 +569,36 @@ const meals = [
 
         foods: [
             {
-                name: "Broccoli",
+                name: "Cucumber",
                 category: "low"
             },
             {
-                name: "Chicken wing",
+                name: "Cheese",
                 category: "low"
             },
             {
-                name: "Yoghurt",
+                name: "Crisps",
                 category: "high"
             },
             {
-                name: "Rice",
+                name: "Sandwich",
                 category: "high"
             }
         ],
 
         hints: [
-            "Think about which food is made from grains.",
-
-            "Rice is a carbohydrate food. Yoghurt can also contain carbohydrate.",
-
-            "Broccoli and chicken are the two foods with little or no carbohydrate in this activity."
+            "Think about what crisps and sandwiches are made from.",
+            "Crisps are made from potatoes. A sandwich contains bread.",
+            "Cucumber and cheese are the two foods with little or no carbohydrate."
         ]
     }
 
 ];
 
-
 let currentMeal = 0;
 let draggedFood = null;
 let hintNumber = 0;
 let locked = false;
-
-
-/* -------------------------
-   LOAD QUESTION
-------------------------- */
 
 function loadMeal() {
 
@@ -672,11 +637,6 @@ function loadMeal() {
     document.getElementById("hintButton").style.display =
         "inline-block";
 
-
-    /*
-        INTRODUCTION SLIDES
-    */
-
     if (meal.foods.length === 0) {
 
         document.getElementById("checkButton").style.display =
@@ -700,30 +660,19 @@ function loadMeal() {
                 if (!locked) {
 
                     locked = true;
-
                     currentMeal++;
 
                     if (currentMeal >= meals.length) {
-
                         finishLesson();
-
                     } else {
-
                         loadMeal();
-
                     }
                 }
             };
 
         updateProgress();
-
         return;
     }
-
-
-    /*
-        NORMAL QUESTIONS
-    */
 
     document.getElementById("foodPool").style.display =
         "flex";
@@ -737,28 +686,17 @@ function loadMeal() {
     document.getElementById("mainCard").onclick =
         null;
 
-
     const foods =
         [...meal.foods].sort(
             () => Math.random() - .5
         );
 
-
     foods.forEach(food => {
-
         createFood(food);
-
     });
 
-
     updateProgress();
-
 }
-
-
-/* -------------------------
-   CREATE FOOD
-------------------------- */
 
 function createFood(food) {
 
@@ -777,15 +715,13 @@ function createFood(food) {
     element.dataset.category =
         food.category;
 
-
     element.addEventListener(
         "dragstart",
         function() {
 
             if (locked) return;
 
-            draggedFood =
-                element;
+            draggedFood = element;
 
             element.classList.add(
                 "dragging"
@@ -793,7 +729,6 @@ function createFood(food) {
 
         }
     );
-
 
     element.addEventListener(
         "dragend",
@@ -803,23 +738,15 @@ function createFood(food) {
                 "dragging"
             );
 
-            draggedFood =
-                null;
+            draggedFood = null;
 
         }
     );
 
-
     document.getElementById(
         "foodPool"
     ).appendChild(element);
-
 }
-
-
-/* -------------------------
-   DROP AREAS
-------------------------- */
 
 document
 .querySelectorAll(".category")
@@ -833,25 +760,19 @@ document
 
             if (locked) return;
 
-            category.classList.add(
-                "over"
-            );
+            category.classList.add("over");
 
         }
     );
-
 
     category.addEventListener(
         "dragleave",
         function() {
 
-            category.classList.remove(
-                "over"
-            );
+            category.classList.remove("over");
 
         }
     );
-
 
     category.addEventListener(
         "drop",
@@ -859,28 +780,19 @@ document
 
             event.preventDefault();
 
-            category.classList.remove(
-                "over"
-            );
+            category.classList.remove("over");
 
             if (!draggedFood || locked)
                 return;
 
             category
                 .querySelector(".category-items")
-                .appendChild(
-                    draggedFood
-                );
+                .appendChild(draggedFood);
 
         }
     );
 
 });
-
-
-/* -------------------------
-   CHECK
-------------------------- */
 
 document.getElementById(
     "checkButton"
@@ -890,22 +802,16 @@ document.getElementById(
 
         if (locked) return;
 
-
         const foods =
-            document.querySelectorAll(
-                ".food"
-            );
-
+            document.querySelectorAll(".food");
 
         let placed = 0;
         let correct = 0;
-
 
         foods.forEach(food => {
 
             const parent =
                 food.parentElement;
-
 
             if (
                 parent.classList.contains(
@@ -915,11 +821,9 @@ document.getElementById(
 
                 placed++;
 
-
                 const category =
                     parent.parentElement
                     .dataset.category;
-
 
                 if (
                     category ===
@@ -934,7 +838,6 @@ document.getElementById(
 
         });
 
-
         if (
             placed <
             meals[currentMeal].foods.length
@@ -948,7 +851,6 @@ document.getElementById(
             return;
         }
 
-
         if (
             correct ===
             meals[currentMeal].foods.length
@@ -956,18 +858,14 @@ document.getElementById(
 
             correctAnswer();
 
-        }
-
-        else if (correct >= 2) {
+        } else if (correct >= 2) {
 
             showFeedback(
                 "yellow",
                 "Almost there. Have another look at the foods."
             );
 
-        }
-
-        else {
+        } else {
 
             showFeedback(
                 "red",
@@ -979,29 +877,18 @@ document.getElementById(
     }
 );
 
-
-/* -------------------------
-   CORRECT
-------------------------- */
-
 function correctAnswer() {
 
     locked = true;
 
-
     const feedback =
-        document.getElementById(
-            "feedback"
-        );
-
+        document.getElementById("feedback");
 
     feedback.className =
         "feedback green";
 
-
     feedback.textContent =
         "Correct!";
-
 
     document.getElementById(
         "mainCard"
@@ -1009,18 +896,15 @@ function correctAnswer() {
         "correct-pop"
     );
 
-
     document.getElementById(
         "checkButton"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "hintButton"
     ).style.display =
         "none";
-
 
     const nextProgress =
         (
@@ -1028,18 +912,15 @@ function correctAnswer() {
             meals.length
         ) * 100;
 
-
     document.getElementById(
         "progress"
     ).style.width =
         nextProgress + "%";
 
-
     setTimeout(
         function() {
 
             currentMeal++;
-
 
             if (
                 currentMeal >=
@@ -1048,9 +929,7 @@ function correctAnswer() {
 
                 finishLesson();
 
-            }
-
-            else {
+            } else {
 
                 document.getElementById(
                     "mainCard"
@@ -1065,13 +944,7 @@ function correctAnswer() {
         },
         900
     );
-
 }
-
-
-/* -------------------------
-   HINT
-------------------------- */
 
 document.getElementById(
     "hintButton"
@@ -1082,41 +955,27 @@ document.getElementById(
         const hints =
             meals[currentMeal].hints;
 
-
         if (
             hintNumber >=
             hints.length
         ) {
-
             return;
-
         }
 
-
         const hint =
-            document.getElementById(
-                "hint"
-            );
-
+            document.getElementById("hint");
 
         hint.textContent =
             "Hint: " +
             hints[hintNumber];
 
-
         hint.style.display =
             "block";
-
 
         hintNumber++;
 
     }
 );
-
-
-/* -------------------------
-   FEEDBACK
-------------------------- */
 
 function showFeedback(
     colour,
@@ -1124,25 +983,14 @@ function showFeedback(
 ) {
 
     const feedback =
-        document.getElementById(
-            "feedback"
-        );
-
+        document.getElementById("feedback");
 
     feedback.className =
-        "feedback " +
-        colour;
-
+        "feedback " + colour;
 
     feedback.textContent =
         message;
-
 }
-
-
-/* -------------------------
-   PROGRESS
-------------------------- */
 
 function updateProgress() {
 
@@ -1152,18 +1000,11 @@ function updateProgress() {
             meals.length
         ) * 100;
 
-
     document.getElementById(
         "progress"
     ).style.width =
         percentage + "%";
-
 }
-
-
-/* -------------------------
-   COMPLETE
-------------------------- */
 
 function finishLesson() {
 
@@ -1172,24 +1013,16 @@ function finishLesson() {
     ).style.width =
         "100%";
 
-
     document.getElementById(
         "lesson"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "complete"
     ).style.display =
         "flex";
-
 }
-
-
-/* -------------------------
-   START
-------------------------- */
 
 loadMeal();
 
