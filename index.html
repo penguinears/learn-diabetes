@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +19,6 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
-/* TOP */
 
 .topbar {
     height: 58px;
@@ -57,8 +56,6 @@ body {
     transition: width .5s cubic-bezier(.2,.8,.2,1);
 }
 
-/* PAGE */
-
 .page {
     height: calc(100vh - 58px);
     max-width: 900px;
@@ -89,8 +86,6 @@ body {
     margin: 0 0 10px;
 }
 
-/* MAIN CARD */
-
 .card {
     background: white;
     border: 1px solid #dddfe3;
@@ -108,8 +103,6 @@ body {
     object-fit: contain;
     flex-shrink: 1;
 }
-
-/* FOOD POOL */
 
 .instruction {
     text-align: center;
@@ -147,8 +140,6 @@ body {
 .food.dragging {
     opacity: .45;
 }
-
-/* CATEGORIES */
 
 .categories {
     display: grid;
@@ -192,8 +183,6 @@ body {
     cursor: grab;
 }
 
-/* FEEDBACK */
-
 .feedback {
     display: none;
     text-align: center;
@@ -224,8 +213,6 @@ body {
     color: #862e2e;
 }
 
-/* HINT */
-
 .hint {
     display: none;
     text-align: center;
@@ -238,8 +225,6 @@ body {
     color: #315c9e;
     font-size: 13px;
 }
-
-/* BUTTONS */
 
 .controls {
     height: 52px;
@@ -274,8 +259,6 @@ button {
     font-size: 14px;
 }
 
-/* CORRECT ANIMATION */
-
 .correct-pop {
     animation: correctPop .35s ease;
 }
@@ -293,8 +276,6 @@ button {
         transform: scale(1);
     }
 }
-
-/* COMPLETE */
 
 .complete {
     display: none;
@@ -315,8 +296,6 @@ button {
 .complete-box h1 {
     margin-top: 0;
 }
-
-/* MOBILE */
 
 @media(max-width:650px) {
 
@@ -386,7 +365,7 @@ button {
     <div class="header">
 
         <small id="questionNumber">
-            Question 1 of 3
+            Question 1 of 4
         </small>
 
         <h1>Where do the carbs go?</h1>
@@ -576,6 +555,32 @@ const meals = [
 
 
     {
+        image: "carbcount1images/OIP__2_-removebg-preview (1).png",
+
+        foods: [
+            {
+                name: "Cheese",
+                category: "low"
+            },
+            {
+                name: "Ham",
+                category: "low"
+            },
+            {
+                name: "Bread",
+                category: "high"
+            }
+        ],
+
+        hints: [
+            "Think about which part of the sandwich is made from a carbohydrate-rich food.",
+            "The bread contains much more carbohydrate than the cheese or ham.",
+            "The bread is the part of the cheese and ham sandwich with the most carbohydrate."
+        ]
+    },
+
+
+    {
         image: "carbcount1images/3.jpg",
 
         foods: [
@@ -660,7 +665,6 @@ function loadMeal() {
 
     document.getElementById("checkButton").style.display =
         "inline-block";
-
 
     document.getElementById("hintButton").style.display =
         "inline-block";
@@ -923,8 +927,6 @@ function correctAnswer() {
         "none";
 
 
-    /* Move progress immediately */
-
     const nextProgress =
         ((currentMeal + 1) / meals.length) * 100;
 
@@ -934,11 +936,6 @@ function correctAnswer() {
         .style.width =
         nextProgress + "%";
 
-
-    /*
-       Automatically move to the next meal
-       after the child gets it right.
-    */
 
     setTimeout(
         function() {
@@ -1090,3 +1087,4 @@ loadMeal();
 
 </body>
 </html>
+```
