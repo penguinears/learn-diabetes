@@ -1,454 +1,812 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Diabetes - Carb Counting 1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carb Counting 1 | Learn Diabetes</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fb;
-            color: #202b3c;
-        }
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f6f7f9;
+    color: #20242b;
+}
 
-        .top {
-            height: 70px;
-            background: white;
-            border-bottom: 1px solid #e4e7ec;
-            display: flex;
-            align-items: center;
-            padding: 0 25px;
-        }
+body {
+    display: flex;
+    flex-direction: column;
+}
 
-        .back {
-            color: #596579;
-            text-decoration: none;
-            font-size: 16px;
-        }
+/* TOP */
 
-        .progress {
-            width: 230px;
-            height: 10px;
-            background: #e7ebf0;
-            border-radius: 20px;
-            margin: auto;
-            overflow: hidden;
-        }
+.topbar {
+    height: 64px;
+    min-height: 64px;
+    background: white;
+    border-bottom: 1px solid #e4e6e9;
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+    gap: 20px;
+}
 
-        .progress-bar {
-            width: 12%;
-            height: 100%;
-            background: #58c47c;
-            border-radius: 20px;
-        }
+.back {
+    text-decoration: none;
+    color: #687180;
+    font-size: 15px;
+    white-space: nowrap;
+}
 
-        .container {
-            max-width: 850px;
-            margin: 45px auto;
-            padding: 0 20px;
-        }
+.progress-wrap {
+    flex: 1;
+    max-width: 520px;
+    margin: auto;
+}
 
-        .intro {
-            background: white;
-            border-radius: 18px;
-            padding: 35px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-            margin-bottom: 35px;
-        }
+.progress-track {
+    width: 100%;
+    height: 9px;
+    background: #e3e6ea;
+    border-radius: 20px;
+    overflow: hidden;
+}
 
-        .tag {
-            display: inline-block;
-            background: #e9f8ee;
-            color: #29884c;
-            padding: 7px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #52bd76;
+    border-radius: 20px;
+    transition: width .35s ease;
+}
 
-        h1 {
-            font-size: 34px;
-            margin: 0 0 15px;
-        }
+/* MAIN */
 
-        h2 {
-            font-size: 26px;
-            margin-top: 0;
-        }
+main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+}
 
-        p {
-            font-size: 17px;
-            line-height: 1.6;
-            color: #566174;
-        }
+.page {
+    width: min(900px, 100%);
+    height: 100%;
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
 
-        .continue {
-            margin-top: 20px;
-            border: none;
-            background: #4c8bf5;
-            color: white;
-            padding: 13px 24px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+/* INTRO */
 
-        .continue:hover {
-            background: #3979e4;
-        }
+.intro {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    margin: auto 0;
+    box-shadow: 0 2px 9px rgba(0,0,0,.05);
+}
 
-        .lesson {
-            display: none;
-        }
+.small-title {
+    color: #4b8bf4;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    margin-bottom: 8px;
+}
 
-        .question {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+h1 {
+    font-size: clamp(28px, 5vw, 40px);
+    margin: 0 0 12px;
+}
 
-        .question p {
-            margin-top: 8px;
-        }
+h2 {
+    font-size: clamp(23px, 4vw, 30px);
+    margin: 0 0 10px;
+}
 
-        .plates {
-            display: flex;
-            gap: 18px;
-            justify-content: center;
-            align-items: stretch;
-        }
+p {
+    color: #596271;
+    line-height: 1.55;
+    font-size: 16px;
+    margin: 10px 0;
+}
 
-        .plate {
-            background: white;
-            border: 3px solid transparent;
-            border-radius: 16px;
-            padding: 10px;
-            cursor: pointer;
-            flex: 1;
-            transition: 0.15s;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-        }
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 22px 0;
+}
 
-        .plate:hover {
-            transform: translateY(-4px);
-        }
+.info {
+    padding: 18px;
+    border-radius: 13px;
+    background: #f5f7fa;
+}
 
-        .plate.selected {
-            border-color: #4c8bf5;
-            background: #f1f6ff;
-        }
+.info strong {
+    display: block;
+    margin-bottom: 7px;
+    color: #20242b;
+}
 
-        .plate img {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 11px;
-        }
+.start,
+.check,
+.next {
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 25px;
+    background: #4b8bf4;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .plate-number {
-            font-weight: bold;
-            font-size: 17px;
-            padding: 10px 5px 5px;
-        }
+.start:hover,
+.check:hover,
+.next:hover {
+    background: #3979e3;
+}
 
-        .selected-order {
-            margin-top: 25px;
-            background: white;
-            border-radius: 14px;
-            padding: 18px;
-            text-align: center;
-            display: none;
-        }
+/* LESSON */
 
-        .selected-order strong {
-            color: #4c8bf5;
-        }
+.lesson {
+    display: none;
+    height: 100%;
+}
 
-        .check {
-            display: block;
-            margin: 25px auto 0;
-            border: none;
-            background: #58c47c;
-            color: white;
-            padding: 14px 35px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.lesson-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-        .feedback {
-            display: none;
-            margin-top: 25px;
-            padding: 22px;
-            border-radius: 15px;
-            background: #ecf9f0;
-            border: 1px solid #bce8c9;
-        }
+.lesson-number {
+    color: #697383;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
 
-        .feedback h3 {
-            margin-top: 0;
-            color: #267a42;
-        }
+/* FOOD CHOICES */
 
-        .next {
-            display: none;
-            margin: 25px auto 0;
-            border: none;
-            background: #4c8bf5;
-            color: white;
-            padding: 13px 25px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.choice-area {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 2px 9px rgba(0,0,0,.05);
+}
 
-        @media (max-width: 700px) {
-            .plates {
-                flex-direction: column;
-            }
+.food-image {
+    display: block;
+    width: min(350px, 65%);
+    max-height: 230px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+}
 
-            .plate {
-                max-width: 400px;
-                width: 100%;
-                margin: auto;
-            }
+.drag-title {
+    text-align: center;
+    color: #596271;
+    margin-bottom: 18px;
+}
 
-            h1 {
-                font-size: 28px;
-            }
-        }
-    </style>
+.drag-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.food-card {
+    width: 180px;
+    min-height: 90px;
+    border: 2px solid #dfe3e8;
+    border-radius: 13px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    font-weight: bold;
+    cursor: grab;
+    user-select: none;
+    transition: .15s;
+}
+
+.food-card:hover {
+    transform: translateY(-2px);
+    border-color: #4b8bf4;
+}
+
+.food-card.dragging {
+    opacity: .5;
+}
+
+/* DROP ZONES */
+
+.drop-zones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.drop-zone {
+    min-height: 90px;
+    border: 2px dashed #cfd4db;
+    border-radius: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #687180;
+    background: #fafbfc;
+    transition: .15s;
+}
+
+.drop-zone.over {
+    border-color: #4b8bf4;
+    background: #f0f5ff;
+}
+
+.drop-zone strong {
+    color: #20242b;
+    margin-bottom: 5px;
+}
+
+/* FEEDBACK */
+
+.feedback {
+    margin-top: 15px;
+    padding: 15px 18px;
+    border-radius: 12px;
+    display: none;
+}
+
+.feedback.correct {
+    display: block;
+    background: #e8f7ed;
+    border: 1px solid #8ed4a3;
+    color: #246c3b;
+}
+
+.feedback.close {
+    display: block;
+    background: #fff5d8;
+    border: 1px solid #e6c765;
+    color: #725b16;
+}
+
+.feedback.wrong {
+    display: block;
+    background: #fde8e8;
+    border: 1px solid #e4a0a0;
+    color: #8b2929;
+}
+
+.feedback p {
+    margin: 4px 0;
+    color: inherit;
+}
+
+/* BUTTON AREA */
+
+.bottom {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.next {
+    display: none;
+}
+
+/* COMPLETION */
+
+.complete {
+    display: none;
+    background: white;
+    border-radius: 18px;
+    padding: 35px;
+    text-align: center;
+    margin: auto 0;
+    box-shadow: 0 2px 9px rgba(0,0,0,.05);
+}
+
+.complete h2 {
+    margin-bottom: 8px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    html, body {
+        overflow: auto;
+    }
+
+    .topbar {
+        height: 58px;
+        min-height: 58px;
+        padding: 0 15px;
+    }
+
+    .page {
+        padding: 18px 14px;
+    }
+
+    .intro {
+        padding: 22px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .drag-options,
+    .drop-zones {
+        grid-template-columns: 1fr;
+        display: grid;
+    }
+
+    .food-card {
+        width: 100%;
+    }
+
+    .food-image {
+        width: 70%;
+        max-height: 180px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header class="top">
-    <a href="../index.html" class="back">← Back</a>
+<header class="topbar">
 
-    <div class="progress">
-        <div class="progress-bar"></div>
+    <a href="../index.html" class="back">Back</a>
+
+    <div class="progress-wrap">
+        <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
     </div>
+
 </header>
 
-<main class="container">
+
+<main>
+
+<div class="page">
 
     <!-- INTRODUCTION -->
+
     <section class="intro" id="intro">
 
-        <div class="tag">CARB COUNTING 1</div>
+        <div class="small-title">CARB COUNTING 1</div>
 
-        <h1>What are carbs? 🍞</h1>
+        <h1>Getting to know carbohydrates</h1>
 
         <p>
-            Carbohydrates are found in lots of foods we eat every day.
-            When we eat carbohydrates, our body breaks down many of them
-            into glucose.
+            Carbohydrates are found in lots of the foods we eat.
+            When we eat carbohydrates, our body breaks many of them
+            down into glucose.
         </p>
 
         <p>
-            If you have Type 1 diabetes, knowing how much carbohydrate is
-            in your food can be an important part of managing your
-            blood glucose.
+            If you have Type 1 diabetes, knowing how much carbohydrate
+            is in your food is an important part of understanding how
+            food can affect your blood glucose.
         </p>
+
+        <div class="info-grid">
+
+            <div class="info">
+                <strong>Foods with lots of carbohydrate</strong>
+                Bread, cereal, rice, pasta, potatoes, sweets and many
+                other foods contain significant amounts of carbohydrate.
+            </div>
+
+            <div class="info">
+                <strong>Foods with little carbohydrate</strong>
+                Foods such as eggs, meat, fish, cheese and oils usually
+                contain very little carbohydrate.
+            </div>
+
+        </div>
 
         <p>
-            First, let's practise spotting foods that contain
-            carbohydrate.
+            But there is a catch: you cannot always tell exactly how
+            much carbohydrate a food contains just by looking at it.
+            Later, we'll use scales and food labels to find out.
         </p>
 
-        <button class="continue" onclick="startLesson()">
-            Let's go →
+        <button class="start" onclick="startLesson()">
+            Start
         </button>
 
     </section>
 
 
-    <!-- PLATE ACTIVITY -->
+    <!-- LESSON -->
+
     <section class="lesson" id="lesson">
 
-        <div class="question">
+        <div class="lesson-header">
 
-            <div class="tag">FOOD CHALLENGE</div>
+            <div class="lesson-number" id="lessonNumber">
+                Meal 1 of 3
+            </div>
 
-            <h2>Which meal has the most carbohydrate?</h2>
-
-            <p>
-                Look carefully at all three meals.
-                Select them in order from
-                <strong>lowest</strong> to <strong>highest</strong>
-                carbohydrate.
-            </p>
+            <h2 id="question">
+                Which food contains more carbohydrate?
+            </h2>
 
         </div>
 
-        <div class="plates">
 
-            <div class="plate" onclick="selectPlate(1)" id="plate1">
-                <img src="carbcount1images/1.jpg" alt="Breakfast with toast, egg, cheese and milk">
-                <div class="plate-number">Meal 1</div>
+        <div class="choice-area">
+
+            <img
+                id="mealImage"
+                class="food-image"
+                src=""
+                alt="Meal"
+            >
+
+            <div class="drag-title">
+                Drag the food you think contains <strong>more carbohydrate</strong>
+                into the box below.
             </div>
 
-            <div class="plate" onclick="selectPlate(2)" id="plate2">
-                <img src="carbcount1images/2.jpg" alt="Lunch with a ham and cheese sandwich, cucumber and crisps">
-                <div class="plate-number">Meal 2</div>
+            <div class="drag-options">
+
+                <div
+                    class="food-card"
+                    draggable="true"
+                    id="foodA"
+                ></div>
+
+                <div
+                    class="food-card"
+                    draggable="true"
+                    id="foodB"
+                ></div>
+
             </div>
 
-            <div class="plate" onclick="selectPlate(3)" id="plate3">
-                <img src="carbcount1images/3.jpg" alt="Dinner with rice, broccoli, breaded chicken and yoghurt">
-                <div class="plate-number">Meal 3</div>
+
+            <div class="drop-zones">
+
+                <div
+                    class="drop-zone"
+                    id="moreZone"
+                    data-answer="more"
+                >
+                    <strong>More carbohydrate</strong>
+                    Drop here
+                </div>
+
+                <div
+                    class="drop-zone"
+                    id="lessZone"
+                    data-answer="less"
+                >
+                    <strong>Less carbohydrate</strong>
+                    Drop here
+                </div>
+
             </div>
 
-        </div>
 
-        <div class="selected-order" id="selectedOrder">
-            Your order:
-            <strong id="orderText"></strong>
-        </div>
+            <div class="feedback" id="feedback">
+                <p id="feedbackText"></p>
+            </div>
 
-        <button class="check" onclick="checkAnswer()">
-            Check answer
-        </button>
 
-        <div class="feedback" id="feedback">
+            <div class="bottom">
 
-            <h3>Nice work! 🎉</h3>
+                <button
+                    class="next"
+                    id="nextButton"
+                    onclick="nextQuestion()"
+                >
+                    Continue
+                </button>
 
-            <p>
-                In this example, we can see that different meals can
-                contain different amounts of carbohydrate.
-            </p>
-
-            <p>
-                Meal 1 has carbohydrate from foods such as toast and
-                milk. Meal 2 has carbohydrate from the bread and crisps.
-                Meal 3 contains carbohydrate from foods such as rice
-                and yoghurt.
-            </p>
-
-            <p>
-                But there's something important to remember:
-                <strong>we can't know the exact amount just by looking
-                at a plate.</strong>
-            </p>
-
-            <p>
-                That's why next we're going to learn how to
-                <strong>weigh food and read a food label</strong>.
-            </p>
-
-            <button class="next" id="nextButton">
-                Next lesson →
-            </button>
+            </div>
 
         </div>
 
     </section>
+
+
+    <!-- COMPLETE -->
+
+    <section class="complete" id="complete">
+
+        <h2>Carb basics complete</h2>
+
+        <p>
+            You've learned that some foods contain much more
+            carbohydrate than others.
+        </p>
+
+        <p>
+            But knowing which food has carbohydrate is only the
+            beginning. Next, we'll learn how to work out exactly
+            how much carbohydrate is in a portion.
+        </p>
+
+        <button class="next" style="display:inline-block">
+            Continue
+        </button>
+
+    </section>
+
+</div>
 
 </main>
 
+
 <script>
 
-    let order = [];
+const questions = [
 
-    function startLesson() {
-        document.getElementById("intro").style.display = "none";
-        document.getElementById("lesson").style.display = "block";
-        window.scrollTo(0, 0);
+    {
+        meal: 1,
+        image: "carbcount1images/1.jpg",
+        a: "Toast",
+        b: "Egg",
+        correctMore: "a",
+        explanation:
+            "Toast contains a significant amount of carbohydrate, while eggs contain very little."
+    },
+
+    {
+        meal: 1,
+        image: "carbcount1images/1.jpg",
+        a: "Milk",
+        b: "Cheese",
+        correctMore: "a",
+        explanation:
+            "Milk contains carbohydrate, while cheese usually contains very little."
+    },
+
+    {
+        meal: 2,
+        image: "carbcount1images/2.jpg",
+        a: "Bread in the sandwich",
+        b: "Cucumber",
+        correctMore: "a",
+        explanation:
+            "The bread contains a significant amount of carbohydrate. Cucumber contains a much smaller amount."
+    },
+
+    {
+        meal: 2,
+        image: "carbcount1images/2.jpg",
+        a: "Crisps",
+        b: "Cheese",
+        correctMore: "a",
+        explanation:
+            "Crisps are made mainly from potatoes and contain carbohydrate. Cheese usually contains very little."
+    },
+
+    {
+        meal: 3,
+        image: "carbcount1images/3.jpg",
+        a: "Rice",
+        b: "Chicken",
+        correctMore: "a",
+        explanation:
+            "Rice contains a significant amount of carbohydrate. Chicken itself contains very little."
+    },
+
+    {
+        meal: 3,
+        image: "carbcount1images/3.jpg",
+        a: "Yoghurt",
+        b: "Broccoli",
+        correctMore: "a",
+        explanation:
+            "Both can contain carbohydrate, but yoghurt commonly contains more carbohydrate per portion than broccoli."
+    },
+
+    {
+        meal: 3,
+        image: "carbcount1images/3.jpg",
+        a: "Breaded chicken",
+        b: "Chicken without breadcrumbs",
+        correctMore: "a",
+        explanation:
+            "The breadcrumbs add carbohydrate to the chicken."
     }
 
-    function selectPlate(number) {
+];
 
-        if (order.includes(number)) {
-            return;
-        }
+let current = 0;
+let dragged = null;
+let answered = false;
 
-        order.push(number);
+const progressBar = document.getElementById("progressBar");
 
-        document.getElementById("plate" + number)
-            .classList.add("selected");
+function updateProgress() {
 
-        document.getElementById("orderText").textContent =
-            order.map(n => "Meal " + n).join(" → ");
+    const progress = (current / questions.length) * 100;
+    progressBar.style.width = progress + "%";
 
-        document.getElementById("selectedOrder").style.display = "block";
-    }
+}
 
-    function checkAnswer() {
+function startLesson() {
 
-        if (order.length !== 3) {
-            alert("Choose all three meals first!");
-            return;
-        }
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("lesson").style.display = "block";
 
-        const correct = [1, 2, 3];
+    loadQuestion();
 
-        const isCorrect =
-            order.every((value, index) => value === correct[index]);
+}
 
-        document.getElementById("feedback").style.display = "block";
 
-        if (!isCorrect) {
+function loadQuestion() {
 
-            document.getElementById("feedback").innerHTML = `
-                <h3>Good try! 💪</h3>
+    answered = false;
 
-                <p>
-                    Have another look at the foods on each plate.
-                    Think about which foods contain carbohydrate.
-                </p>
+    const q = questions[current];
 
-                <p>
-                    Remember: this activity is only helping you
-                    compare the meals. To find the actual amount of
-                    carbohydrate, we'll need to weigh the food and
-                    check its nutrition label.
-                </p>
-            `;
+    document.getElementById("lessonNumber").textContent =
+        "Question " + (current + 1) + " of " + questions.length;
+
+    document.getElementById("mealImage").src = q.image;
+
+    document.getElementById("foodA").textContent = q.a;
+    document.getElementById("foodB").textContent = q.b;
+
+    document.getElementById("feedback").className = "feedback";
+
+    document.getElementById("feedbackText").textContent = "";
+
+    document.getElementById("nextButton").style.display = "none";
+
+    document.getElementById("moreZone").innerHTML =
+        "<strong>More carbohydrate</strong>Drop here";
+
+    document.getElementById("lessZone").innerHTML =
+        "<strong>Less carbohydrate</strong>Drop here";
+
+    document.getElementById("foodA").style.display = "flex";
+    document.getElementById("foodB").style.display = "flex";
+
+    updateProgress();
+}
+
+
+document.querySelectorAll(".food-card").forEach(card => {
+
+    card.addEventListener("dragstart", () => {
+        dragged = card;
+        card.classList.add("dragging");
+    });
+
+    card.addEventListener("dragend", () => {
+        card.classList.remove("dragging");
+    });
+
+});
+
+
+document.querySelectorAll(".drop-zone").forEach(zone => {
+
+    zone.addEventListener("dragover", e => {
+        e.preventDefault();
+        zone.classList.add("over");
+    });
+
+    zone.addEventListener("dragleave", () => {
+        zone.classList.remove("over");
+    });
+
+    zone.addEventListener("drop", e => {
+
+        e.preventDefault();
+
+        zone.classList.remove("over");
+
+        if (!dragged || answered) return;
+
+        checkAnswer(dragged, zone);
+
+    });
+
+});
+
+
+function checkAnswer(card, zone) {
+
+    answered = true;
+
+    const q = questions[current];
+
+    const selected =
+        card.id === "foodA" ? "a" : "b";
+
+    const selectedType =
+        zone.dataset.answer;
+
+    const correct =
+        selected === q.correctMore &&
+        selectedType === "more";
+
+    const feedback =
+        document.getElementById("feedback");
+
+    const text =
+        document.getElementById("feedbackText");
+
+    if (correct) {
+
+        feedback.className = "feedback correct";
+
+        text.innerHTML =
+            "<strong>Correct!</strong> " +
+            q.explanation;
+
+    } else {
+
+        const cardIsCorrectFood =
+            selected === q.correctMore;
+
+        if (cardIsCorrectFood) {
+
+            feedback.className = "feedback close";
+
+            text.innerHTML =
+                "<strong>Good try.</strong> You picked the food with more carbohydrate, but put it in the wrong box.";
 
         } else {
 
-            document.getElementById("feedback").innerHTML = `
-                <h3>Great job! 🎉</h3>
+            feedback.className = "feedback wrong";
 
-                <p>
-                    You've put the meals in the correct order for
-                    this example.
-                </p>
-
-                <p>
-                    But can you tell exactly how many grams of
-                    carbohydrate are on each plate just by looking?
-                    <strong>No!</strong>
-                </p>
-
-                <p>
-                    That's why carb counting uses things like
-                    <strong>food scales</strong> and
-                    <strong>nutrition labels</strong>.
-                </p>
-
-                <p>
-                    <strong>Next:</strong> we'll weigh some cereal
-                    and use its food label to work out how much
-                    carbohydrate is in the bowl.
-                </p>
-
-                <button class="next" style="display:block"
-                    onclick="alert('Next part coming next!')">
-                    Next →
-                </button>
-            `;
+            text.innerHTML =
+                "<strong>Not quite.</strong> " +
+                q.explanation;
         }
+
     }
+
+    document.getElementById("nextButton").style.display = "inline-block";
+
+}
+
+
+function nextQuestion() {
+
+    current++;
+
+    if (current >= questions.length) {
+
+        progressBar.style.width = "100%";
+
+        document.getElementById("lesson").style.display = "none";
+        document.getElementById("complete").style.display = "block";
+
+        return;
+    }
+
+    loadQuestion();
+
+}
 
 </script>
 
