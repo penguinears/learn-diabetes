@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eating Well with Diabetes</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f5fb;
+    color: #29233a;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.topbar {
+    height: 58px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.back {
+    text-decoration: none;
+    color: #555;
+    font-size: 15px;
+}
+
+.progress-wrap {
+    width: 420px;
+    max-width: 55vw;
+    margin: auto;
+}
+
+.progress-bg {
+    height: 9px;
+    background: #e5e7ea;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: #6c3fc5;
+    border-radius: 20px;
+    transition: width .4s ease;
+}
+
+.lesson {
+    height: calc(100vh - 58px);
+    height: calc(100dvh - 58px);
+    max-width: 850px;
+    margin: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    background: white;
+    border: 1px solid #dddfe3;
+    border-radius: 14px;
+    padding: 8px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.controls {
+    min-height: 65px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+.continue {
+    border: none;
+    background: #6c3fc5;
+    color: white;
+    font-weight: bold;
+    padding: 12px 32px;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+.question-controls {
+    display: none;
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+}
+
+.answer {
+    flex: 1;
+    max-width: 200px;
+    background: white;
+    border: 2px solid #d8d3e1;
+    border-radius: 10px;
+    padding: 13px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #29233a;
+}
+
+.answer:hover {
+    border-color: #6c3fc5;
+}
+
+.answer.correct {
+    background: #e8f6ed;
+    border-color: #65ad7b;
+    color: #28643b;
+}
+
+.answer.wrong {
+    background: #fdeaea;
+    border-color: #d58c8c;
+    color: #862e2e;
+}
+
+.feedback {
+    display: none;
+    text-align: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.feedback.correct {
+    display: block;
+    background: #e8f6ed;
+    border: 1px solid #9bd1aa;
+    color: #28643b;
+}
+
+.feedback.wrong {
+    display: block;
+    background: #fdeaea;
+    border: 1px solid #dfa0a0;
+    color: #862e2e;
+}
+
+.complete {
+    display: none;
+    height: calc(100vh - 58px);
+    height: calc(100dvh - 58px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.complete-box {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 35px;
+    text-align: center;
+    max-width: 550px;
+}
+
+.complete-box h1 {
+    color: #6c3fc5;
+    margin-top: 0;
+}
+
+@media(max-width: 650px) {
+
+    .topbar {
+        padding: 0 10px;
+    }
+
+    .lesson {
+        padding: 8px;
+    }
+
+    .card {
+        padding: 5px;
+        border-radius: 12px;
+    }
+
+    .controls {
+        min-height: 62px;
+    }
+
+    .continue {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .question-controls {
+        gap: 8px;
+    }
+
+    .answer {
+        padding: 12px 10px;
+        font-size: 15px;
+    }
+
+    .feedback {
+        position: absolute;
+        bottom: 70px;
+        left: 10px;
+        right: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <a href="../index.html" class="back">
+        Back
+    </a>
+
+    <div class="progress-wrap">
+        <div class="progress-bg">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+
+</header>
+
+
+<main class="lesson" id="lesson">
+
+    <div class="card">
+
+        <img
+            id="slideImage"
+            class="slide-image"
+            src="eatingwellimages/16.jpg"
+            alt="Eating Well with Diabetes"
+        >
+
+    </div>
+
+
+    <div class="controls">
+
+        <button
+            class="continue"
+            id="continueButton"
+            onclick="nextSlide()"
+        >
+            Continue
+        </button>
+
+
+        <div
+            class="question-controls"
+            id="questionControls"
+        >
+
+            <button
+                class="answer"
+                id="trueButton"
+                onclick="checkAnswer(true)"
+            >
+                True
+            </button>
+
+            <button
+                class="answer"
+                id="falseButton"
+                onclick="checkAnswer(false)"
+            >
+                False
+            </button>
+
+        </div>
+
+    </div>
+
+    <div
+        class="feedback"
+        id="feedback"
+    ></div>
+
+</main>
+
+
+<section
+    class="complete"
+    id="complete"
+>
+
+    <div class="complete-box">
+
+        <h1>Lesson complete</h1>
+
+        <p>
+            Well done. You have completed
+            Eating Well with Diabetes.
+        </p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+const slides = [
+    "eatingwellimages/16.jpg",
+    "eatingwellimages/17.jpg",
+    "eatingwellimages/18.jpg",
+    "eatingwellimages/19.jpg",
+    "eatingwellimages/20.jpg",
+    "eatingwellimages/21.jpg"
+];
+
+let currentSlide = 0;
+let answered = false;
+
+const slideImage =
+    document.getElementById("slideImage");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const questionControls =
+    document.getElementById("questionControls");
+
+const progress =
+    document.getElementById("progress");
+
+const feedback =
+    document.getElementById("feedback");
+
+const trueButton =
+    document.getElementById("trueButton");
+
+const falseButton =
+    document.getElementById("falseButton");
+
+
+function updateProgress() {
+
+    const percentage =
+        (currentSlide / slides.length) * 100;
+
+    progress.style.width =
+        percentage + "%";
+}
+
+
+function nextSlide() {
+
+    if (currentSlide >= slides.length - 1) {
+        return;
+    }
+
+    currentSlide++;
+
+    slideImage.src =
+        slides[currentSlide];
+
+    updateProgress();
+
+
+    if (currentSlide === slides.length - 1) {
+
+        continueButton.style.display =
+            "none";
+
+        questionControls.style.display =
+            "flex";
+    }
+}
+
+
+function checkAnswer(choice) {
+
+    if (answered) {
+        return;
+    }
+
+
+    if (choice === false) {
+
+        answered = true;
+
+        falseButton.classList.add(
+            "correct"
+        );
+
+        feedback.className =
+            "feedback correct";
+
+        feedback.textContent =
+            "Correct!";
+
+        setTimeout(
+            finishLesson,
+            900
+        );
+
+    } else {
+
+        trueButton.classList.add(
+            "wrong"
+        );
+
+        feedback.className =
+            "feedback wrong";
+
+        feedback.textContent =
+            "Not quite. Try again.";
+
+        setTimeout(function() {
+
+            trueButton.classList.remove(
+                "wrong"
+            );
+
+            feedback.className =
+                "feedback";
+
+        }, 900);
+    }
+}
+
+
+function finishLesson() {
+
+    progress.style.width =
+        "100%";
+
+    document.getElementById(
+        "lesson"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "complete"
+    ).style.display =
+        "flex";
+}
+
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
