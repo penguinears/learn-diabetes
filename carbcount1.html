@@ -19,8 +19,6 @@ body {
     overflow: hidden;
 }
 
-/* TOP */
-
 .topbar {
     height: 58px;
     background: white;
@@ -57,8 +55,6 @@ body {
     transition: width .5s cubic-bezier(.2,.8,.2,1);
 }
 
-/* PAGE */
-
 .page {
     height: calc(100vh - 58px);
     height: calc(100dvh - 58px);
@@ -68,8 +64,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-
-/* MAIN CARD */
 
 .card {
     background: white;
@@ -88,8 +82,6 @@ body {
     object-fit: contain;
     flex-shrink: 1;
 }
-
-/* FOOD POOL */
 
 .instruction {
     text-align: center;
@@ -127,8 +119,6 @@ body {
 .food.dragging {
     opacity: .45;
 }
-
-/* CATEGORIES */
 
 .categories {
     display: grid;
@@ -172,8 +162,6 @@ body {
     cursor: grab;
 }
 
-/* FEEDBACK */
-
 .feedback {
     display: none;
     text-align: center;
@@ -204,8 +192,6 @@ body {
     color: #862e2e;
 }
 
-/* HINT */
-
 .hint {
     display: none;
     text-align: center;
@@ -218,8 +204,6 @@ body {
     color: #315c9e;
     font-size: 13px;
 }
-
-/* BUTTONS */
 
 .controls {
     height: 52px;
@@ -254,8 +238,6 @@ button {
     font-size: 14px;
 }
 
-/* CORRECT ANIMATION */
-
 .correct-pop {
     animation: correctPop .35s ease;
 }
@@ -273,8 +255,6 @@ button {
         transform: scale(1);
     }
 }
-
-/* COMPLETE */
 
 .complete {
     display: none;
@@ -297,8 +277,6 @@ button {
     margin-top: 0;
     color: #6c3fc5;
 }
-
-/* MOBILE */
 
 @media(max-width:650px) {
 
@@ -400,7 +378,6 @@ button {
             class="food-pool"
             id="foodPool"
         ></div>
-
 
         <div class="categories">
 
@@ -505,58 +482,38 @@ button {
 
 const meals = [
 
-    /*
-        INTRODUCTION
-        14.jpg
-    */
-
     {
-        image: "carbcount1images/14.jpg",
+        image: "carbcount1/14.jpg",
 
         foods: [],
 
         hints: []
     },
 
-
-    /*
-        INTRODUCTION
-        15.jpg
-    */
-
     {
-        image: "carbcount1images/15.jpg",
+        image: "carbcount1/15.jpg",
 
         foods: [],
 
         hints: []
     },
 
-
-    /*
-        QUESTION 1
-        1.jpg
-    */
-
     {
-        image: "carbcount1images/1.jpg",
+        image: "carbcount1/1.jpg",
 
         foods: [
             {
                 name: "Egg",
                 category: "low"
             },
-
             {
                 name: "Cheese",
                 category: "low"
             },
-
             {
                 name: "Milk",
                 category: "high"
             },
-
             {
                 name: "Toast",
                 category: "high"
@@ -572,31 +529,22 @@ const meals = [
         ]
     },
 
-
-    /*
-        QUESTION 2
-        2.jpg
-    */
-
     {
-        image: "carbcount1images/2.jpg",
+        image: "carbcount1/2.jpg",
 
         foods: [
             {
                 name: "Cucumber",
                 category: "low"
             },
-
             {
                 name: "Cheese",
                 category: "low"
             },
-
             {
                 name: "Crisps",
                 category: "high"
             },
-
             {
                 name: "Sandwich",
                 category: "high"
@@ -612,31 +560,22 @@ const meals = [
         ]
     },
 
-
-    /*
-        QUESTION 3
-        3.jpg
-    */
-
     {
-        image: "carbcount1images/3.jpg",
+        image: "carbcount1/3.jpg",
 
         foods: [
             {
                 name: "Broccoli",
                 category: "low"
             },
-
             {
                 name: "Chicken wing",
                 category: "low"
             },
-
             {
                 name: "Yoghurt",
                 category: "high"
             },
-
             {
                 name: "Rice",
                 category: "high"
@@ -652,31 +591,22 @@ const meals = [
         ]
     },
 
-
-    /*
-        QUESTION 4
-        4.jpg
-    */
-
     {
-        image: "carbcount1images/4.jpg",
+        image: "carbcount1/4.jpg",
 
         foods: [
             {
                 name: "Broccoli",
                 category: "low"
             },
-
             {
                 name: "Chicken wing",
                 category: "low"
             },
-
             {
                 name: "Yoghurt",
                 category: "high"
             },
-
             {
                 name: "Rice",
                 category: "high"
@@ -696,11 +626,8 @@ const meals = [
 
 
 let currentMeal = 0;
-
 let draggedFood = null;
-
 let hintNumber = 0;
-
 let locked = false;
 
 
@@ -711,118 +638,63 @@ let locked = false;
 function loadMeal() {
 
     locked = false;
-
     hintNumber = 0;
 
-    const meal =
-        meals[currentMeal];
+    const meal = meals[currentMeal];
 
-
-    document.getElementById(
-        "mealImage"
-    ).src =
+    document.getElementById("mealImage").src =
         meal.image;
 
-
-    document.getElementById(
-        "feedback"
-    ).className =
+    document.getElementById("feedback").className =
         "feedback";
 
-
-    document.getElementById(
-        "feedback"
-    ).textContent =
+    document.getElementById("feedback").textContent =
         "";
 
-
-    document.getElementById(
-        "hint"
-    ).style.display =
+    document.getElementById("hint").style.display =
         "none";
 
-
-    document.getElementById(
-        "hint"
-    ).textContent =
+    document.getElementById("hint").textContent =
         "";
 
-
-    document.getElementById(
-        "foodPool"
-    ).innerHTML =
+    document.getElementById("foodPool").innerHTML =
         "";
 
-
-    document.getElementById(
-        "lowItems"
-    ).innerHTML =
+    document.getElementById("lowItems").innerHTML =
         "";
 
-
-    document.getElementById(
-        "highItems"
-    ).innerHTML =
+    document.getElementById("highItems").innerHTML =
         "";
 
-
-    document.getElementById(
-        "checkButton"
-    ).style.display =
+    document.getElementById("checkButton").style.display =
         "inline-block";
 
-
-    document.getElementById(
-        "hintButton"
-    ).style.display =
+    document.getElementById("hintButton").style.display =
         "inline-block";
 
 
     /*
         INTRODUCTION SLIDES
-
-        These contain only images,
-        so there are no food questions
-        or controls needed.
     */
 
-    if (
-        meal.foods.length === 0
-    ) {
+    if (meal.foods.length === 0) {
 
-        document.getElementById(
-            "checkButton"
-        ).style.display =
+        document.getElementById("checkButton").style.display =
             "none";
 
-        document.getElementById(
-            "hintButton"
-        ).style.display =
+        document.getElementById("hintButton").style.display =
             "none";
 
-        document.getElementById(
-            "foodPool"
-        ).style.display =
+        document.getElementById("foodPool").style.display =
             "none";
 
-        document.querySelector(
-            ".categories"
-        ).style.display =
+        document.querySelector(".categories").style.display =
             "none";
 
-        document.querySelector(
-            ".instruction"
-        ).style.display =
+        document.querySelector(".instruction").style.display =
             "none";
 
-        /*
-            Clicking the image moves
-            to the next introduction.
-        */
-
-        document.getElementById(
-            "mainCard"
-        ).onclick =
+        document.getElementById("mainCard").onclick =
             function() {
 
                 if (!locked) {
@@ -831,29 +703,21 @@ function loadMeal() {
 
                     currentMeal++;
 
-                    if (
-                        currentMeal >=
-                        meals.length
-                    ) {
+                    if (currentMeal >= meals.length) {
 
                         finishLesson();
 
-                    }
-
-                    else {
+                    } else {
 
                         loadMeal();
 
                     }
-
                 }
-
             };
 
         updateProgress();
 
         return;
-
     }
 
 
@@ -861,45 +725,30 @@ function loadMeal() {
         NORMAL QUESTIONS
     */
 
-    document.getElementById(
-        "foodPool"
-    ).style.display =
+    document.getElementById("foodPool").style.display =
         "flex";
 
-
-    document.querySelector(
-        ".categories"
-    ).style.display =
+    document.querySelector(".categories").style.display =
         "grid";
 
-
-    document.querySelector(
-        ".instruction"
-    ).style.display =
+    document.querySelector(".instruction").style.display =
         "block";
 
-
-    document.getElementById(
-        "mainCard"
-    ).onclick =
+    document.getElementById("mainCard").onclick =
         null;
 
 
     const foods =
-        [...meal.foods]
-            .sort(
-                () =>
-                    Math.random() - .5
-            );
+        [...meal.foods].sort(
+            () => Math.random() - .5
+        );
 
 
-    foods.forEach(
-        food => {
+    foods.forEach(food => {
 
-            createFood(food);
+        createFood(food);
 
-        }
-    );
+    });
 
 
     updateProgress();
@@ -914,22 +763,16 @@ function loadMeal() {
 function createFood(food) {
 
     const element =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     element.className =
         "food";
 
-
     element.textContent =
         food.name;
 
-
     element.draggable =
         true;
-
 
     element.dataset.category =
         food.category;
@@ -937,16 +780,12 @@ function createFood(food) {
 
     element.addEventListener(
         "dragstart",
-
         function() {
 
-            if (locked)
-                return;
-
+            if (locked) return;
 
             draggedFood =
                 element;
-
 
             element.classList.add(
                 "dragging"
@@ -958,13 +797,11 @@ function createFood(food) {
 
     element.addEventListener(
         "dragend",
-
         function() {
 
             element.classList.remove(
                 "dragging"
             );
-
 
             draggedFood =
                 null;
@@ -975,9 +812,7 @@ function createFood(food) {
 
     document.getElementById(
         "foodPool"
-    ).appendChild(
-        element
-    );
+    ).appendChild(element);
 
 }
 
@@ -987,77 +822,60 @@ function createFood(food) {
 ------------------------- */
 
 document
-.querySelectorAll(
-    ".category"
-)
-.forEach(
-    category => {
+.querySelectorAll(".category")
+.forEach(category => {
+
+    category.addEventListener(
+        "dragover",
+        function(event) {
+
+            event.preventDefault();
+
+            if (locked) return;
+
+            category.classList.add(
+                "over"
+            );
+
+        }
+    );
 
 
-        category.addEventListener(
-            "dragover",
+    category.addEventListener(
+        "dragleave",
+        function() {
 
-            function(event) {
+            category.classList.remove(
+                "over"
+            );
 
-                event.preventDefault();
-
-                if (locked)
-                    return;
+        }
+    );
 
 
-                category.classList.add(
-                    "over"
+    category.addEventListener(
+        "drop",
+        function(event) {
+
+            event.preventDefault();
+
+            category.classList.remove(
+                "over"
+            );
+
+            if (!draggedFood || locked)
+                return;
+
+            category
+                .querySelector(".category-items")
+                .appendChild(
+                    draggedFood
                 );
 
-            }
-        );
+        }
+    );
 
-
-        category.addEventListener(
-            "dragleave",
-
-            function() {
-
-                category.classList.remove(
-                    "over"
-                );
-
-            }
-        );
-
-
-        category.addEventListener(
-            "drop",
-
-            function(event) {
-
-                event.preventDefault();
-
-                category.classList.remove(
-                    "over"
-                );
-
-
-                if (
-                    !draggedFood ||
-                    locked
-                )
-                    return;
-
-
-                category
-                    .querySelector(
-                        ".category-items"
-                    )
-                    .appendChild(
-                        draggedFood
-                    );
-
-            }
-        );
-
-    }
-);
+});
 
 
 /* -------------------------
@@ -1068,11 +886,9 @@ document.getElementById(
     "checkButton"
 ).addEventListener(
     "click",
-
     function() {
 
-        if (locked)
-            return;
+        if (locked) return;
 
 
         const foods =
@@ -1082,46 +898,41 @@ document.getElementById(
 
 
         let placed = 0;
-
         let correct = 0;
 
 
-        foods.forEach(
-            food => {
+        foods.forEach(food => {
 
-                const parent =
-                    food.parentElement;
+            const parent =
+                food.parentElement;
+
+
+            if (
+                parent.classList.contains(
+                    "category-items"
+                )
+            ) {
+
+                placed++;
+
+
+                const category =
+                    parent.parentElement
+                    .dataset.category;
 
 
                 if (
-                    parent.classList.contains(
-                        "category-items"
-                    )
+                    category ===
+                    food.dataset.category
                 ) {
 
-                    placed++;
-
-
-                    const category =
-                        parent
-                            .parentElement
-                            .dataset
-                            .category;
-
-
-                    if (
-                        category ===
-                        food.dataset.category
-                    ) {
-
-                        correct++;
-
-                    }
+                    correct++;
 
                 }
 
             }
-        );
+
+        });
 
 
         if (
@@ -1135,7 +946,6 @@ document.getElementById(
             );
 
             return;
-
         }
 
 
@@ -1148,10 +958,7 @@ document.getElementById(
 
         }
 
-
-        else if (
-            correct >= 2
-        ) {
+        else if (correct >= 2) {
 
             showFeedback(
                 "yellow",
@@ -1159,7 +966,6 @@ document.getElementById(
             );
 
         }
-
 
         else {
 
@@ -1216,10 +1022,6 @@ function correctAnswer() {
         "none";
 
 
-    /*
-        Move progress immediately.
-    */
-
     const nextProgress =
         (
             (currentMeal + 1) /
@@ -1232,11 +1034,6 @@ function correctAnswer() {
     ).style.width =
         nextProgress + "%";
 
-
-    /*
-        Automatically move
-        to the next slide.
-    */
 
     setTimeout(
         function() {
@@ -1255,14 +1052,11 @@ function correctAnswer() {
 
             else {
 
-                document
-                    .getElementById(
-                        "mainCard"
-                    )
-                    .classList.remove(
-                        "correct-pop"
-                    );
-
+                document.getElementById(
+                    "mainCard"
+                ).classList.remove(
+                    "correct-pop"
+                );
 
                 loadMeal();
 
@@ -1283,7 +1077,6 @@ document.getElementById(
     "hintButton"
 ).addEventListener(
     "click",
-
     function() {
 
         const hints =
