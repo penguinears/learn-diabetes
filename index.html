@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Carb Counting 2</title>
 
 <style>
@@ -15,27 +15,36 @@
     --purple-dark: #51309b;
     --purple-light: #f0eaff;
     --purple-border: #d8c9f5;
+    --green: #58b947;
     --text: #29233a;
     --muted: #716b7d;
     --border: #e2dfe8;
 }
 
+html,
 body {
     margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
     font-family: Arial, sans-serif;
     background: #f7f5fb;
     color: var(--text);
-    height: 100vh;
     overflow: hidden;
 }
 
+/* TOP */
+
 .topbar {
-    height: 62px;
+    height: 58px;
     background: white;
     border-bottom: 1px solid #e8e4ee;
     display: flex;
     align-items: center;
-    padding: 0 22px;
+    padding: 0 16px;
+    flex-shrink: 0;
 }
 
 .back {
@@ -43,8 +52,9 @@ body {
     color: #625b70;
     font-size: 15px;
     font-weight: bold;
-    padding: 8px 11px;
+    padding: 8px 10px;
     border-radius: 8px;
+    white-space: nowrap;
 }
 
 .back:hover {
@@ -54,12 +64,12 @@ body {
 
 .progress-wrap {
     width: 420px;
-    max-width: 55vw;
+    max-width: 58vw;
     margin: auto;
 }
 
 .progress-bg {
-    height: 10px;
+    height: 9px;
     background: #e7e3ec;
     border-radius: 20px;
     overflow: hidden;
@@ -73,13 +83,17 @@ body {
     transition: width .45s ease;
 }
 
+/* PAGE */
+
 .page {
-    height: calc(100vh - 62px);
+    height: calc(100vh - 58px);
+    height: calc(100dvh - 58px);
     max-width: 900px;
     margin: auto;
-    padding: 18px 20px;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .header {
@@ -89,27 +103,30 @@ body {
 
 .header small {
     color: var(--purple);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
 }
 
 .header h1 {
-    font-size: 28px;
-    margin: 5px 0;
+    font-size: 25px;
+    line-height: 1.15;
+    margin: 4px 0;
     font-weight: 800;
 }
 
 .header p {
     color: var(--muted);
-    font-size: 14px;
-    margin: 0 0 12px;
+    font-size: 13px;
+    margin: 0 0 8px;
 }
+
+/* CARD */
 
 .card {
     background: white;
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 15px;
+    border-radius: 16px;
+    padding: 10px;
     flex: 1;
     min-height: 0;
     display: flex;
@@ -120,25 +137,38 @@ body {
     overflow: hidden;
 }
 
+/*
+   The image is allowed to shrink to the exact
+   amount of space available. This prevents the
+   top or bottom of the image disappearing on phones.
+*/
+
 .lesson-image {
     display: block;
     width: 100%;
-    height: min(62vh, 500px);
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
+    flex: 1 1 auto;
+    min-height: 0;
 }
+
+/* ANSWER */
 
 .answer-area {
     display: none;
+    flex: 0 0 auto;
     width: 100%;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 12px;
+    padding-top: 8px;
 }
 
 .answer-input {
-    width: 180px;
-    height: 48px;
+    width: 170px;
+    height: 46px;
     border: 2px solid #d8d3df;
     border-radius: 10px;
     background: white;
@@ -155,18 +185,21 @@ body {
 }
 
 .unit {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     color: #625b70;
 }
 
+/* FEEDBACK */
+
 .feedback {
     display: none;
+    flex: 0 0 auto;
     text-align: center;
-    margin: 9px auto 0;
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 14px;
+    margin: 7px auto 0;
+    padding: 7px 12px;
+    border-radius: 9px;
+    font-size: 13px;
     font-weight: bold;
 }
 
@@ -184,9 +217,11 @@ body {
     color: #862e2e;
 }
 
+/* BUTTONS */
+
 .controls {
-    height: 65px;
-    flex-shrink: 0;
+    height: 58px;
+    flex: 0 0 58px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -203,7 +238,7 @@ button {
     background: var(--purple);
     color: white;
     font-weight: 800;
-    padding: 12px 34px;
+    padding: 11px 32px;
     border-radius: 10px;
     font-size: 15px;
     box-shadow: 0 3px 0 var(--purple-dark);
@@ -221,9 +256,13 @@ button {
     box-shadow: none;
 }
 
+/* COMPLETE */
+
 .complete {
     display: none;
-    height: calc(100vh - 62px);
+    width: 100%;
+    height: calc(100vh - 58px);
+    height: calc(100dvh - 58px);
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -234,7 +273,7 @@ button {
     background: white;
     border: 1px solid var(--border);
     border-radius: 18px;
-    padding: 40px;
+    padding: 35px 25px;
     max-width: 550px;
     box-shadow: 0 4px 0 #e5e0ec;
 }
@@ -242,7 +281,7 @@ button {
 .complete-box h1 {
     margin-top: 0;
     color: var(--purple);
-    font-size: 30px;
+    font-size: 29px;
 }
 
 .complete-box p {
@@ -250,34 +289,114 @@ button {
     line-height: 1.5;
 }
 
-@media(max-width:650px) {
+/* MOBILE */
+
+@media (max-width: 650px) {
 
     .topbar {
-        padding: 0 12px;
+        height: 54px;
+        padding: 0 10px;
     }
 
     .progress-wrap {
-        max-width: 45vw;
+        max-width: 52vw;
     }
 
     .page {
-        padding: 10px;
+        height: calc(100vh - 54px);
+        height: calc(100dvh - 54px);
+        padding: 8px 9px;
+    }
+
+    .header small {
+        font-size: 11px;
     }
 
     .header h1 {
-        font-size: 21px;
+        font-size: 20px;
+        margin: 3px 0;
     }
 
     .header p {
-        font-size: 13px;
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .card {
+        padding: 7px;
+        border-radius: 14px;
     }
 
     .lesson-image {
-        height: 58vh;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .answer-area {
+        padding-top: 6px;
     }
 
     .answer-input {
-        width: 150px;
+        width: 145px;
+        height: 43px;
+        font-size: 18px;
+    }
+
+    .unit {
+        font-size: 15px;
+    }
+
+    .feedback {
+        margin-top: 5px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .controls {
+        height: 55px;
+        flex-basis: 55px;
+    }
+
+    .continue,
+    .check {
+        padding: 10px 30px;
+        font-size: 14px;
+    }
+}
+
+/* VERY SMALL PHONES */
+
+@media (max-height: 650px) and (max-width: 650px) {
+
+    .page {
+        padding-top: 5px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header p {
+        display: none;
+    }
+
+    .header small {
+        font-size: 10px;
+    }
+
+    .controls {
+        height: 48px;
+        flex-basis: 48px;
+    }
+
+    .continue,
+    .check {
+        padding: 8px 27px;
+        font-size: 13px;
+    }
+
+    .answer-input {
+        height: 39px;
     }
 }
 </style>
@@ -458,17 +577,38 @@ const slides = [
 
 let currentSlide = 0;
 
-const image = document.getElementById("lessonImage");
-const slideNumber = document.getElementById("slideNumber");
-const title = document.getElementById("title");
-const answerArea = document.getElementById("answerArea");
-const answerInput = document.getElementById("answerInput");
-const feedback = document.getElementById("feedback");
-const continueButton = document.getElementById("continueButton");
-const checkButton = document.getElementById("checkButton");
-const progress = document.getElementById("progress");
-const lesson = document.getElementById("lesson");
-const complete = document.getElementById("complete");
+const image =
+    document.getElementById("lessonImage");
+
+const slideNumber =
+    document.getElementById("slideNumber");
+
+const title =
+    document.getElementById("title");
+
+const answerArea =
+    document.getElementById("answerArea");
+
+const answerInput =
+    document.getElementById("answerInput");
+
+const feedback =
+    document.getElementById("feedback");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const checkButton =
+    document.getElementById("checkButton");
+
+const progress =
+    document.getElementById("progress");
+
+const lesson =
+    document.getElementById("lesson");
+
+const complete =
+    document.getElementById("complete");
 
 
 function loadSlide() {
@@ -483,9 +623,12 @@ function loadSlide() {
         " of " +
         slides.length;
 
-    title.textContent = slide.title;
+    title.textContent =
+        slide.title;
 
     answerInput.value = "";
+
+    answerInput.disabled = false;
 
     feedback.className = "feedback";
     feedback.textContent = "";
@@ -500,6 +643,7 @@ function loadSlide() {
     if (slide.type === "question") {
 
         answerArea.style.display = "flex";
+
         checkButton.style.display = "inline-block";
 
         setTimeout(function() {
@@ -531,7 +675,9 @@ function nextSlide() {
     currentSlide++;
 
     if (currentSlide >= slides.length) {
+
         finishLevel();
+
         return;
     }
 
@@ -551,10 +697,12 @@ checkButton.addEventListener(
     "click",
     function() {
 
-        const slide = slides[currentSlide];
+        const slide =
+            slides[currentSlide];
 
         const value =
             parseFloat(answerInput.value);
+
 
         if (isNaN(value)) {
 
@@ -584,16 +732,22 @@ checkButton.addEventListener(
             answerInput.disabled =
                 true;
 
-            setTimeout(function() {
 
-                answerInput.disabled =
-                    false;
+            setTimeout(
+                function() {
 
-                nextSlide();
+                    answerInput.disabled =
+                        false;
 
-            }, 700);
+                    nextSlide();
 
-        } else {
+                },
+                700
+            );
+
+        }
+
+        else {
 
             feedback.className =
                 "feedback red";
@@ -612,7 +766,9 @@ answerInput.addEventListener(
     function(event) {
 
         if (event.key === "Enter") {
+
             checkButton.click();
+
         }
 
     }
