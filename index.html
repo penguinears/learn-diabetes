@@ -22,10 +22,8 @@ header {
     height: 60px;
     background: white;
     border-bottom: 1px solid #e2dfe8;
-
     display: flex;
     align-items: center;
-
     padding: 0 20px;
 }
 
@@ -47,23 +45,23 @@ main {
     gap: 14px;
 }
 
+.section-title {
+    margin: 10px 0 0;
+    font-size: 19px;
+    color: #29233a;
+}
+
 .lesson {
     display: block;
-
     background: white;
     border: 1px solid #ddd9e5;
     border-radius: 12px;
-
     padding: 20px;
-
     text-decoration: none;
     color: #29233a;
-
     font-size: 17px;
     font-weight: bold;
-
     box-shadow: 0 3px 0 #e5e0ec;
-
     transition: 0.15s;
 }
 
@@ -90,7 +88,10 @@ main {
 <main>
 
     <div class="links">
-        <h2>Learn Carb Counting</h2>
+
+        <h2 class="section-title">
+            Learn Carb Counting
+        </h2>
 
         <a
             class="lesson"
@@ -106,6 +107,19 @@ main {
         >
             <span>Lesson 2</span>
             Carb Counting 2
+        </a>
+
+
+        <h2 class="section-title">
+            Other Helpful Lessons
+        </h2>
+
+        <a
+            class="lesson"
+            href="eatingwell.html"
+        >
+            <span>Lesson 3</span>
+            Eating Well with Diabetes
         </a>
 
     </div>
