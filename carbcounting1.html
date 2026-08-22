@@ -94,6 +94,47 @@ body {
     margin: 5px 0 9px;
 }
 
+.intro-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.intro-content h1 {
+    color: #6c3fc5;
+    font-size: 30px;
+    margin: 0 0 15px;
+}
+
+.intro-content h2 {
+    color: #29233a;
+    font-size: 24px;
+    margin: 0 0 15px;
+}
+
+.intro-content p {
+    max-width: 600px;
+    color: #656b73;
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 7px 0;
+}
+
+.continue-button {
+    border: none;
+    background: #6c3fc5;
+    color: white;
+    font-weight: bold;
+    padding: 13px 35px;
+    border-radius: 9px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .food-pool {
     min-height: 55px;
     display: flex;
@@ -325,6 +366,28 @@ button {
         margin: 4px 0 7px;
     }
 
+    .intro-content {
+        padding: 12px;
+    }
+
+    .intro-content h1 {
+        font-size: 27px;
+    }
+
+    .intro-content h2 {
+        font-size: 21px;
+    }
+
+    .intro-content p {
+        font-size: 16px;
+    }
+
+    .continue-button {
+        min-height: 48px;
+        padding: 10px 30px;
+        font-size: 17px;
+    }
+
     .food-pool {
         min-height: 58px;
         gap: 7px;
@@ -483,23 +546,43 @@ button {
 
     <div class="card" id="mainCard">
 
+        <div id="introContent" class="intro-content">
+
+            <h1>Carb Counting 1</h1>
+
+            <h2>Where do the carbs go?</h2>
+
+            <p>
+                In this lesson, you'll learn which foods
+                contain more carbohydrate and which contain
+                little or no carbohydrate.
+            </p>
+
+            <p>
+                Let's get started.
+            </p>
+
+        </div>
+
         <img
             class="meal-image"
             id="mealImage"
             src=""
             alt="Lesson"
+            style="display:none;"
         >
 
-        <div class="instruction">
+        <div class="instruction" style="display:none;">
             Drag the foods into the correct group.
         </div>
 
         <div
             class="food-pool"
             id="foodPool"
+            style="display:none;"
         ></div>
 
-        <div class="categories">
+        <div class="categories" style="display:none;">
 
             <div
                 class="category"
@@ -546,8 +629,16 @@ button {
     <div class="controls">
 
         <button
+            class="continue-button"
+            id="continueButton"
+        >
+            Continue
+        </button>
+
+        <button
             class="check"
             id="checkButton"
+            style="display:none;"
         >
             Check
         </button>
@@ -555,6 +646,7 @@ button {
         <button
             class="hint-button"
             id="hintButton"
+            style="display:none;"
         >
             Hint
         </button>
@@ -590,18 +682,29 @@ button {
 
 const meals = [
 
+    /* SLIDE 1 — INTRODUCTION */
     {
-        image: "carbcount1/14.jpg",
-        foods: [],
-        hints: []
+        type: "intro",
+        title: "Carb Counting 1",
+        heading: "Where do the carbs go?",
+        text: [
+            "In this lesson, you'll learn which foods contain more carbohydrate and which contain little or no carbohydrate.",
+            "Let's get started."
+        ]
     },
 
+    /* SLIDE 2 — INTRODUCTION */
     {
-        image: "carbcount1/15.jpg",
-        foods: [],
-        hints: []
+        type: "intro",
+        title: "Carbohydrates",
+        heading: "Why do carbs matter?",
+        text: [
+            "Carbohydrate is found in foods such as bread, rice, potatoes, pasta, fruit and milk.",
+            "When you have diabetes, knowing how much carbohydrate is in your food can help you manage your blood glucose."
+        ]
     },
 
+    /* SLIDE 3 — FOOD QUESTION */
     {
         image: "carbcount1/1.jpg",
 
@@ -631,6 +734,7 @@ const meals = [
         ]
     },
 
+    /* SLIDE 4 — FOOD QUESTION */
     {
         image: "carbcount1/2.jpg",
 
@@ -660,6 +764,7 @@ const meals = [
         ]
     },
 
+    /* SLIDE 5 — SANDWICH QUESTION */
     {
         image: "carbcount1/3.jpg",
 
@@ -685,32 +790,33 @@ const meals = [
         ]
     },
 
+    /* FINAL FOOD QUESTION */
     {
         image: "carbcount1/4.jpg",
 
         foods: [
             {
-                name: "Cucumber",
-                category: "low"
-            },
-            {
-                name: "Cheese",
-                category: "low"
-            },
-            {
-                name: "Crisps",
+                name: "Rice",
                 category: "high"
             },
             {
-                name: "Sandwich",
+                name: "Chicken",
+                category: "low"
+            },
+            {
+                name: "Broccoli",
+                category: "low"
+            },
+            {
+                name: "Yogurt pot",
                 category: "high"
             }
         ],
 
         hints: [
-            "Think about what crisps and sandwiches are made from.",
-            "Crisps are made from potatoes. A sandwich contains bread.",
-            "Cucumber and cheese are the two foods with little or no carbohydrate."
+            "Think about which foods contain carbohydrate.",
+            "Rice contains lots of carbohydrate. A yogurt pot also contains carbohydrate.",
+            "Chicken and broccoli are the foods with little or no carbohydrate in this activity."
         ]
     }
 
@@ -728,84 +834,92 @@ function loadMeal() {
 
     const meal = meals[currentMeal];
 
-    document.getElementById("mealImage").src =
-        meal.image;
+    const introContent =
+        document.getElementById("introContent");
 
-    document.getElementById("feedback").className =
-        "feedback";
+    const mealImage =
+        document.getElementById("mealImage");
 
-    document.getElementById("feedback").textContent =
-        "";
+    const instruction =
+        document.querySelector(".instruction");
 
-    document.getElementById("hint").style.display =
-        "none";
+    const foodPool =
+        document.getElementById("foodPool");
 
-    document.getElementById("hint").textContent =
-        "";
+    const categories =
+        document.querySelector(".categories");
 
-    document.getElementById("foodPool").innerHTML =
-        "";
+    const checkButton =
+        document.getElementById("checkButton");
 
-    document.getElementById("lowItems").innerHTML =
-        "";
+    const hintButton =
+        document.getElementById("hintButton");
 
-    document.getElementById("highItems").innerHTML =
-        "";
+    const continueButton =
+        document.getElementById("continueButton");
 
-    document.getElementById("checkButton").style.display =
-        "inline-block";
+    const feedback =
+        document.getElementById("feedback");
 
-    document.getElementById("hintButton").style.display =
-        "inline-block";
+    const hint =
+        document.getElementById("hint");
 
-    if (meal.foods.length === 0) {
+    feedback.className = "feedback";
+    feedback.textContent = "";
 
-        document.getElementById("checkButton").style.display =
-            "none";
+    hint.style.display = "none";
+    hint.textContent = "";
 
-        document.getElementById("hintButton").style.display =
-            "none";
+    foodPool.innerHTML = "";
+    document.getElementById("lowItems").innerHTML = "";
+    document.getElementById("highItems").innerHTML = "";
 
-        document.getElementById("foodPool").style.display =
-            "none";
+    /*
+        INTRODUCTION SLIDES
+    */
+    if (meal.type === "intro") {
 
-        document.querySelector(".categories").style.display =
-            "none";
+        introContent.style.display = "flex";
 
-        document.querySelector(".instruction").style.display =
-            "none";
+        introContent.innerHTML = `
+            <h1>${meal.title}</h1>
+            <h2>${meal.heading}</h2>
+            ${meal.text.map(text => `<p>${text}</p>`).join("")}
+        `;
 
-        document.getElementById("mainCard").onclick =
-            function() {
+        mealImage.style.display = "none";
+        instruction.style.display = "none";
+        foodPool.style.display = "none";
+        categories.style.display = "none";
 
-                if (!locked) {
+        feedback.style.display = "none";
+        hint.style.display = "none";
 
-                    locked = true;
-                    currentMeal++;
+        checkButton.style.display = "none";
+        hintButton.style.display = "none";
 
-                    if (currentMeal >= meals.length) {
-                        finishLesson();
-                    } else {
-                        loadMeal();
-                    }
-                }
-            };
+        continueButton.style.display = "inline-block";
 
         updateProgress();
         return;
     }
 
-    document.getElementById("foodPool").style.display =
-        "flex";
+    /*
+        NORMAL QUIZ SLIDES
+    */
 
-    document.querySelector(".categories").style.display =
-        "grid";
+    introContent.style.display = "none";
 
-    document.querySelector(".instruction").style.display =
-        "block";
+    mealImage.style.display = "block";
+    mealImage.src = meal.image;
 
-    document.getElementById("mainCard").onclick =
-        null;
+    instruction.style.display = "block";
+    foodPool.style.display = "flex";
+    categories.style.display = "grid";
+
+    checkButton.style.display = "inline-block";
+    hintButton.style.display = "inline-block";
+    continueButton.style.display = "none";
 
     const foods =
         [...meal.foods].sort(
@@ -824,17 +938,10 @@ function createFood(food) {
     const element =
         document.createElement("div");
 
-    element.className =
-        "food";
-
-    element.textContent =
-        food.name;
-
-    element.draggable =
-        true;
-
-    element.dataset.category =
-        food.category;
+    element.className = "food";
+    element.textContent = food.name;
+    element.draggable = true;
+    element.dataset.category = food.category;
 
     element.addEventListener(
         "dragstart",
@@ -844,10 +951,7 @@ function createFood(food) {
 
             draggedFood = element;
 
-            element.classList.add(
-                "dragging"
-            );
-
+            element.classList.add("dragging");
         }
     );
 
@@ -855,12 +959,8 @@ function createFood(food) {
         "dragend",
         function() {
 
-            element.classList.remove(
-                "dragging"
-            );
-
+            element.classList.remove("dragging");
             draggedFood = null;
-
         }
     );
 
@@ -868,6 +968,10 @@ function createFood(food) {
         "foodPool"
     ).appendChild(element);
 }
+
+/*
+    DRAG AND DROP
+*/
 
 document
 .querySelectorAll(".category")
@@ -882,7 +986,6 @@ document
             if (locked) return;
 
             category.classList.add("over");
-
         }
     );
 
@@ -891,7 +994,6 @@ document
         function() {
 
             category.classList.remove("over");
-
         }
     );
 
@@ -909,11 +1011,37 @@ document
             category
                 .querySelector(".category-items")
                 .appendChild(draggedFood);
-
         }
     );
-
 });
+
+/*
+    CONTINUE BUTTON
+*/
+
+document.getElementById(
+    "continueButton"
+).addEventListener(
+    "click",
+    function() {
+
+        if (locked) return;
+
+        locked = true;
+
+        currentMeal++;
+
+        if (currentMeal >= meals.length) {
+            finishLesson();
+        } else {
+            loadMeal();
+        }
+    }
+);
+
+/*
+    CHECK ANSWER
+*/
 
 document.getElementById(
     "checkButton"
@@ -952,11 +1080,8 @@ document.getElementById(
                 ) {
 
                     correct++;
-
                 }
-
             }
-
         });
 
         if (
@@ -992,11 +1117,13 @@ document.getElementById(
                 "red",
                 "Not quite. Try again. You can use a hint if you need one."
             );
-
         }
-
     }
 );
+
+/*
+    CORRECT ANSWER
+*/
 
 function correctAnswer() {
 
@@ -1059,13 +1186,16 @@ function correctAnswer() {
                 );
 
                 loadMeal();
-
             }
 
         },
         900
     );
 }
+
+/*
+    HINT
+*/
 
 document.getElementById(
     "hintButton"
@@ -1094,9 +1224,12 @@ document.getElementById(
             "block";
 
         hintNumber++;
-
     }
 );
+
+/*
+    FEEDBACK
+*/
 
 function showFeedback(
     colour,
@@ -1113,6 +1246,10 @@ function showFeedback(
         message;
 }
 
+/*
+    PROGRESS
+*/
+
 function updateProgress() {
 
     const percentage =
@@ -1126,6 +1263,10 @@ function updateProgress() {
     ).style.width =
         percentage + "%";
 }
+
+/*
+    COMPLETE
+*/
 
 function finishLesson() {
 
