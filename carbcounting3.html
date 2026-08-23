@@ -87,11 +87,11 @@ instruction:"Enter the total carbs.",
 answer:64.5
 },
 
-/* TIP */
+/* HINT SLIDE — 26.jpg */
 {
 type:"tip",
-image:"carbcount3/25.jpg",
-instruction:"Tip: Always double-check your carb conversions."
+image:"carbcount3/26.jpg",
+instruction:"Hint: Look closely at the example."
 },
 
 /* FINAL CALC — 3.5 */
@@ -187,8 +187,6 @@ box.style.display = "block";
 box.id = "answerBox";
 
 $("card").appendChild(box);
-
-cookiesOnPlate.forEach(c => $("card").appendChild(c));
 }
 
 function loadTip(x){
@@ -221,6 +219,13 @@ if(x.type === "tip"){ loadTip(x); return; }
 
 $("continue").onclick = () => {
 if(locked) return;
+
+/* REMOVE COOKIES AFTER COOKIE SLIDE */
+if (lessons[n].type === "cookies") {
+cookiesOnPlate.forEach(c => c.remove());
+cookiesOnPlate = [];
+}
+
 n++;
 if(n >= lessons.length){ finish(); return; }
 load();
