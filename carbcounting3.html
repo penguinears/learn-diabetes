@@ -10,22 +10,22 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{font-family:Arial;background:#f7f5fb;color:#29233a}
 .top{height:55px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;padding:0 12px}
-.back{color:#555;text-decoration:none}.bar{width:50%;margin:auto;background:#eee;height:9px;border-radius:20px}.progress{height:100%;width:0;background:#6c3fc5;border-radius:20px}
+.back{color:#555;text-decoration:none}
+.bar{width:50%;margin:auto;background:#eee;height:9px;border-radius:20px}
+.progress{height:100%;width:0;background:#6c3fc5;border-radius:20px}
 .page{height:calc(100dvh - 55px);max-width:850px;margin:auto;padding:8px;display:flex;flex-direction:column}
 .card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;position:relative}
-.intro{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:15px}.intro h1{color:#6c3fc5}.intro p{max-width:600px;line-height:1.5;color:#666}
-.img{width:100%;height:min(30vh,220px);object-fit:contain}
+.img{width:100%;height:min(30vh,220px);object-fit:contain;pointer-events:none}
 .instruction{text-align:center;color:#666;margin:6px}
-.pool,.items{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}
-.pool{min-height:55px}
-.food{border:2px solid #d8dce1;border-radius:9px;padding:10px;min-width:100px;min-height:48px;display:flex;align-items:center;justify-content:center;font-weight:bold;user-select:none;touch-action:none}
-.categories{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;min-height:0}.cat{border:2px dashed #ccd1d6;border-radius:10px;padding:7px;background:#fafafa;overflow:auto}.cat h2{text-align:center;font-size:15px}
-.feedback,.hint{text-align:center;padding:7px;margin:5px auto;border-radius:8px}.feedback{display:none}.green{display:block;background:#e8f6ed}.yellow{display:block;background:#fff5d8}.red{display:block;background:#fdeaea}.hint{display:none;background:#eef4ff}
+.pool{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;min-height:55px}
+.feedback{text-align:center;padding:7px;margin:5px auto;border-radius:8px;display:none}
+.green{display:block;background:#e8f6ed}
+.yellow{display:block;background:#fff5d8}
+.red{display:block;background:#fdeaea}
 .controls{height:52px;display:flex;justify-content:center;align-items:center;gap:7px}
-button{font:inherit;cursor:pointer}.mainbtn{border:0;background:#6c3fc5;color:#fff;font-weight:bold;padding:11px 28px;border-radius:8px}.hintbtn{background:#fff;color:#6c3fc5;border:1px solid #b9cef5;padding:10px 18px;border-radius:8px}
-.complete{display:none;height:100%;align-items:center;justify-content:center;text-align:center}.box{background:#fff;padding:30px;border-radius:15px}
-input,textarea,select{font-size:16px!important}
-@media(max-width:650px){.page{padding:6px}.food{min-width:42vw;font-size:15px}.img{height:20vh}.intro p{font-size:15px}.cat h2{font-size:14px}}
+button{font:inherit;cursor:pointer}
+.mainbtn{border:0;background:#6c3fc5;color:#fff;font-weight:bold;padding:11px 28px;border-radius:8px}
+input{font-size:16px!important}
 </style>
 </head>
 
@@ -39,329 +39,226 @@ input,textarea,select{font-size:16px!important}
 <main class="page" id="lesson">
 <div class="card" id="card">
 
-<div class="intro" id="intro"></div>
-
 <img class="img" id="img" style="display:none">
-
 <div class="instruction" id="instruction" style="display:none"></div>
 <div class="pool" id="pool" style="display:none"></div>
 
-<div class="categories" id="categories" style="display:none">
-<div class="cat" data-cat="low"><h2>Little/no carbs</h2><div class="items" id="low"></div></div>
-<div class="cat" data-cat="high"><h2>Higher carbs</h2><div class="items" id="high"></div></div>
-</div>
-
 <div class="feedback" id="feedback"></div>
-<div class="hint" id="hint"></div>
 
 </div>
 
 <div class="controls">
 <button class="mainbtn" id="continue">Continue</button>
 <button class="mainbtn" id="check" style="display:none">Check</button>
-<button class="hintbtn" id="hintBtn" style="display:none">Hint</button>
 </div>
 </main>
 
-<section class="complete" id="complete">
+<section class="complete" id="complete" style="display:none">
 <div class="box"><h1>Lesson complete</h1><p>Great work!</p></div>
 </section>
 
 <script>
 
-let cookiesOnPlate=[];
+let cookiesOnPlate = [];
 
-const lessons=[
+const lessons = [
 
-/* INTRO */
-{
-type:"intro",
-title:"Lesson Title",
-heading:"Introduction",
-text:["Explain what the learner will learn.","Press Continue to start."]
-},
-
-/* SECOND INTRO */
-{
-type:"intro",
-title:"Getting started",
-heading:"What you need to know",
-text:["Add your second slide here."]
-},
-
-/* QUESTION */
-{
-type:"drag",
-image:"carbcount3/example.jpg",
-instruction:"Drag the foods into the correct group.",
-foods:[
-{name:"Rice",cat:"high"},
-{name:"Chicken",cat:"low"},
-{name:"Broccoli",cat:"low"},
-{name:"Yogurt pot",cat:"high"}
-],
-hints:[
-"Think about which foods contain carbs.",
-"Rice and yogurt contain carbohydrate."
-]
-},
-
-/* COOKIE PLACING */
+/* Q1 — COOKIE PLACING */
 {
 type:"cookies",
 image:"carbcount3/22.jpg",
 instruction:"Drag cookies onto the plate.",
-cookieImg:"carbcount3/cookie.png",
-hints:[
-"Each cookie is 18g carbs.",
-"You can place as many cookies as you want."
-]
+cookieImg:"carbcount3/cookie.png"
 },
 
-/* CARB CALC 1 */
+/* Q2 — CARB CALC 1 */
 {
 type:"calc",
 image:"carbcount3/23.jpg",
 instruction:"How many carbs are on the plate?",
-rate:18,
 answer:70.8
 },
 
-/* CARB CALC 2 */
+/* Q3 — CARB CALC 2 */
 {
 type:"calc",
 image:"carbcount3/24.jpg",
 instruction:"Enter the total carbs.",
-rate:18,
 answer:64.5
 },
 
-/* TIP SLIDE */
+/* Q4 — TIP */
 {
-type:"intro",
-title:"Tip",
-heading:"Quick reminder",
-text:["Always double‑check your carb conversions.","Press Continue."]
+type:"tip",
+image:"carbcount3/25.jpg",
+instruction:"Tip: Always double-check your carb conversions."
 },
 
-/* FINAL CALC */
+/* Q5 — FINAL CALC */
 {
 type:"calc",
 image:"carbcount3/27.jpg",
 instruction:"Final question: enter the carbs.",
-rate:18,
 answer:3.5
 }
 
 ];
 
-let n=0,dragged=null,hintNo=0,locked=false;
+let n = 0, dragged = null, locked = false;
 
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 function loadCookies(x){
-$("img").src=x.image;
-$("img").style.display="block";
-$("instruction").textContent=x.instruction;
-$("instruction").style.display="block";
+$("img").src = x.image;
+$("img").style.display = "block";
+$("instruction").textContent = x.instruction;
+$("instruction").style.display = "block";
 
-$("pool").style.display="flex";
-$("categories").style.display="none";
-$("check").style.display="block";
-$("hintBtn").style.display="block";
+$("pool").style.display = "flex";
+$("check").style.display = "none";
+$("continue").style.display = "block";
 
-$("pool").innerHTML="";
+$("pool").innerHTML = "";
 
-spawnCookie(x.cookieImg);
+spawnCookie();
 
-function spawnCookie(src){
-let c=document.createElement("img");
-c.src=src;
-c.className="food";
-c.style.width="80px";
-c.style.height="80px";
-c.style.objectFit="contain";
-c.draggable=true;
+function spawnCookie(){
+let c = document.createElement("img");
+c.src = x.cookieImg;
+c.style.width = "80px";
+c.style.height = "80px";
+c.style.objectFit = "contain";
+c.style.userSelect = "none";
+c.style.touchAction = "none";
+c.draggable = true;
 
-c.ondragstart=()=>dragged=c;
-c.ondragend=()=>dragged=null;
+c.ondragstart = () => dragged = c;
+c.ondragend = () => dragged = null;
 
 $("pool").appendChild(c);
 }
 
-$("img").ondragover=e=>e.preventDefault();
-$("img").ondrop=()=>{
-if(dragged){
-cookiesOnPlate.push(dragged);
-dragged.style.position="absolute";
-dragged.style.left="50%";
-dragged.style.top="50%";
-dragged.style.transform="translate(-50%,-50%)";
-$("card").appendChild(dragged);
-spawnCookie(x.cookieImg);
-}
+$("card").ondragover = e => e.preventDefault();
+
+$("card").ondrop = e => {
+if(!dragged) return;
+
+let rect = $("card").getBoundingClientRect();
+let xPos = e.clientX - rect.left;
+let yPos = e.clientY - rect.top;
+
+let placed = document.createElement("img");
+placed.src = dragged.src;
+placed.style.width = "80px";
+placed.style.height = "80px";
+placed.style.objectFit = "contain";
+placed.style.position = "absolute";
+placed.style.left = xPos + "px";
+placed.style.top = yPos + "px";
+placed.style.pointerEvents = "none";
+
+cookiesOnPlate.push(placed);
+$("card").appendChild(placed);
+
+spawnCookie();
 };
 }
 
 function loadCalc(x){
-$("img").src=x.image;
-$("img").style.display="block";
-$("instruction").textContent=x.instruction;
-$("instruction").style.display="block";
+$("img").src = x.image;
+$("img").style.display = "block";
+$("instruction").textContent = x.instruction;
+$("instruction").style.display = "block";
 
-$("pool").style.display="none";
-$("categories").style.display="none";
-$("hintBtn").style.display="none";
+$("pool").style.display = "none";
+$("check").style.display = "block";
+$("continue").style.display = "none";
 
-$("check").style.display="block";
-
-$("intro").innerHTML="";
-$("intro").style.display="none";
-
-$("feedback").className="feedback";
-$("feedback").style.display="none";
-
-let box=document.createElement("input");
-box.type="number";
-box.step="0.1";
-box.placeholder="Enter carbs";
-box.style.width="90%";
-box.style.margin="10px auto";
-box.style.display="block";
-box.id="answerBox";
+let box = document.createElement("input");
+box.type = "number";
+box.step = "0.1";
+box.placeholder = "Enter answer";
+box.style.width = "90%";
+box.style.margin = "10px auto";
+box.style.display = "block";
+box.id = "answerBox";
 
 $("card").appendChild(box);
+
+cookiesOnPlate.forEach(c => $("card").appendChild(c));
+}
+
+function loadTip(x){
+$("img").src = x.image;
+$("img").style.display = "block";
+$("instruction").textContent = x.instruction;
+$("instruction").style.display = "block";
+
+$("pool").style.display = "none";
+$("check").style.display = "none";
+$("continue").style.display = "block";
 }
 
 function load(){
-locked=false;hintNo=0;
-let x=lessons[n];
+locked = false;
 
-$("intro").innerHTML="";
-$("img").style.display=$("instruction").style.display=$("pool").style.display=$("categories").style.display="none";
-$("check").style.display=$("hintBtn").style.display="none";
-$("continue").style.display="none";
-$("feedback").className="feedback";
-$("hint").style.display="none";
-$("pool").innerHTML=$("low").innerHTML=$("high").innerHTML="";
-$("card").querySelectorAll("input").forEach(i=>i.remove());
+$("feedback").className = "feedback";
+$("feedback").style.display = "none";
+$("card").querySelectorAll("input").forEach(i => i.remove());
 
-$("progress").style.width=n/lessons.length*100+"%";
+$("progress").style.width = n / lessons.length * 100 + "%";
 
-if(x.type=="intro"){
-$("intro").style.display="flex";
-$("intro").innerHTML=`<h1>${x.title}</h1><h2>${x.heading}</h2>${x.text.map(t=>`<p>${t}</p>`).join("")}`;
-$("continue").style.display="block";
-return;
+let x = lessons[n];
+
+if(x.type === "cookies"){ loadCookies(x); return; }
+if(x.type === "calc"){ loadCalc(x); return; }
+if(x.type === "tip"){ loadTip(x); return; }
 }
 
-if(x.type=="cookies"){
-loadCookies(x);
-return;
-}
-
-if(x.type=="calc"){
-loadCalc(x);
-return;
-}
-
-if(x.type=="drag"){
-$("img").src=x.image;
-$("img").style.display="block";
-$("instruction").textContent=x.instruction;
-$("instruction").style.display="block";
-$("pool").style.display="flex";
-$("categories").style.display="grid";
-$("check").style.display="block";
-$("hintBtn").style.display="block";
-[...x.foods].sort(()=>Math.random()-.5).forEach(createFood);
-return;
-}
-}
-
-function createFood(f){
-let e=document.createElement("div");
-e.className="food";e.textContent=f.name;e.draggable=true;e.dataset.cat=f.cat;
-e.ondragstart=()=>dragged=e;
-e.ondragend=()=>dragged=null;
-$("pool").appendChild(e);
-}
-
-document.querySelectorAll(".cat").forEach(c=>{
-c.ondragover=e=>e.preventDefault();
-c.ondrop=()=>{
-if(dragged&&!locked)c.querySelector(".items").appendChild(dragged);
-};
-});
-
-$("continue").onclick=()=>{
-if(locked)return;
-n++;load();
+$("continue").onclick = () => {
+if(locked) return;
+n++;
+if(n >= lessons.length){ finish(); return; }
+load();
 };
 
-$("check").onclick=()=>{
-if(locked)return;
+$("check").onclick = () => {
+let x = lessons[n];
+let val = parseFloat($("answerBox").value);
 
-let x=lessons[n];
-
-if(x.type=="cookies"){
-feedback("green","Cookies placed! Press Continue.");
-$("check").style.display="none";
-$("continue").style.display="block";
+if(isNaN(val)){
+feedback("yellow","Enter a number.");
 return;
 }
 
-if(x.type=="calc"){
-let val=parseFloat($("answerBox").value);
-if(isNaN(val))return feedback("yellow","Enter a number.");
-if(Math.abs(val-x.answer)<0.01){
+if(Math.abs(val - x.answer) < 0.01){
 correctAnswer();
 }else{
 feedback("red","Incorrect. Try again.");
 }
-return;
-}
-
-let foods=document.querySelectorAll(".food"),placed=0,correct=0;
-
-foods.forEach(f=>{
-let p=f.parentElement;
-if(p.classList.contains("items")){
-placed++;
-if(p.parentElement.dataset.cat==f.dataset.cat)correct++;
-}
-});
-
-if(placed<lessons[n].foods.length)return feedback("yellow","Move every food first.");
-if(correct==lessons[n].foods.length)return correctAnswer();
-feedback(correct>=2?"yellow":"red","Not quite. Try again or use a hint.");
 };
 
-$("hintBtn").onclick=()=>{
-let h=lessons[n].hints;
-if(hintNo<h.length){
-$("hint").textContent="Hint: "+h[hintNo++];
-$("hint").style.display="block";
-}
-};
-
-function feedback(c,t){
-$("feedback").className="feedback "+c;
-$("feedback").textContent=t;
+function feedback(type,text){
+$("feedback").className = "feedback " + type;
+$("feedback").textContent = text;
+$("feedback").style.display = "block";
 }
 
 function correctAnswer(){
-locked=true;
+locked = true;
 feedback("green","Correct!");
-$("check").style.display=$("hintBtn").style.display="none";
-$("progress").style.width=(n+1)/lessons.length*100+"%";
-setTimeout(()=>{n++;n>=lessons.length?finish():load()},800);
+$("check").style.display = "none";
+setTimeout(() => {
+n++;
+if(n >= lessons.length){ finish(); return; }
+load();
+}, 800);
 }
 
 function finish(){
-$("lesson").style.display="none";
-$("complete").style.display="flex";
-$("progress").style.width="100%";
+$("lesson").style.display = "none";
+$("complete").style.display = "flex";
+$("progress").style.width = "100%";
 }
 
 load();
