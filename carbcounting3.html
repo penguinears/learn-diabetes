@@ -71,7 +71,7 @@ instruction:"Drag cookies onto the plate. Each cookie is 18g carbs.",
 cookieImg:"carbcount3/cookie.png"
 },
 
-/* FIRST CALC — depends on cookies × 18 */
+/* COOKIE CALC — cookies × 18 */
 {
 type:"calc",
 image:"carbcount3/23.jpg",
@@ -187,6 +187,9 @@ box.style.display = "block";
 box.id = "answerBox";
 
 $("card").appendChild(box);
+
+/* KEEP COOKIES FOR THIS SLIDE */
+cookiesOnPlate.forEach(c => $("card").appendChild(c));
 }
 
 function loadTip(x){
@@ -220,8 +223,8 @@ if(x.type === "tip"){ loadTip(x); return; }
 $("continue").onclick = () => {
 if(locked) return;
 
-/* REMOVE COOKIES AFTER COOKIE SLIDE */
-if (lessons[n].type === "cookies") {
+/* REMOVE COOKIES ONLY AFTER PART 2 */
+if (lessons[n].type === "calc" && n === 1) {
 cookiesOnPlate.forEach(c => c.remove());
 cookiesOnPlate = [];
 }
