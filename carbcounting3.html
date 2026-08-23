@@ -18,14 +18,14 @@ body{font-family:Arial;background:#f7f5fb;color:#29233a}
 .img{width:100%;height:min(30vh,220px);object-fit:contain;pointer-events:none}
 .instruction{text-align:center;color:#666;margin:6px}
 .pool{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;min-height:55px}
-.feedback{text-align:center;padding:7px;margin:5px auto;border-radius:8px;display:none}
-.green{display:block;background:#e8f6ed}
-.yellow{display:block;background:#fff5d8}
-.red{display:block;background:#fdeaea}
 .controls{height:52px;display:flex;justify-content:center;align-items:center;gap:7px}
 button{font:inherit;cursor:pointer}
 .mainbtn{border:0;background:#6c3fc5;color:#fff;font-weight:bold;padding:11px 28px;border-radius:8px}
 input{font-size:16px!important}
+.feedback{display:none;margin:8px auto 0 auto;width:90%;min-height:60px;border-radius:8px;text-align:center;padding:8px;box-sizing:border-box}
+.feedback.red{background:#fdeaea;color:#b00020}
+.feedback.yellow{background:#fff5d8;color:#8a6d1b}
+.feedback.green{background:#e8f6ed;color:#1b5e20}
 </style>
 </head>
 
@@ -63,15 +63,15 @@ let cookiesOnPlate = [];
 
 const lessons = [
 
-/* Q1 — COOKIE PLACING */
+/* PART 1 — COOKIE PLACING */
 {
 type:"cookies",
 image:"carbcount3/22.jpg",
-instruction:"Drag cookies onto the plate.",
+instruction:"Drag cookies onto the plate. Each cookie is 18g carbs.",
 cookieImg:"carbcount3/cookie.png"
 },
 
-/* Q2 — CARB CALC 1 */
+/* Q2 — CARB CALC 1 (answer: 70.8) */
 {
 type:"calc",
 image:"carbcount3/23.jpg",
@@ -79,7 +79,7 @@ instruction:"How many carbs are on the plate?",
 answer:70.8
 },
 
-/* Q3 — CARB CALC 2 */
+/* Q3 — CARB CALC 2 (answer: 64.5) */
 {
 type:"calc",
 image:"carbcount3/24.jpg",
@@ -94,7 +94,7 @@ image:"carbcount3/25.jpg",
 instruction:"Tip: Always double-check your carb conversions."
 },
 
-/* Q5 — FINAL CALC */
+/* Q5 — FINAL CALC (answer: 3.5) */
 {
 type:"calc",
 image:"carbcount3/27.jpg",
@@ -119,6 +119,7 @@ $("check").style.display = "none";
 $("continue").style.display = "block";
 
 $("pool").innerHTML = "";
+cookiesOnPlate = [];
 
 spawnCookie();
 
@@ -171,15 +172,17 @@ $("instruction").textContent = x.instruction;
 $("instruction").style.display = "block";
 
 $("pool").style.display = "none";
-$("check").style.display = "block";
 $("continue").style.display = "none";
+$("check").style.display = "block";
+
+$("card").querySelectorAll("input").forEach(i => i.remove());
 
 let box = document.createElement("input");
 box.type = "number";
 box.step = "0.1";
 box.placeholder = "Enter answer";
 box.style.width = "90%";
-box.style.margin = "10px auto";
+box.style.margin = "10px auto 4px auto";
 box.style.display = "block";
 box.id = "answerBox";
 
@@ -201,9 +204,10 @@ $("continue").style.display = "block";
 
 function load(){
 locked = false;
-
-$("feedback").className = "feedback";
 $("feedback").style.display = "none";
+$("feedback").className = "feedback";
+$("feedback").textContent = "";
+
 $("card").querySelectorAll("input").forEach(i => i.remove());
 
 $("progress").style.width = n / lessons.length * 100 + "%";
@@ -224,35 +228,33 @@ load();
 
 $("check").onclick = () => {
 let x = lessons[n];
-let val = parseFloat($("answerBox").value);
+let box = $("answerBox");
+if(!box) return;
+
+let val = parseFloat(box.value);
 
 if(isNaN(val)){
-feedback("yellow","Enter a number.");
+showFeedback("yellow","Enter a number.");
 return;
 }
 
 if(Math.abs(val - x.answer) < 0.01){
-correctAnswer();
-}else{
-feedback("red","Incorrect. Try again.");
-}
-};
-
-function feedback(type,text){
-$("feedback").className = "feedback " + type;
-$("feedback").textContent = text;
-$("feedback").style.display = "block";
-}
-
-function correctAnswer(){
 locked = true;
-feedback("green","Correct!");
-$("check").style.display = "none";
+showFeedback("green","Correct!");
 setTimeout(() => {
 n++;
 if(n >= lessons.length){ finish(); return; }
 load();
-}, 800);
+}, 600);
+}else{
+showFeedback("red","Not right. Try again.");
+}
+};
+
+function showFeedback(type,text){
+$("feedback").className = "feedback " + type;
+$("feedback").textContent = text;
+$("feedback").style.display = "block";
 }
 
 function finish(){
