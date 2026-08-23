@@ -63,7 +63,7 @@ let cookiesOnPlate = [];
 
 const lessons = [
 
-/* PART 1 — COOKIE PLACING */
+/* COOKIE PLACING */
 {
 type:"cookies",
 image:"carbcount3/22.jpg",
@@ -71,15 +71,15 @@ instruction:"Drag cookies onto the plate. Each cookie is 18g carbs.",
 cookieImg:"carbcount3/cookie.png"
 },
 
-/* Q2 — CARB CALC 1 (answer: 70.8) */
+/* FIRST CALC — depends on cookies × 18 */
 {
 type:"calc",
 image:"carbcount3/23.jpg",
 instruction:"How many carbs are on the plate?",
-answer:70.8
+answer:null
 },
 
-/* Q3 — CARB CALC 2 (answer: 64.5) */
+/* FIXED CALC — 64.5 */
 {
 type:"calc",
 image:"carbcount3/24.jpg",
@@ -87,14 +87,14 @@ instruction:"Enter the total carbs.",
 answer:64.5
 },
 
-/* Q4 — TIP */
+/* TIP */
 {
 type:"tip",
 image:"carbcount3/25.jpg",
 instruction:"Tip: Always double-check your carb conversions."
 },
 
-/* Q5 — FINAL CALC (answer: 3.5) */
+/* FINAL CALC — 3.5 */
 {
 type:"calc",
 image:"carbcount3/27.jpg",
@@ -229,16 +229,35 @@ load();
 $("check").onclick = () => {
 let x = lessons[n];
 let box = $("answerBox");
-if(!box) return;
+if (!box) return;
 
 let val = parseFloat(box.value);
 
-if(isNaN(val)){
+if (isNaN(val)) {
 showFeedback("yellow","Enter a number.");
 return;
 }
 
-if(Math.abs(val - x.answer) < 0.01){
+/* FIRST CALC — cookies × 18 */
+if (n === 1) {
+let expected = cookiesOnPlate.length * 18;
+if (Math.abs(val - expected) < 0.01) {
+correctAdvance();
+} else {
+showFeedback("red","Not right. Try again.");
+}
+return;
+}
+
+/* OTHER CALC QUESTIONS — fixed answers */
+if (Math.abs(val - x.answer) < 0.01) {
+correctAdvance();
+} else {
+showFeedback("red","Not right. Try again.");
+}
+};
+
+function correctAdvance(){
 locked = true;
 showFeedback("green","Correct!");
 setTimeout(() => {
@@ -246,10 +265,7 @@ n++;
 if(n >= lessons.length){ finish(); return; }
 load();
 }, 600);
-}else{
-showFeedback("red","Not right. Try again.");
 }
-};
 
 function showFeedback(type,text){
 $("feedback").className = "feedback " + type;
