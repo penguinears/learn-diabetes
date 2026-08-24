@@ -121,8 +121,8 @@ $("continue").style.display = "block";
  
 $("pool").innerHTML = ""; 
  
-/* IMPORTANT: DO NOT CLEAR cookiesOnPlate HERE.
-   This keeps the cookies on screen when moving to question 2. */ 
+/* DO NOT CLEAR cookiesOnPlate HERE.
+   This keeps the cookies for the first calculation slide. */ 
  
 spawnCookie(); 
  
@@ -134,14 +134,11 @@ c.style.height = "80px";
 c.style.objectFit = "contain"; 
 c.style.userSelect = "none"; 
 c.style.touchAction = "none"; 
-c.style.cursor = "grab"; 
 c.draggable = false; 
  
-/* DESKTOP DRAG */ 
 c.ondragstart = () => dragged = c; 
 c.ondragend = () => dragged = null; 
  
-/* MOBILE / TOUCH DRAG */ 
 let startX = 0; 
 let startY = 0; 
 let moving = false; 
@@ -176,7 +173,6 @@ let rect = $("card").getBoundingClientRect();
 let xPos = e.clientX - rect.left; 
 let yPos = e.clientY - rect.top; 
  
-/* Only place the cookie if it was dragged into the card */ 
 if( 
 e.clientX >= rect.left && 
 e.clientX <= rect.right && 
@@ -198,7 +194,6 @@ placed.style.userSelect = "none";
 cookiesOnPlate.push(placed); 
 $("card").appendChild(placed); 
  
-/* Create another cookie to drag */ 
 spawnCookie(); 
 } 
  
@@ -214,7 +209,6 @@ c.style.cursor = "grab";
 $("pool").appendChild(c); 
 } 
  
-/* Desktop drop */ 
 $("card").ondragover = e => e.preventDefault(); 
  
 $("card").ondrop = e => { 
@@ -266,8 +260,10 @@ box.id = "answerBox";
  
 $("card").appendChild(box); 
  
-/* KEEP COOKIES FOR THIS SLIDE */ 
+/* KEEP COOKIES ONLY ON THE FIRST CALCULATION SLIDE */ 
+if(n === 1){ 
 cookiesOnPlate.forEach(c => $("card").appendChild(c)); 
+} 
 } 
  
 function loadTip(x){ 
@@ -301,14 +297,13 @@ if(x.type === "tip"){ loadTip(x); return; }
 $("continue").onclick = () => { 
 if(locked) return; 
  
-/* REMOVE COOKIES ONLY AFTER PART 2 */ 
-if (lessons[n].type === "calc" && n === 1) { 
-cookiesOnPlate.forEach(c => c.remove()); 
-cookiesOnPlate = []; 
+n++; 
+ 
+if(n >= lessons.length){ 
+finish(); 
+return; 
 } 
  
-n++; 
-if(n >= lessons.length){ finish(); return; } 
 load(); 
 }; 
  
@@ -347,8 +342,20 @@ function correctAdvance(){
 locked = true; 
 showFeedback("green","Correct!"); 
 setTimeout(() => { 
+ 
+/* REMOVE COOKIES AFTER THE FIRST CALCULATION */ 
+if(n === 1){ 
+cookiesOnPlate.forEach(c => c.remove()); 
+cookiesOnPlate = []; 
+} 
+ 
 n++; 
-if(n >= lessons.length){ finish(); return; } 
+ 
+if(n >= lessons.length){ 
+finish(); 
+return; 
+} 
+ 
 load(); 
 }, 600); 
 } 
