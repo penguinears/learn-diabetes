@@ -13,137 +13,99 @@
 
 body {
     margin: 0;
+    background: white;
     font-family: Arial, sans-serif;
-    background: #f7f5fb;
-    color: #29233a;
 }
 
-header {
-    height: 60px;
-    background: white;
-    border-bottom: 1px solid #e2dfe8;
+.banner {
+    height: 85px;
+    background: #7b4bb7;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding-left: 18px;
 }
 
-h1 {
-    margin: 0;
-    color: #6c3fc5;
-    font-size: 22px;
+.banner img {
+    height: 62px;
+    width: auto;
+    display: block;
 }
 
-main {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 40px 20px;
+.home {
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 0 15px;
 }
 
-.links {
+.buttons {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
 
-.section-title {
-    margin: 10px 0 0;
-    font-size: 19px;
-    color: #29233a;
-}
-
-.lesson {
+.buttons a {
     display: block;
-    background: white;
-    border: 1px solid #ddd9e5;
-    border-radius: 12px;
-    padding: 20px;
-    text-decoration: none;
-    color: #29233a;
-    font-size: 17px;
-    font-weight: bold;
-    box-shadow: 0 3px 0 #e5e0ec;
-    transition: 0.15s;
+    width: 100%;
 }
 
-.lesson:hover {
-    border-color: #6c3fc5;
-    transform: translateY(-2px);
-}
-
-.lesson span {
+.buttons img {
+    width: 100%;
+    height: auto;
     display: block;
-    color: #6c3fc5;
-    font-size: 13px;
-    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .banner {
+        height: 70px;
+        padding-left: 12px;
+    }
+
+    .banner img {
+        height: 50px;
+    }
+
+    .home {
+        margin-top: 20px;
+        padding: 0 12px;
+    }
+
+    .buttons {
+        gap: 11px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Learn Diabetes</h1>
-</header>
+<div class="banner">
+    <img src="home/title.png" alt="Learn Diabetes">
+</div>
 
-<main>
+<div class="home">
 
-    <div class="links">
+    <div class="buttons">
 
-        <h2 class="section-title">
-            Learn Carb Counting
-        </h2>
-
-        <a
-            class="lesson"
-            href="carbcounting1.html"
-        >
-            <span>Lesson 1</span>
-            Carb Counting 1
+        <a href="carbhome.html">
+            <img src="home/1.png" alt="Carb Counting">
         </a>
 
-        <a
-            class="lesson"
-            href="carbcounting2.html"
-        >
-            <span>Lesson 2</span>
-            Carb Counting 2
-        </a>
-        <a
-            class="lesson"
-            href="carbcounting3.html"
-        >
-            <span>Lesson 3</span>
-            Carb Counting 3
+        <a href="understandingdiabetes.html">
+            <img src="home/2.png" alt="Understanding Diabetes">
         </a>
 
+        <a href="living.html">
+            <img src="home/3.png" alt="Living with Diabetes">
+        </a>
 
-        <h2 class="section-title">
-            Other Lessons
-        </h2>
-
-        <a
-            class="lesson"
-            href="eatingwell.html"
-        >
-            <span>extra lesosn</span>
-            Eating Well with Diabetes
+        <a href="refresher.html">
+            <img src="home/4.png" alt="Refresher">
         </a>
 
     </div>
-    <h2> still to make</h2>
-    <ul>
-        <li>sick days</li>
-        <li>keytones</li>
-        <li>what is type 1 </li>
-        <li>difference between type 1 and type 2</li>
-        <li>carb counting refresher</li>
-        <li>carb counting in public</li>
-        <li>hoilidays</li>
-        <li>what to do in hypos</li>
-        <li>what to do when high</li>
-    </ul>
 
-</main>
+</div>
 
 </body>
 </html>
