@@ -1,294 +1,373 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Lesson</title>
-
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
-body{font-family:Arial;background:#f7f5fb;color:#29233a}
-.top{height:55px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;padding:0 12px}
-.back{color:#555;text-decoration:none}
-.bar{width:50%;margin:auto;background:#eee;height:9px;border-radius:20px}
-.progress{height:100%;width:0;background:#6c3fc5;border-radius:20px}
-.page{height:calc(100dvh - 55px);max-width:850px;margin:auto;padding:8px;display:flex;flex-direction:column}
-.card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;position:relative}
-.img{width:100%;height:min(30vh,220px);object-fit:contain;pointer-events:none}
-.instruction{text-align:center;color:#666;margin:6px}
-.pool{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;min-height:55px}
-.controls{height:52px;display:flex;justify-content:center;align-items:center;gap:7px}
-button{font:inherit;cursor:pointer}
-.mainbtn{border:0;background:#6c3fc5;color:#fff;font-weight:bold;padding:11px 28px;border-radius:8px}
-input{font-size:16px!important}
-.feedback{display:none;margin:8px auto 0 auto;width:90%;min-height:60px;border-radius:8px;text-align:center;padding:8px;box-sizing:border-box}
-.feedback.red{background:#fdeaea;color:#b00020}
-.feedback.yellow{background:#fff5d8;color:#8a6d1b}
-.feedback.green{background:#e8f6ed;color:#1b5e20}
-</style>
-</head>
-
-<body>
-
-<header class="top">
-<a class="back" href="../index.html">Back</a>
-<div class="bar"><div class="progress" id="progress"></div></div>
-</header>
-
-<main class="page" id="lesson">
-<div class="card" id="card">
-
-<img class="img" id="img" style="display:none">
-<div class="instruction" id="instruction" style="display:none"></div>
-<div class="pool" id="pool" style="display:none"></div>
-
-<div class="feedback" id="feedback"></div>
-
-</div>
-
-<div class="controls">
-<button class="mainbtn" id="continue">Continue</button>
-<button class="mainbtn" id="check" style="display:none">Check</button>
-</div>
-</main>
-
-<section class="complete" id="complete" style="display:none">
-<div class="box"><h1>Lesson complete</h1><p>Great work!</p></div>
-</section>
-
-<script>
-
-let cookiesOnPlate = [];
-
-const lessons = [
-
-/* COOKIE PLACING */
-{
-type:"cookies",
-image:"carbcount3/22.jpg",
-instruction:"Drag cookies onto the plate. Each cookie is 18g carbs.",
-cookieImg:"carbcount3/cookie.png"
-},
-
-/* COOKIE CALC — cookies × 18 */
-{
-type:"calc",
-image:"carbcount3/23.jpg",
-instruction:"How many carbs are on the plate?",
-answer:null
-},
-
-/* FIXED CALC — 64.5 */
-{
-type:"calc",
-image:"carbcount3/24.jpg",
-instruction:"Enter the total carbs.",
-answer:64.5
-},
-
-/* HINT SLIDE — 26.jpg */
-{
-type:"tip",
-image:"carbcount3/26.jpg",
-instruction:"Hint: Look closely at the example."
-},
-
-/* FINAL CALC — 3.5 */
-{
-type:"calc",
-image:"carbcount3/27.jpg",
-instruction:"Final question: enter the carbs.",
-answer:3.5
-}
-
-];
-
-let n = 0, dragged = null, locked = false;
-
-const $ = id => document.getElementById(id);
-
-function loadCookies(x){
-$("img").src = x.image;
-$("img").style.display = "block";
-$("instruction").textContent = x.instruction;
-$("instruction").style.display = "block";
-
-$("pool").style.display = "flex";
-$("check").style.display = "none";
-$("continue").style.display = "block";
-
-$("pool").innerHTML = "";
-cookiesOnPlate = [];
-
-spawnCookie();
-
-function spawnCookie(){
-let c = document.createElement("img");
-c.src = x.cookieImg;
-c.style.width = "80px";
-c.style.height = "80px";
-c.style.objectFit = "contain";
-c.style.userSelect = "none";
-c.style.touchAction = "none";
-c.draggable = true;
-
-c.ondragstart = () => dragged = c;
-c.ondragend = () => dragged = null;
-
-$("pool").appendChild(c);
-}
-
-$("card").ondragover = e => e.preventDefault();
-
-$("card").ondrop = e => {
-if(!dragged) return;
-
-let rect = $("card").getBoundingClientRect();
-let xPos = e.clientX - rect.left;
-let yPos = e.clientY - rect.top;
-
-let placed = document.createElement("img");
-placed.src = dragged.src;
-placed.style.width = "80px";
-placed.style.height = "80px";
-placed.style.objectFit = "contain";
-placed.style.position = "absolute";
-placed.style.left = xPos + "px";
-placed.style.top = yPos + "px";
-placed.style.pointerEvents = "none";
-
-cookiesOnPlate.push(placed);
-$("card").appendChild(placed);
-
-spawnCookie();
-};
-}
-
-function loadCalc(x){
-$("img").src = x.image;
-$("img").style.display = "block";
-$("instruction").textContent = x.instruction;
-$("instruction").style.display = "block";
-
-$("pool").style.display = "none";
-$("continue").style.display = "none";
-$("check").style.display = "block";
-
-$("card").querySelectorAll("input").forEach(i => i.remove());
-
-let box = document.createElement("input");
-box.type = "number";
-box.step = "0.1";
-box.placeholder = "Enter answer";
-box.style.width = "90%";
-box.style.margin = "10px auto 4px auto";
-box.style.display = "block";
-box.id = "answerBox";
-
-$("card").appendChild(box);
-
-/* KEEP COOKIES FOR THIS SLIDE */
-cookiesOnPlate.forEach(c => $("card").appendChild(c));
-}
-
-function loadTip(x){
-$("img").src = x.image;
-$("img").style.display = "block";
-$("instruction").textContent = x.instruction;
-$("instruction").style.display = "block";
-
-$("pool").style.display = "none";
-$("check").style.display = "none";
-$("continue").style.display = "block";
-}
-
-function load(){
-locked = false;
-$("feedback").style.display = "none";
-$("feedback").className = "feedback";
-$("feedback").textContent = "";
-
-$("card").querySelectorAll("input").forEach(i => i.remove());
-
-$("progress").style.width = n / lessons.length * 100 + "%";
-
-let x = lessons[n];
-
-if(x.type === "cookies"){ loadCookies(x); return; }
-if(x.type === "calc"){ loadCalc(x); return; }
-if(x.type === "tip"){ loadTip(x); return; }
-}
-
-$("continue").onclick = () => {
-if(locked) return;
-
-/* REMOVE COOKIES ONLY AFTER PART 2 */
-if (lessons[n].type === "calc" && n === 1) {
-cookiesOnPlate.forEach(c => c.remove());
-cookiesOnPlate = [];
-}
-
-n++;
-if(n >= lessons.length){ finish(); return; }
-load();
-};
-
-$("check").onclick = () => {
-let x = lessons[n];
-let box = $("answerBox");
-if (!box) return;
-
-let val = parseFloat(box.value);
-
-if (isNaN(val)) {
-showFeedback("yellow","Enter a number.");
-return;
-}
-
-/* FIRST CALC — cookies × 18 */
-if (n === 1) {
-let expected = cookiesOnPlate.length * 18;
-if (Math.abs(val - expected) < 0.01) {
-correctAdvance();
-} else {
-showFeedback("red","Not right. Try again.");
-}
-return;
-}
-
-/* OTHER CALC QUESTIONS — fixed answers */
-if (Math.abs(val - x.answer) < 0.01) {
-correctAdvance();
-} else {
-showFeedback("red","Not right. Try again.");
-}
-};
-
-function correctAdvance(){
-locked = true;
-showFeedback("green","Correct!");
-setTimeout(() => {
-n++;
-if(n >= lessons.length){ finish(); return; }
-load();
-}, 600);
-}
-
-function showFeedback(type,text){
-$("feedback").className = "feedback " + type;
-$("feedback").textContent = text;
-$("feedback").style.display = "block";
-}
-
-function finish(){
-$("lesson").style.display = "none";
-$("complete").style.display = "flex";
-$("progress").style.width = "100%";
-}
-
-load();
-
-</script>
-</body>
+```html
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> 
+<title>Lesson</title> 
+ 
+<style> 
+*{box-sizing:border-box} 
+html,body{margin:0;width:100%;height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%} 
+body{font-family:Arial;background:#f7f5fb;color:#29233a} 
+.top{height:55px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;padding:0 12px} 
+.back{color:#555;text-decoration:none} 
+.bar{width:50%;margin:auto;background:#eee;height:9px;border-radius:20px} 
+.progress{height:100%;width:0;background:#6c3fc5;border-radius:20px} 
+.page{height:calc(100dvh - 55px);max-width:850px;margin:auto;padding:8px;display:flex;flex-direction:column} 
+.card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;position:relative} 
+.img{width:100%;height:min(30vh,220px);object-fit:contain;pointer-events:none} 
+.instruction{text-align:center;color:#666;margin:6px} 
+.pool{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;min-height:55px} 
+.controls{height:52px;display:flex;justify-content:center;align-items:center;gap:7px} 
+button{font:inherit;cursor:pointer} 
+.mainbtn{border:0;background:#6c3fc5;color:#fff;font-weight:bold;padding:11px 28px;border-radius:8px} 
+input{font-size:16px!important} 
+.feedback{display:none;margin:8px auto 0 auto;width:90%;min-height:60px;border-radius:8px;text-align:center;padding:8px;box-sizing:border-box} 
+.feedback.red{background:#fdeaea;color:#b00020} 
+.feedback.yellow{background:#fff5d8;color:#8a6d1b} 
+.feedback.green{background:#e8f6ed;color:#1b5e20} 
+</style> 
+</head> 
+ 
+<body> 
+ 
+<header class="top"> 
+<a class="back" href="../index.html">Back</a> 
+<div class="bar"><div class="progress" id="progress"></div></div> 
+</header> 
+ 
+<main class="page" id="lesson"> 
+<div class="card" id="card"> 
+ 
+<img class="img" id="img" style="display:none"> 
+<div class="instruction" id="instruction" style="display:none"></div> 
+<div class="pool" id="pool" style="display:none"></div> 
+ 
+<div class="feedback" id="feedback"></div> 
+ 
+</div> 
+ 
+<div class="controls"> 
+<button class="mainbtn" id="continue">Continue</button> 
+<button class="mainbtn" id="check" style="display:none">Check</button> 
+</div> 
+</main> 
+ 
+<section class="complete" id="complete" style="display:none"> 
+<div class="box"><h1>Lesson complete</h1><p>Great work!</p></div> 
+</section> 
+ 
+<script> 
+ 
+let cookiesOnPlate = []; 
+ 
+const lessons = [ 
+ 
+/* COOKIE PLACING */ 
+{ 
+type:"cookies", 
+image:"carbcount3/22.jpg", 
+instruction:"Drag cookies onto the plate. Each cookie is 18g carbs.", 
+cookieImg:"carbcount3/cookie.png" 
+}, 
+ 
+/* COOKIE CALC — cookies × 18 */ 
+{ 
+type:"calc", 
+image:"carbcount3/23.jpg", 
+instruction:"How many carbs are on the plate?", 
+answer:null 
+}, 
+ 
+/* FIXED CALC — 64.5 */ 
+{ 
+type:"calc", 
+image:"carbcount3/24.jpg", 
+instruction:"Enter the total carbs.", 
+answer:64.5 
+}, 
+ 
+/* HINT SLIDE — 26.jpg */ 
+{ 
+type:"tip", 
+image:"carbcount3/26.jpg", 
+instruction:"Hint: Look closely at the example." 
+}, 
+ 
+/* FINAL CALC — 3.5 */ 
+{ 
+type:"calc", 
+image:"carbcount3/27.jpg", 
+instruction:"Final question: enter the carbs.", 
+answer:3.5 
+} 
+ 
+]; 
+ 
+let n = 0, dragged = null, locked = false; 
+ 
+const $ = id => document.getElementById(id); 
+ 
+function loadCookies(x){ 
+$("img").src = x.image; 
+$("img").style.display = "block"; 
+$("instruction").textContent = x.instruction; 
+$("instruction").style.display = "block"; 
+ 
+$("pool").style.display = "flex"; 
+$("check").style.display = "none"; 
+$("continue").style.display = "block"; 
+ 
+$("pool").innerHTML = ""; 
+ 
+/* IMPORTANT: DO NOT CLEAR cookiesOnPlate HERE.
+   This keeps the cookies on screen when moving to question 2. */ 
+ 
+spawnCookie(); 
+ 
+function spawnCookie(){ 
+let c = document.createElement("img"); 
+c.src = x.cookieImg; 
+c.style.width = "80px"; 
+c.style.height = "80px"; 
+c.style.objectFit = "contain"; 
+c.style.userSelect = "none"; 
+c.style.touchAction = "none"; 
+c.style.cursor = "grab"; 
+c.draggable = false; 
+ 
+/* DESKTOP DRAG */ 
+c.ondragstart = () => dragged = c; 
+c.ondragend = () => dragged = null; 
+ 
+/* MOBILE / TOUCH DRAG */ 
+let startX = 0; 
+let startY = 0; 
+let moving = false; 
+ 
+c.addEventListener("pointerdown", e => { 
+if(locked) return; 
+ 
+e.preventDefault(); 
+c.setPointerCapture(e.pointerId); 
+ 
+dragged = c; 
+moving = true; 
+startX = e.clientX; 
+startY = e.clientY; 
+ 
+c.style.cursor = "grabbing"; 
+}); 
+ 
+c.addEventListener("pointermove", e => { 
+if(!moving || dragged !== c) return; 
+e.preventDefault(); 
+}); 
+ 
+c.addEventListener("pointerup", e => { 
+if(!moving || dragged !== c) return; 
+ 
+e.preventDefault(); 
+moving = false; 
+c.style.cursor = "grab"; 
+ 
+let rect = $("card").getBoundingClientRect(); 
+let xPos = e.clientX - rect.left; 
+let yPos = e.clientY - rect.top; 
+ 
+/* Only place the cookie if it was dragged into the card */ 
+if( 
+e.clientX >= rect.left && 
+e.clientX <= rect.right && 
+e.clientY >= rect.top && 
+e.clientY <= rect.bottom 
+){ 
+ 
+let placed = document.createElement("img"); 
+placed.src = dragged.src; 
+placed.style.width = "80px"; 
+placed.style.height = "80px"; 
+placed.style.objectFit = "contain"; 
+placed.style.position = "absolute"; 
+placed.style.left = Math.max(0,Math.min(xPos - 40,rect.width - 80)) + "px"; 
+placed.style.top = Math.max(0,Math.min(yPos - 40,rect.height - 80)) + "px"; 
+placed.style.pointerEvents = "none"; 
+placed.style.userSelect = "none"; 
+ 
+cookiesOnPlate.push(placed); 
+$("card").appendChild(placed); 
+ 
+/* Create another cookie to drag */ 
+spawnCookie(); 
+} 
+ 
+dragged = null; 
+}); 
+ 
+c.addEventListener("pointercancel", () => { 
+moving = false; 
+dragged = null; 
+c.style.cursor = "grab"; 
+}); 
+ 
+$("pool").appendChild(c); 
+} 
+ 
+/* Desktop drop */ 
+$("card").ondragover = e => e.preventDefault(); 
+ 
+$("card").ondrop = e => { 
+if(!dragged) return; 
+ 
+let rect = $("card").getBoundingClientRect(); 
+let xPos = e.clientX - rect.left; 
+let yPos = e.clientY - rect.top; 
+ 
+let placed = document.createElement("img"); 
+placed.src = dragged.src; 
+placed.style.width = "80px"; 
+placed.style.height = "80px"; 
+placed.style.objectFit = "contain"; 
+placed.style.position = "absolute"; 
+placed.style.left = Math.max(0,Math.min(xPos - 40,rect.width - 80)) + "px"; 
+placed.style.top = Math.max(0,Math.min(yPos - 40,rect.height - 80)) + "px"; 
+placed.style.pointerEvents = "none"; 
+placed.style.userSelect = "none"; 
+ 
+cookiesOnPlate.push(placed); 
+$("card").appendChild(placed); 
+ 
+spawnCookie(); 
+dragged = null; 
+}; 
+} 
+ 
+function loadCalc(x){ 
+$("img").src = x.image; 
+$("img").style.display = "block"; 
+$("instruction").textContent = x.instruction; 
+$("instruction").style.display = "block"; 
+ 
+$("pool").style.display = "none"; 
+$("continue").style.display = "none"; 
+$("check").style.display = "block"; 
+ 
+$("card").querySelectorAll("input").forEach(i => i.remove()); 
+ 
+let box = document.createElement("input"); 
+box.type = "number"; 
+box.step = "0.1"; 
+box.placeholder = "Enter answer"; 
+box.style.width = "90%"; 
+box.style.margin = "10px auto 4px auto"; 
+box.style.display = "block"; 
+box.id = "answerBox"; 
+ 
+$("card").appendChild(box); 
+ 
+/* KEEP COOKIES FOR THIS SLIDE */ 
+cookiesOnPlate.forEach(c => $("card").appendChild(c)); 
+} 
+ 
+function loadTip(x){ 
+$("img").src = x.image; 
+$("img").style.display = "block"; 
+$("instruction").textContent = x.instruction; 
+$("instruction").style.display = "block"; 
+ 
+$("pool").style.display = "none"; 
+$("check").style.display = "none"; 
+$("continue").style.display = "block"; 
+} 
+ 
+function load(){ 
+locked = false; 
+$("feedback").style.display = "none"; 
+$("feedback").className = "feedback"; 
+$("feedback").textContent = ""; 
+ 
+$("card").querySelectorAll("input").forEach(i => i.remove()); 
+ 
+$("progress").style.width = n / lessons.length * 100 + "%"; 
+ 
+let x = lessons[n]; 
+ 
+if(x.type === "cookies"){ loadCookies(x); return; } 
+if(x.type === "calc"){ loadCalc(x); return; } 
+if(x.type === "tip"){ loadTip(x); return; } 
+} 
+ 
+$("continue").onclick = () => { 
+if(locked) return; 
+ 
+/* REMOVE COOKIES ONLY AFTER PART 2 */ 
+if (lessons[n].type === "calc" && n === 1) { 
+cookiesOnPlate.forEach(c => c.remove()); 
+cookiesOnPlate = []; 
+} 
+ 
+n++; 
+if(n >= lessons.length){ finish(); return; } 
+load(); 
+}; 
+ 
+$("check").onclick = () => { 
+let x = lessons[n]; 
+let box = $("answerBox"); 
+if (!box) return; 
+ 
+let val = parseFloat(box.value); 
+ 
+if (isNaN(val)) { 
+showFeedback("yellow","Enter a number."); 
+return; 
+} 
+ 
+/* FIRST CALC — cookies × 18 */ 
+if (n === 1) { 
+let expected = cookiesOnPlate.length * 18; 
+if (Math.abs(val - expected) < 0.01) { 
+correctAdvance(); 
+} else { 
+showFeedback("red","Not right. Try again."); 
+} 
+return; 
+} 
+ 
+/* OTHER CALC QUESTIONS — fixed answers */ 
+if (Math.abs(val - x.answer) < 0.01) { 
+correctAdvance(); 
+} else { 
+showFeedback("red","Not right. Try again."); 
+} 
+}; 
+ 
+function correctAdvance(){ 
+locked = true; 
+showFeedback("green","Correct!"); 
+setTimeout(() => { 
+n++; 
+if(n >= lessons.length){ finish(); return; } 
+load(); 
+}, 600); 
+} 
+ 
+function showFeedback(type,text){ 
+$("feedback").className = "feedback " + type; 
+$("feedback").textContent = text; 
+$("feedback").style.display = "block"; 
+} 
+ 
+function finish(){ 
+$("lesson").style.display = "none"; 
+$("complete").style.display = "flex"; 
+$("progress").style.width = "100%"; 
+} 
+ 
+load(); 
+ 
+</script> 
+</body> 
 </html>
+```
