@@ -1,1 +1,970 @@
-<h1>yo currently under development</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Carb Counting Refresher</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    touch-action:manipulation;
+    -webkit-text-size-adjust:100%;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f7f5fb;
+    color:#29233a;
+}
+
+/* TOP */
+
+.topbar{
+    height:58px;
+    background:white;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    padding:0 15px;
+}
+
+.back{
+    color:#555;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.progress-wrap{
+    width:420px;
+    max-width:55vw;
+    margin:auto;
+}
+
+.progress-bg{
+    height:9px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress{
+    width:0%;
+    height:100%;
+    background:#6c3fc5;
+    border-radius:20px;
+}
+
+/* PAGE */
+
+.page{
+    height:calc(100dvh - 58px);
+    max-width:850px;
+    margin:auto;
+    padding:10px;
+    display:flex;
+    flex-direction:column;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:14px;
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+/* FORMULA */
+
+.formula{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.formula img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* QUESTION */
+
+.question{
+    text-align:center;
+    font-size:25px;
+    font-weight:bold;
+    margin:4px 0 12px;
+}
+
+.question span{
+    color:#6c3fc5;
+}
+
+/* LABEL */
+
+.label{
+    width:100%;
+    max-width:500px;
+    margin:auto;
+    border:1px solid #ccc;
+    border-radius:8px;
+    background:white;
+    color:#111;
+    padding:15px;
+    font-family:Arial,sans-serif;
+}
+
+.label-title{
+    font-size:24px;
+    font-weight:bold;
+    border-bottom:7px solid #111;
+    padding-bottom:5px;
+}
+
+.label-row{
+    display:flex;
+    justify-content:space-between;
+    padding:7px 0;
+    border-bottom:1px solid #aaa;
+    font-size:16px;
+}
+
+.label-row.big{
+    font-size:19px;
+    font-weight:bold;
+}
+
+.label-row.carbs{
+    font-size:21px;
+    font-weight:bold;
+}
+
+/* ANSWER */
+
+.answer-area{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin:12px 0;
+}
+
+.answer{
+    width:180px;
+    height:52px;
+    border:3px solid #6c3fc5;
+    border-radius:10px;
+    font-size:22px;
+    text-align:center;
+    outline:none;
+}
+
+.answer:focus{
+    box-shadow:0 0 0 3px #e8ddfa;
+}
+
+.unit{
+    font-size:19px;
+}
+
+/* FEEDBACK */
+
+.feedback{
+    min-height:35px;
+    text-align:center;
+    font-size:17px;
+    font-weight:bold;
+    padding:7px;
+}
+
+.correct{
+    color:#21853a;
+}
+
+.wrong{
+    color:#b00020;
+}
+
+/* STREAK */
+
+.streak{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    font-size:25px;
+    font-weight:bold;
+    overflow:hidden;
+}
+
+.fire{
+    font-size:27px;
+}
+
+.streak-number{
+    display:inline-block;
+}
+
+/* CONTROLS */
+
+.controls{
+    height:58px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+button{
+    font:inherit;
+    cursor:pointer;
+}
+
+.main-button{
+    border:0;
+    background:#6c3fc5;
+    color:white;
+    font-weight:bold;
+    padding:12px 32px;
+    border-radius:9px;
+    font-size:17px;
+}
+
+/* COMPLETE */
+
+.complete{
+    display:none;
+    height:calc(100dvh - 58px);
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.complete-box{
+    background:white;
+    padding:35px;
+    border-radius:15px;
+}
+
+.complete-box h1{
+    color:#6c3fc5;
+}
+
+/* NUMBER ANIMATION */
+
+.roll-up{
+    animation:rollUp .45s ease;
+}
+
+@keyframes rollUp{
+    0%{
+        transform:translateY(35px);
+        opacity:0;
+    }
+    60%{
+        transform:translateY(-5px);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+.roll-down{
+    animation:rollDown .8s ease;
+}
+
+@keyframes rollDown{
+    0%{
+        transform:translateY(0);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(35px);
+        opacity:0;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .topbar{
+        height:54px;
+        padding:0 10px;
+    }
+
+    .page{
+        height:calc(100dvh - 54px);
+        padding:6px;
+    }
+
+    .card{
+        padding:8px;
+    }
+
+    .question{
+        font-size:21px;
+        margin:3px 0 8px;
+    }
+
+    .label{
+        max-width:95%;
+        padding:10px;
+    }
+
+    .label-title{
+        font-size:20px;
+    }
+
+    .label-row{
+        padding:5px 0;
+        font-size:14px;
+    }
+
+    .label-row.big{
+        font-size:17px;
+    }
+
+    .label-row.carbs{
+        font-size:18px;
+    }
+
+    .answer-area{
+        margin:8px 0;
+    }
+
+    .answer{
+        width:160px;
+        height:48px;
+        font-size:20px;
+    }
+
+    .streak{
+        height:55px;
+        font-size:22px;
+    }
+
+    .fire{
+        font-size:24px;
+    }
+
+    .controls{
+        height:50px;
+    }
+
+    .main-button{
+        min-height:44px;
+        font-size:16px;
+    }
+}
+
+@media(max-width:650px) and (max-height:650px){
+
+    .question{
+        font-size:19px;
+    }
+
+    .label{
+        padding:7px;
+    }
+
+    .label-row{
+        padding:3px 0;
+    }
+
+    .answer-area{
+        margin:5px 0;
+    }
+
+    .streak{
+        height:45px;
+    }
+
+    .controls{
+        height:45px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+<a href="../index.html" class="back">
+Back
+</a>
+
+<div class="progress-wrap">
+    <div class="progress-bg">
+        <div class="progress" id="progress"></div>
+    </div>
+</div>
+
+</header>
+
+
+<main class="page" id="lesson">
+
+<div class="card">
+
+<!-- FORMULA SLIDE -->
+
+<div class="formula" id="formula">
+    <img src="carbcounting5/formula.jpg" alt="Carbohydrate formula">
+</div>
+
+
+<!-- QUESTION -->
+
+<div id="game" style="display:none;flex:1;min-height:0;flex-direction:column;">
+
+<div class="question" id="question"></div>
+
+<div class="label" id="label"></div>
+
+<div class="answer-area">
+
+<input
+    id="answer"
+    class="answer"
+    type="number"
+    step="0.1"
+    inputmode="decimal"
+    autocomplete="off"
+>
+
+<div class="unit">g carbs</div>
+
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="streak">
+
+<i class="fa-solid fa-fire fire"
+style="color:rgb(212,23,38);"></i>
+
+<span>Streak:</span>
+
+<span
+id="streak"
+class="streak-number"
+>
+0000
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="controls">
+
+<button
+class="main-button"
+id="continue"
+>
+Continue
+</button>
+
+<button
+class="main-button"
+id="check"
+style="display:none;"
+>
+Check
+</button>
+
+</div>
+
+</main>
+
+
+<section class="complete" id="complete">
+
+<div class="complete-box">
+
+<h1>Great job!</h1>
+
+<p>You completed the refresher.</p>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* FOOD DATABASE */
+
+const foods = [
+
+{
+    name:"Apple juice",
+    unit:"ml",
+    carbs:11
+},
+
+{
+    name:"Oat milk",
+    unit:"ml",
+    carbs:6.7
+},
+
+{
+    name:"Milk",
+    unit:"ml",
+    carbs:4.8
+},
+
+{
+    name:"Orange juice",
+    unit:"ml",
+    carbs:8.7
+},
+
+{
+    name:"Pasta",
+    unit:"g",
+    carbs:30
+},
+
+{
+    name:"Rice",
+    unit:"g",
+    carbs:28
+},
+
+{
+    name:"Bread",
+    unit:"g",
+    carbs:45
+},
+
+{
+    name:"Potato",
+    unit:"g",
+    carbs:17
+},
+
+{
+    name:"Cereal",
+    unit:"g",
+    carbs:75
+},
+
+{
+    name:"Ketchup",
+    unit:"g",
+    carbs:25
+}
+
+];
+
+
+let currentFood;
+let portion;
+let answer;
+let streak = 0;
+let questionNumber = 0;
+let locked = false;
+
+
+/* ELEMENTS */
+
+const formula = document.getElementById("formula");
+const game = document.getElementById("game");
+const question = document.getElementById("question");
+const label = document.getElementById("label");
+const answerBox = document.getElementById("answer");
+const feedback = document.getElementById("feedback");
+const streakDisplay = document.getElementById("streak");
+const progress = document.getElementById("progress");
+const continueButton = document.getElementById("continue");
+const checkButton = document.getElementById("check");
+
+
+/* START */
+
+continueButton.onclick = function(){
+
+    formula.style.display="none";
+
+    game.style.display="flex";
+
+    continueButton.style.display="none";
+
+    checkButton.style.display="block";
+
+    newQuestion();
+
+};
+
+
+/* RANDOM NUMBER */
+
+function randomPortion(food){
+
+    if(food.unit==="ml"){
+
+        const options=[
+            50,
+            75,
+            100,
+            125,
+            150,
+            175,
+            200,
+            250
+        ];
+
+        return options[
+            Math.floor(
+                Math.random()*options.length
+            )
+        ];
+
+    }else{
+
+        const options=[
+            25,
+            40,
+            50,
+            60,
+            75,
+            80,
+            100,
+            120,
+            150,
+            200
+        ];
+
+        return options[
+            Math.floor(
+                Math.random()*options.length
+            )
+        ];
+    }
+
+}
+
+
+/* NEW QUESTION */
+
+function newQuestion(){
+
+    locked=false;
+
+    answerBox.value="";
+
+    feedback.textContent="";
+
+    feedback.className="feedback";
+
+    currentFood =
+        foods[
+            Math.floor(
+                Math.random()*foods.length
+            )
+        ];
+
+    portion =
+        randomPortion(currentFood);
+
+    answer =
+        (currentFood.carbs * portion) / 100;
+
+    answer =
+        Math.round(answer*10)/10;
+
+
+    question.innerHTML =
+        `Find the carbs for <span>${portion}${currentFood.unit}</span> of <span>${currentFood.name}</span>`;
+
+
+    label.innerHTML = `
+
+        <div class="label-title">
+            ${currentFood.name}
+        </div>
+
+        <div class="label-row big">
+            <span>Nutrition information</span>
+            <span></span>
+        </div>
+
+        <div class="label-row">
+            <span>Serving size</span>
+            <span>100${currentFood.unit}</span>
+        </div>
+
+        <div class="label-row carbs">
+            <span>Carbohydrate</span>
+            <span>${currentFood.carbs}g</span>
+        </div>
+
+    `;
+
+    questionNumber++;
+
+    progress.style.width =
+        Math.min(
+            (questionNumber/10)*100,
+            100
+        )+"%";
+
+    answerBox.focus();
+
+}
+
+
+/* CHECK */
+
+checkButton.onclick=function(){
+
+    if(locked)return;
+
+    const value =
+        parseFloat(answerBox.value);
+
+    if(isNaN(value)){
+
+        feedback.className="feedback wrong";
+
+        feedback.textContent=
+            "Enter an answer first.";
+
+        return;
+    }
+
+
+    if(Math.abs(value-answer)<0.11){
+
+        correct();
+
+    }else{
+
+        wrong();
+
+    }
+
+};
+
+
+/* ENTER KEY */
+
+answerBox.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key==="Enter"){
+
+            checkButton.click();
+
+        }
+
+    }
+);
+
+
+/* CORRECT */
+
+function correct(){
+
+    locked=true;
+
+    streak++;
+
+    feedback.className=
+        "feedback correct";
+
+    feedback.textContent=
+        "Correct!";
+
+
+    animateStreak(
+        streak,
+        false
+    );
+
+
+    setTimeout(
+        function(){
+
+            newQuestion();
+
+        },
+        800
+    );
+
+}
+
+
+/* WRONG */
+
+function wrong(){
+
+    locked=true;
+
+    feedback.className=
+        "feedback wrong";
+
+    feedback.textContent=
+        "Not quite. The answer was "+answer+"g.";
+
+
+    animateStreak(
+        0,
+        true
+    );
+
+
+    streak=0;
+
+
+    setTimeout(
+        function(){
+
+            newQuestion();
+
+        },
+        1100
+    );
+
+}
+
+
+/* STREAK ANIMATION */
+
+function animateStreak(target,reset){
+
+    if(reset){
+
+        let current =
+            parseInt(
+                streakDisplay.textContent
+            ) || 0;
+
+        let duration=750;
+
+        let start=performance.now();
+
+        function animate(time){
+
+            let progressValue =
+                Math.min(
+                    (time-start)/duration,
+                    1
+                );
+
+            let value =
+                Math.floor(
+                    current*
+                    (1-progressValue)
+                );
+
+            streakDisplay.textContent =
+                String(value).padStart(4,"0");
+
+            if(progressValue<1){
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            }else{
+
+                streakDisplay.textContent="0000";
+
+            }
+
+        }
+
+        requestAnimationFrame(animate);
+
+        return;
+    }
+
+
+    let current =
+        parseInt(
+            streakDisplay.textContent
+        ) || 0;
+
+    let start=current;
+
+    let duration=500;
+
+    let startTime=performance.now();
+
+
+    function animate(time){
+
+        let p=
+            Math.min(
+                (time-startTime)/duration,
+                1
+            );
+
+        let value=
+            Math.floor(
+                start+
+                (target-start)*p
+            );
+
+        streakDisplay.textContent=
+            String(value).padStart(4,"0");
+
+        if(p<1){
+
+            requestAnimationFrame(
+                animate
+            );
+
+        }else{
+
+            streakDisplay.classList.remove(
+                "roll-up"
+            );
+
+            void streakDisplay.offsetWidth;
+
+            streakDisplay.classList.add(
+                "roll-up"
+            );
+
+        }
+
+    }
+
+    requestAnimationFrame(animate);
+
+}
+
+</script>
+
+</body>
+</html>
