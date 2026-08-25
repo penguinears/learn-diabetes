@@ -6,521 +6,579 @@
 <title>Carb Counting 1</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f7f5fb;
-    color: #29233a;
-    height: 100vh;
-    height: 100dvh;
-    min-height: 100svh;
-    overflow: hidden;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    touch-action:manipulation;
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
 }
 
-.topbar {
-    height: 58px;
-    background: white;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
+body{
+    font-family:Arial,sans-serif;
+    background:#f7f5fb;
+    color:#29233a;
 }
 
-.back {
-    text-decoration: none;
-    color: #555;
-    font-size: 15px;
+/* TOP */
+
+.topbar{
+    height:58px;
+    background:white;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    flex-shrink:0;
 }
 
-.progress-wrap {
-    width: 420px;
-    max-width: 55vw;
-    margin: auto;
+.back{
+    text-decoration:none;
+    color:#555;
+    font-size:15px;
+    white-space:nowrap;
 }
 
-.progress-bg {
-    height: 9px;
-    background: #e5e7ea;
-    border-radius: 20px;
-    overflow: hidden;
+.progress-wrap{
+    width:420px;
+    max-width:55vw;
+    margin:auto;
 }
 
-.progress {
-    width: 0%;
-    height: 100%;
-    background: #6c3fc5;
-    border-radius: 20px;
-    transition: width .5s cubic-bezier(.2,.8,.2,1);
+.progress-bg{
+    height:9px;
+    background:#e5e7ea;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-.page {
-    height: calc(100vh - 58px);
-    height: calc(100dvh - 58px);
-    max-width: 900px;
-    margin: auto;
-    padding: 12px 20px;
-    display: flex;
-    flex-direction: column;
+.progress{
+    width:0%;
+    height:100%;
+    background:#6c3fc5;
+    border-radius:20px;
+    transition:width .5s cubic-bezier(.2,.8,.2,1);
 }
 
-.card {
-    background: white;
-    border: 1px solid #dddfe3;
-    border-radius: 14px;
-    padding: 14px;
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
+/* PAGE */
+
+.page{
+    height:calc(100vh - 58px);
+    height:calc(100dvh - 58px);
+    max-width:900px;
+    margin:auto;
+    padding:10px 16px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
 }
 
-.meal-image {
-    width: 100%;
-    height: min(32vh, 220px);
-    object-fit: contain;
-    flex-shrink: 1;
+.card{
+    background:white;
+    border:1px solid #dddfe3;
+    border-radius:14px;
+    padding:12px;
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
 }
 
-.instruction {
-    text-align: center;
-    color: #656b73;
-    font-size: 14px;
-    margin: 5px 0 9px;
+/* IMAGES */
+
+.meal-image{
+    width:100%;
+    max-width:100%;
+    height:min(30vh,220px);
+    object-fit:contain;
+    flex-shrink:1;
+    user-select:none;
+    -webkit-user-drag:none;
 }
 
-.intro-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+/* TEXT */
+
+.instruction{
+    text-align:center;
+    color:#656b73;
+    font-size:14px;
+    margin:5px 0 8px;
+    flex-shrink:0;
 }
 
-.intro-content h1 {
-    color: #6c3fc5;
-    font-size: 30px;
-    margin: 0 0 15px;
+.intro-content{
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:15px;
+    overflow:hidden;
 }
 
-.intro-content h2 {
-    color: #29233a;
-    font-size: 24px;
-    margin: 0 0 15px;
+.intro-content h1{
+    color:#6c3fc5;
+    font-size:30px;
+    margin:0 0 15px;
 }
 
-.intro-content p {
-    max-width: 600px;
-    color: #656b73;
-    font-size: 17px;
-    line-height: 1.5;
-    margin: 7px 0;
+.intro-content h2{
+    color:#29233a;
+    font-size:24px;
+    margin:0 0 15px;
 }
 
-.continue-button {
-    border: none;
-    background: #6c3fc5;
-    color: white;
-    font-weight: bold;
-    padding: 13px 35px;
-    border-radius: 9px;
-    font-size: 16px;
-    cursor: pointer;
+.intro-content p{
+    max-width:600px;
+    color:#656b73;
+    font-size:17px;
+    line-height:1.5;
+    margin:7px 0;
 }
 
-.food-pool {
-    min-height: 55px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+/* BUTTONS */
+
+.continue-button{
+    border:none;
+    background:#6c3fc5;
+    color:white;
+    font-weight:bold;
+    padding:13px 35px;
+    border-radius:9px;
+    font-size:16px;
+    cursor:pointer;
 }
 
-.food {
-    background: white;
-    border: 2px solid #d8dce1;
-    border-radius: 9px;
-    min-width: 105px;
-    min-height: 50px;
-    padding: 8px 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: grab;
-    user-select: none;
+.check{
+    border:none;
+    background:#6c3fc5;
+    color:white;
+    font-weight:bold;
+    padding:11px 28px;
+    border-radius:8px;
+    font-size:15px;
 }
 
-.food.dragging {
-    opacity: .45;
+.hint-button{
+    border:1px solid #b9cef5;
+    background:white;
+    color:#6c3fc5;
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:14px;
 }
 
-.categories {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 10px;
-    flex: 1;
-    min-height: 0;
+button{
+    font-family:Arial,sans-serif;
+    cursor:pointer;
 }
 
-.category {
-    border: 2px dashed #cbd0d6;
-    border-radius: 11px;
-    padding: 8px;
-    background: #fafbfc;
-    min-height: 100px;
+/* FOOD POOL */
+
+.food-pool{
+    min-height:55px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    flex-shrink:0;
 }
 
-.category h2 {
-    font-size: 16px;
-    text-align: center;
-    margin: 3px 0 8px;
+.food{
+    background:white;
+    border:2px solid #d8dce1;
+    border-radius:9px;
+    min-width:105px;
+    min-height:50px;
+    padding:8px 12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-weight:bold;
+    font-size:14px;
+    cursor:grab;
+    user-select:none;
+    touch-action:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout:none;
 }
 
-.category-items {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
+.food.dragging{
+    opacity:.45;
 }
 
-.category.over {
-    border-color: #6c3fc5;
-    background: #f0eaff;
+/* CATEGORIES */
+
+.categories{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:8px;
+    flex:1;
+    min-height:0;
+    overflow:hidden;
 }
 
-.category .food {
-    min-width: 90px;
-    min-height: 43px;
-    font-size: 13px;
-    cursor: grab;
+.category{
+    border:2px dashed #cbd0d6;
+    border-radius:11px;
+    padding:8px;
+    background:#fafbfc;
+    min-height:0;
+    overflow:hidden;
 }
 
-.feedback {
-    display: none;
-    text-align: center;
-    margin: 7px auto 0;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 14px;
+.category h2{
+    font-size:16px;
+    text-align:center;
+    margin:3px 0 8px;
 }
 
-.feedback.green {
-    display: block;
-    background: #e8f6ed;
-    border: 1px solid #9bd1aa;
-    color: #28643b;
+.category-items{
+    display:flex;
+    justify-content:center;
+    align-content:flex-start;
+    flex-wrap:wrap;
+    gap:6px;
+    overflow:hidden;
 }
 
-.feedback.yellow {
-    display: block;
-    background: #fff5d8;
-    border: 1px solid #e4c96e;
-    color: #705a17;
+.category.over{
+    border-color:#6c3fc5;
+    background:#f0eaff;
 }
 
-.feedback.red {
-    display: block;
-    background: #fdeaea;
-    border: 1px solid #dfa0a0;
-    color: #862e2e;
+.category .food{
+    min-width:90px;
+    min-height:43px;
+    font-size:13px;
+    cursor:grab;
 }
 
-.hint {
-    display: none;
-    text-align: center;
-    max-width: 600px;
-    margin: 7px auto 0;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: #eef4ff;
-    border: 1px solid #b8cef4;
-    color: #315c9e;
-    font-size: 13px;
+/* TOUCH DRAG */
+
+.touch-clone{
+    position:fixed;
+    z-index:999999;
+    pointer-events:none;
+    opacity:.85;
+    transform:scale(1.03);
 }
 
-.controls {
-    height: 52px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+/* FEEDBACK */
+
+.feedback{
+    display:none;
+    text-align:center;
+    margin:6px auto 0;
+    padding:7px 12px;
+    border-radius:8px;
+    font-size:14px;
+    flex-shrink:0;
 }
 
-button {
-    font-family: Arial, sans-serif;
-    cursor: pointer;
+.feedback.green{
+    display:block;
+    background:#e8f6ed;
+    border:1px solid #9bd1aa;
+    color:#28643b;
 }
 
-.check {
-    border: none;
-    background: #6c3fc5;
-    color: white;
-    font-weight: bold;
-    padding: 11px 28px;
-    border-radius: 8px;
-    font-size: 15px;
+.feedback.yellow{
+    display:block;
+    background:#fff5d8;
+    border:1px solid #e4c96e;
+    color:#705a17;
 }
 
-.hint-button {
-    border: 1px solid #b9cef5;
-    background: white;
-    color: #6c3fc5;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 14px;
+.feedback.red{
+    display:block;
+    background:#fdeaea;
+    border:1px solid #dfa0a0;
+    color:#862e2e;
 }
 
-.correct-pop {
-    animation: correctPop .35s ease;
+/* HINT */
+
+.hint{
+    display:none;
+    text-align:center;
+    max-width:600px;
+    margin:6px auto 0;
+    padding:7px 12px;
+    border-radius:8px;
+    background:#eef4ff;
+    border:1px solid #b8cef4;
+    color:#315c9e;
+    font-size:13px;
+    flex-shrink:0;
 }
 
-@keyframes correctPop {
-    0% {
-        transform: scale(1);
+/* CONTROLS */
+
+.controls{
+    height:52px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+
+.correct-pop{
+    animation:correctPop .35s ease;
+}
+
+@keyframes correctPop{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.025)}
+    100%{transform:scale(1)}
+}
+
+/* COMPLETE */
+
+.complete{
+    display:none;
+    height:calc(100vh - 58px);
+    height:calc(100dvh - 58px);
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:15px;
+}
+
+.complete-box{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:35px;
+    max-width:550px;
+}
+
+.complete-box h1{
+    margin-top:0;
+    color:#6c3fc5;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .topbar{
+        height:54px;
+        padding:0 10px;
     }
 
-    50% {
-        transform: scale(1.025);
+    .back{
+        font-size:17px;
     }
 
-    100% {
-        transform: scale(1);
-    }
-}
-
-.complete {
-    display: none;
-    height: calc(100vh - 58px);
-    height: calc(100dvh - 58px);
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.complete-box {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    padding: 35px;
-    max-width: 550px;
-}
-
-.complete-box h1 {
-    margin-top: 0;
-    color: #6c3fc5;
-}
-
-@media(max-width:650px) {
-
-    .topbar {
-        height: 54px;
-        padding: 0 10px;
+    .progress-wrap{
+        width:100%;
+        max-width:58vw;
     }
 
-    .back {
-        font-size: 17px;
-        white-space: nowrap;
+    .progress-bg{
+        height:10px;
     }
 
-    .progress-wrap {
-        width: 100%;
-        max-width: 58vw;
+    .page{
+        height:calc(100vh - 54px);
+        height:calc(100dvh - 54px);
+        min-height:0;
+        padding:5px 6px;
     }
 
-    .progress-bg {
-        height: 10px;
+    .card{
+        padding:7px;
+        border-radius:12px;
     }
 
-    .page {
-        height: calc(100vh - 54px);
-        height: calc(100dvh - 54px);
-        min-height: calc(100svh - 54px);
-        padding: 6px 7px;
+    .meal-image{
+        height:clamp(95px,22vh,175px);
+        max-height:30vh;
     }
 
-    .card {
-        padding: 8px;
-        border-radius: 12px;
+    .instruction{
+        font-size:15px;
+        line-height:1.2;
+        margin:3px 0 6px;
     }
 
-    .meal-image {
-        height: clamp(105px, 21vh, 180px);
+    .intro-content{
+        padding:8px;
     }
 
-    .instruction {
-        font-size: 16px;
-        line-height: 1.2;
-        margin: 4px 0 7px;
+    .intro-content h1{
+        font-size:27px;
+        margin-bottom:10px;
     }
 
-    .intro-content {
-        padding: 12px;
+    .intro-content h2{
+        font-size:21px;
+        margin-bottom:10px;
     }
 
-    .intro-content h1 {
-        font-size: 27px;
+    .intro-content p{
+        font-size:15px;
+        line-height:1.35;
+        margin:5px 0;
     }
 
-    .intro-content h2 {
-        font-size: 21px;
+    .continue-button{
+        min-height:46px;
+        padding:9px 28px;
+        font-size:16px;
     }
 
-    .intro-content p {
-        font-size: 16px;
+    .food-pool{
+        min-height:52px;
+        gap:6px;
     }
 
-    .continue-button {
-        min-height: 48px;
-        padding: 10px 30px;
-        font-size: 17px;
+    .food{
+        min-width:min(43vw,170px);
+        min-height:48px;
+        padding:7px 9px;
+        font-size:15px;
+        border-radius:9px;
     }
 
-    .food-pool {
-        min-height: 58px;
-        gap: 7px;
+    .categories{
+        gap:6px;
+        margin-top:6px;
     }
 
-    .food {
-        min-width: min(44vw, 170px);
-        min-height: 54px;
-        padding: 8px 10px;
-        font-size: 16px;
-        border-radius: 10px;
-        touch-action: none;
+    .category{
+        padding:5px 4px;
+        border-radius:10px;
     }
 
-    .categories {
-        gap: 7px;
-        margin-top: 7px;
+    .category h2{
+        font-size:15px;
+        line-height:1.1;
+        margin:3px 0 6px;
     }
 
-    .category {
-        padding: 7px 5px;
-        min-height: 0;
+    .category-items{
+        gap:5px;
     }
 
-    .category h2 {
-        font-size: 16px;
-        line-height: 1.15;
-        margin: 3px 0 7px;
+    .category .food{
+        min-width:min(39vw,145px);
+        min-height:44px;
+        padding:6px 5px;
+        font-size:14px;
     }
 
-    .category-items {
-        gap: 6px;
+    .feedback{
+        margin-top:4px;
+        padding:6px 8px;
+        font-size:14px;
+        line-height:1.15;
     }
 
-    .category .food {
-        min-width: min(40vw, 150px);
-        min-height: 50px;
-        padding: 7px 6px;
-        font-size: 15px;
+    .hint{
+        margin-top:4px;
+        padding:6px 8px;
+        font-size:13px;
+        line-height:1.15;
     }
 
-    .feedback {
-        margin-top: 5px;
-        padding: 7px 9px;
-        font-size: 15px;
-        line-height: 1.2;
+    .controls{
+        height:50px;
+        gap:6px;
     }
 
-    .hint {
-        margin-top: 5px;
-        padding: 7px 9px;
-        font-size: 14px;
-        line-height: 1.2;
+    .check{
+        min-width:125px;
+        min-height:44px;
+        padding:8px 20px;
+        font-size:16px;
     }
 
-    .controls {
-        height: 54px;
-        gap: 7px;
-    }
-
-    .check {
-        min-width: 135px;
-        min-height: 46px;
-        padding: 9px 22px;
-        font-size: 17px;
-    }
-
-    .hint-button {
-        min-width: 75px;
-        min-height: 46px;
-        padding: 9px 14px;
-        font-size: 16px;
+    .hint-button{
+        min-width:70px;
+        min-height:44px;
+        padding:8px 13px;
+        font-size:15px;
     }
 }
 
-@media(max-width:650px) and (max-height:700px) {
+/* SMALL PHONES */
 
-    .meal-image {
-        height: clamp(85px, 17vh, 135px);
+@media(max-width:650px) and (max-height:700px){
+
+    .meal-image{
+        height:clamp(75px,17vh,125px);
     }
 
-    .card {
-        padding: 6px;
+    .card{
+        padding:5px;
     }
 
-    .instruction {
-        font-size: 15px;
-        margin: 2px 0 5px;
+    .instruction{
+        font-size:14px;
+        margin:2px 0 4px;
     }
 
-    .food-pool {
-        min-height: 52px;
-        gap: 5px;
+    .food-pool{
+        min-height:48px;
+        gap:4px;
     }
 
-    .food {
-        min-height: 48px;
-        font-size: 15px;
+    .food{
+        min-height:43px;
+        font-size:14px;
+        padding:6px 7px;
     }
 
-    .category {
-        padding: 5px 4px;
+    .category{
+        padding:4px 3px;
     }
 
-    .category h2 {
-        font-size: 14px;
-        margin: 2px 0 5px;
+    .category h2{
+        font-size:13px;
+        margin:2px 0 4px;
     }
 
-    .category .food {
-        min-height: 44px;
-        font-size: 14px;
+    .category .food{
+        min-height:40px;
+        font-size:13px;
+        padding:5px 4px;
     }
 
     .feedback,
-    .hint {
-        padding: 5px 7px;
-        font-size: 13px;
+    .hint{
+        padding:5px 6px;
+        font-size:12px;
     }
 
-    .controls {
-        height: 48px;
+    .controls{
+        height:46px;
     }
 
     .check,
-    .hint-button {
-        min-height: 42px;
+    .hint-button{
+        min-height:40px;
     }
 }
 
-@media (hover: none) and (pointer: coarse) {
-    .food {
-        -webkit-tap-highlight-color: transparent;
+@media(hover:none) and (pointer:coarse){
+
+    .food{
+        -webkit-tap-highlight-color:transparent;
     }
 }
 </style>
@@ -530,761 +588,813 @@ button {
 
 <header class="topbar">
 
-    <a href="../index.html" class="back">
-        Back
-    </a>
+<a href="../index.html" class="back">
+Back
+</a>
 
-    <div class="progress-wrap">
-        <div class="progress-bg">
-            <div class="progress" id="progress"></div>
-        </div>
-    </div>
+<div class="progress-wrap">
+<div class="progress-bg">
+<div class="progress" id="progress"></div>
+</div>
+</div>
 
 </header>
 
+
 <main class="page" id="lesson">
 
-    <div class="card" id="mainCard">
+<div class="card" id="mainCard">
 
-        <div id="introContent" class="intro-content">
+<div id="introContent" class="intro-content">
 
-            <h1>Carb Counting 1</h1>
+<h1>Carb Counting 1</h1>
 
-            <h2>Where do the carbs go?</h2>
+<h2>Where do the carbs go?</h2>
 
-            <p>
-                In this lesson, you'll learn which foods
-                contain more carbohydrate and which contain
-                little or no carbohydrate.
-            </p>
+<p>
+In this lesson, you'll learn which foods
+contain more carbohydrate and which contain
+little or no carbohydrate.
+</p>
 
-            <p>
-                Let's get started.
-            </p>
+<p>
+Let's get started.
+</p>
 
-        </div>
+</div>
 
-        <img
-            class="meal-image"
-            id="mealImage"
-            src=""
-            alt="Lesson"
-            style="display:none;"
-        >
 
-        <div class="instruction" style="display:none;">
-            Drag the foods into the correct group.
-        </div>
+<img
+class="meal-image"
+id="mealImage"
+src=""
+alt="Lesson"
+style="display:none;"
+>
 
-        <div
-            class="food-pool"
-            id="foodPool"
-            style="display:none;"
-        ></div>
 
-        <div class="categories" style="display:none;">
+<div
+class="instruction"
+style="display:none;"
+>
+Drag the foods into the correct group.
+</div>
 
-            <div
-                class="category"
-                data-category="low"
-            >
 
-                <h2>Little or no carbs</h2>
+<div
+class="food-pool"
+id="foodPool"
+style="display:none;"
+></div>
 
-                <div
-                    class="category-items"
-                    id="lowItems"
-                ></div>
 
-            </div>
+<div
+class="categories"
+style="display:none;"
+>
 
-            <div
-                class="category"
-                data-category="high"
-            >
+<div
+class="category"
+data-category="low"
+>
 
-                <h2>Higher in carbs</h2>
+<h2>Little or no carbs</h2>
 
-                <div
-                    class="category-items"
-                    id="highItems"
-                ></div>
+<div
+class="category-items"
+id="lowItems"
+></div>
 
-            </div>
+</div>
 
-        </div>
 
-        <div
-            class="feedback"
-            id="feedback"
-        ></div>
+<div
+class="category"
+data-category="high"
+>
 
-        <div
-            class="hint"
-            id="hint"
-        ></div>
+<h2>Higher in carbs</h2>
 
-    </div>
+<div
+class="category-items"
+id="highItems"
+></div>
 
-    <div class="controls">
+</div>
 
-        <button
-            class="continue-button"
-            id="continueButton"
-        >
-            Continue
-        </button>
+</div>
 
-        <button
-            class="check"
-            id="checkButton"
-            style="display:none;"
-        >
-            Check
-        </button>
 
-        <button
-            class="hint-button"
-            id="hintButton"
-            style="display:none;"
-        >
-            Hint
-        </button>
+<div
+class="feedback"
+id="feedback"
+></div>
 
-    </div>
+
+<div
+class="hint"
+id="hint"
+></div>
+
+</div>
+
+
+<div class="controls">
+
+<button
+class="continue-button"
+id="continueButton"
+>
+Continue
+</button>
+
+<button
+class="check"
+id="checkButton"
+style="display:none;"
+>
+Check
+</button>
+
+<button
+class="hint-button"
+id="hintButton"
+style="display:none;"
+>
+Hint
+</button>
+
+</div>
 
 </main>
 
+
 <section
-    class="complete"
-    id="complete"
+class="complete"
+id="complete"
 >
 
-    <div class="complete-box">
+<div class="complete-box">
 
-        <h1>Lesson complete</h1>
+<h1>Lesson complete</h1>
 
-        <p>
-            You can now start spotting foods that contain
-            more carbohydrate.
-        </p>
+<p>
+You can now start spotting foods that contain
+more carbohydrate.
+</p>
 
-        <p>
-            Next you'll learn how to use food labels
-            and weighing to work out carbohydrate amounts.
-        </p>
+<p>
+Next you'll learn how to use food labels
+and weighing to work out carbohydrate amounts.
+</p>
 
-    </div>
+</div>
 
 </section>
 
+
 <script>
 
-const meals = [
+const meals=[
 
-    /* SLIDE 1 — INTRODUCTION */
-    {
-        type: "intro",
-        title: "Carb Counting 1",
-        heading: "Where do the carbs go?",
-        text: [
-            "In this lesson, you'll learn which foods contain more carbohydrate and which contain little or no carbohydrate.",
-            "Let's get started."
-        ]
-    },
+/* SLIDE 1 — INTRODUCTION */
 
-    /* SLIDE 2 — INTRODUCTION */
-    {
-        type: "intro",
-        title: "Carbohydrates",
-        heading: "Why do carbs matter?",
-        text: [
-            "Carbohydrate is found in foods such as bread, rice, potatoes, pasta, fruit and milk.",
-            "When you have diabetes, knowing how much carbohydrate is in your food can help you manage your blood glucose."
-        ]
-    },
+{
+type:"intro",
+title:"Carb Counting 1",
+heading:"Where do the carbs go?",
+text:[
+"In this lesson, you'll learn which foods contain more carbohydrate and which contain little or no carbohydrate.",
+"Let's get started."
+]
+},
 
-    /* SLIDE 3 — FOOD QUESTION */
-    {
-        image: "carbcount1/1.jpg",
+/* SLIDE 2 — INTRODUCTION */
 
-        foods: [
-            {
-                name: "Egg",
-                category: "low"
-            },
-            {
-                name: "Cheese",
-                category: "low"
-            },
-            {
-                name: "Milk",
-                category: "high"
-            },
-            {
-                name: "Toast",
-                category: "high"
-            }
-        ],
+{
+type:"intro",
+title:"Carbohydrates",
+heading:"Why do carbs matter?",
+text:[
+"Carbohydrate is found in foods such as bread, rice, potatoes, pasta, fruit and milk.",
+"When you have diabetes, knowing how much carbohydrate is in your food can help you manage your blood glucose."
+]
+},
 
-        hints: [
-            "Think about which foods are more like bread or other carbohydrate foods.",
-            "Toast is made from bread. Milk also contains carbohydrate.",
-            "Egg and cheese are the two foods in this activity with little or no carbohydrate."
-        ]
-    },
+/* SLIDE 3 — FOOD QUESTION */
 
-    /* SLIDE 4 — FOOD QUESTION */
-    {
-        image: "carbcount1/2.jpg",
+{
+image:"carbcount1/1.jpg",
 
-        foods: [
-            {
-                name: "Cucumber",
-                category: "low"
-            },
-            {
-                name: "Cheese",
-                category: "low"
-            },
-            {
-                name: "Crisps",
-                category: "high"
-            },
-            {
-                name: "Sandwich",
-                category: "high"
-            }
-        ],
+foods:[
+{name:"Egg",category:"low"},
+{name:"Cheese",category:"low"},
+{name:"Milk",category:"high"},
+{name:"Toast",category:"high"}
+],
 
-        hints: [
-            "Think about what crisps and sandwiches are made from.",
-            "Crisps are made from potatoes. A sandwich contains bread.",
-            "Cucumber and cheese are the two foods with little or no carbohydrate in this activity."
-        ]
-    },
+hints:[
+"Think about which foods are more like bread or other carbohydrate foods.",
+"Toast is made from bread. Milk also contains carbohydrate.",
+"Egg and cheese are the two foods in this activity with little or no carbohydrate."
+]
+},
 
-    /* SLIDE 5 — SANDWICH QUESTION */
-    {
-        image: "carbcount1/3.jpg",
+/* SLIDE 4 — FOOD QUESTION */
 
-        foods: [
-            {
-                name: "Bread",
-                category: "high"
-            },
-            {
-                name: "Cheese",
-                category: "low"
-            },
-            {
-                name: "Ham",
-                category: "low"
-            }
-        ],
+{
+image:"carbcount1/2.jpg",
 
-        hints: [
-            "Think about which part of the sandwich is made from a carbohydrate food.",
-            "Bread contains carbohydrate, while cheese and ham have little or no carbohydrate.",
-            "Bread is the food in this sandwich with the most carbohydrate."
-        ]
-    },
+foods:[
+{name:"Cucumber",category:"low"},
+{name:"Cheese",category:"low"},
+{name:"Crisps",category:"high"},
+{name:"Sandwich",category:"high"}
+],
 
-    /* FINAL FOOD QUESTION */
-    {
-        image: "carbcount1/4.jpg",
+hints:[
+"Think about what crisps and sandwiches are made from.",
+"Crisps are made from potatoes. A sandwich contains bread.",
+"Cucumber and cheese are the two foods with little or no carbohydrate in this activity."
+]
+},
 
-        foods: [
-            {
-                name: "Rice",
-                category: "high"
-            },
-            {
-                name: "Chicken",
-                category: "low"
-            },
-            {
-                name: "Broccoli",
-                category: "low"
-            },
-            {
-                name: "Yogurt pot",
-                category: "high"
-            }
-        ],
+/* SLIDE 5 — SANDWICH QUESTION */
 
-        hints: [
-            "Think about which foods contain carbohydrate.",
-            "Rice contains lots of carbohydrate. A yogurt pot also contains carbohydrate.",
-            "Chicken and broccoli are the foods with little or no carbohydrate in this activity."
-        ]
-    }
+{
+image:"carbcount1/3.jpg",
+
+foods:[
+{name:"Bread",category:"high"},
+{name:"Cheese",category:"low"},
+{name:"Ham",category:"low"}
+],
+
+hints:[
+"Think about which part of the sandwich is made from a carbohydrate food.",
+"Bread contains carbohydrate, while cheese and ham have little or no carbohydrate.",
+"Bread is the food in this sandwich with the most carbohydrate."
+]
+},
+
+/* FINAL FOOD QUESTION */
+
+{
+image:"carbcount1/4.jpg",
+
+foods:[
+{name:"Rice",category:"high"},
+{name:"Chicken",category:"low"},
+{name:"Broccoli",category:"low"},
+{name:"Yogurt pot",category:"high"}
+],
+
+hints:[
+"Think about which foods contain carbohydrate.",
+"Rice contains lots of carbohydrate. A yogurt pot also contains carbohydrate.",
+"Chicken and broccoli are the foods with little or no carbohydrate in this activity."
+]
+}
 
 ];
 
-let currentMeal = 0;
-let draggedFood = null;
-let hintNumber = 0;
-let locked = false;
 
-function loadMeal() {
+let currentMeal=0;
+let draggedFood=null;
+let hintNumber=0;
+let locked=false;
 
-    locked = false;
-    hintNumber = 0;
+let touchClone=null;
+let touchFood=null;
 
-    const meal = meals[currentMeal];
 
-    const introContent =
-        document.getElementById("introContent");
+/* LOAD */
 
-    const mealImage =
-        document.getElementById("mealImage");
+function loadMeal(){
 
-    const instruction =
-        document.querySelector(".instruction");
+locked=false;
+hintNumber=0;
 
-    const foodPool =
-        document.getElementById("foodPool");
+const meal=meals[currentMeal];
 
-    const categories =
-        document.querySelector(".categories");
+const introContent=
+document.getElementById("introContent");
 
-    const checkButton =
-        document.getElementById("checkButton");
+const mealImage=
+document.getElementById("mealImage");
 
-    const hintButton =
-        document.getElementById("hintButton");
+const instruction=
+document.querySelector(".instruction");
 
-    const continueButton =
-        document.getElementById("continueButton");
+const foodPool=
+document.getElementById("foodPool");
 
-    const feedback =
-        document.getElementById("feedback");
+const categories=
+document.querySelector(".categories");
 
-    const hint =
-        document.getElementById("hint");
+const checkButton=
+document.getElementById("checkButton");
 
-    feedback.className = "feedback";
-    feedback.textContent = "";
+const hintButton=
+document.getElementById("hintButton");
 
-    hint.style.display = "none";
-    hint.textContent = "";
+const continueButton=
+document.getElementById("continueButton");
 
-    foodPool.innerHTML = "";
-    document.getElementById("lowItems").innerHTML = "";
-    document.getElementById("highItems").innerHTML = "";
+const feedback=
+document.getElementById("feedback");
 
-    /*
-        INTRODUCTION SLIDES
-    */
-    if (meal.type === "intro") {
+const hint=
+document.getElementById("hint");
 
-        introContent.style.display = "flex";
 
-        introContent.innerHTML = `
-            <h1>${meal.title}</h1>
-            <h2>${meal.heading}</h2>
-            ${meal.text.map(text => `<p>${text}</p>`).join("")}
-        `;
+feedback.className="feedback";
+feedback.textContent="";
 
-        mealImage.style.display = "none";
-        instruction.style.display = "none";
-        foodPool.style.display = "none";
-        categories.style.display = "none";
+hint.style.display="none";
+hint.textContent="";
 
-        feedback.style.display = "none";
-        hint.style.display = "none";
+foodPool.innerHTML="";
+document.getElementById("lowItems").innerHTML="";
+document.getElementById("highItems").innerHTML="";
 
-        checkButton.style.display = "none";
-        hintButton.style.display = "none";
 
-        continueButton.style.display = "inline-block";
+if(meal.type==="intro"){
 
-        updateProgress();
-        return;
-    }
+introContent.style.display="flex";
 
-    /*
-        NORMAL QUIZ SLIDES
-    */
+introContent.innerHTML=`
+<h1>${meal.title}</h1>
+<h2>${meal.heading}</h2>
+${meal.text.map(text=>`<p>${text}</p>`).join("")}
+`;
 
-    introContent.style.display = "none";
+mealImage.style.display="none";
+instruction.style.display="none";
+foodPool.style.display="none";
+categories.style.display="none";
 
-    mealImage.style.display = "block";
-    mealImage.src = meal.image;
+feedback.style.display="none";
+hint.style.display="none";
 
-    instruction.style.display = "block";
-    foodPool.style.display = "flex";
-    categories.style.display = "grid";
+checkButton.style.display="none";
+hintButton.style.display="none";
 
-    checkButton.style.display = "inline-block";
-    hintButton.style.display = "inline-block";
-    continueButton.style.display = "none";
+continueButton.style.display="inline-block";
 
-    const foods =
-        [...meal.foods].sort(
-            () => Math.random() - .5
-        );
+updateProgress();
 
-    foods.forEach(food => {
-        createFood(food);
-    });
-
-    updateProgress();
+return;
 }
 
-function createFood(food) {
 
-    const element =
-        document.createElement("div");
+introContent.style.display="none";
 
-    element.className = "food";
-    element.textContent = food.name;
-    element.draggable = true;
-    element.dataset.category = food.category;
+mealImage.style.display="block";
+mealImage.src=meal.image;
 
-    element.addEventListener(
-        "dragstart",
-        function() {
+instruction.style.display="block";
+foodPool.style.display="flex";
+categories.style.display="grid";
 
-            if (locked) return;
+checkButton.style.display="inline-block";
+hintButton.style.display="inline-block";
+continueButton.style.display="none";
 
-            draggedFood = element;
 
-            element.classList.add("dragging");
-        }
-    );
+const foods=[...meal.foods].sort(
+()=>Math.random()-.5
+);
 
-    element.addEventListener(
-        "dragend",
-        function() {
-
-            element.classList.remove("dragging");
-            draggedFood = null;
-        }
-    );
-
-    document.getElementById(
-        "foodPool"
-    ).appendChild(element);
-}
-
-/*
-    DRAG AND DROP
-*/
-
-document
-.querySelectorAll(".category")
-.forEach(category => {
-
-    category.addEventListener(
-        "dragover",
-        function(event) {
-
-            event.preventDefault();
-
-            if (locked) return;
-
-            category.classList.add("over");
-        }
-    );
-
-    category.addEventListener(
-        "dragleave",
-        function() {
-
-            category.classList.remove("over");
-        }
-    );
-
-    category.addEventListener(
-        "drop",
-        function(event) {
-
-            event.preventDefault();
-
-            category.classList.remove("over");
-
-            if (!draggedFood || locked)
-                return;
-
-            category
-                .querySelector(".category-items")
-                .appendChild(draggedFood);
-        }
-    );
+foods.forEach(food=>{
+createFood(food);
 });
 
-/*
-    CONTINUE BUTTON
-*/
 
-document.getElementById(
-    "continueButton"
-).addEventListener(
-    "click",
-    function() {
+updateProgress();
 
-        if (locked) return;
+}
 
-        locked = true;
 
-        currentMeal++;
+/* CREATE FOOD */
 
-        if (currentMeal >= meals.length) {
-            finishLesson();
-        } else {
-            loadMeal();
-        }
-    }
+function createFood(food){
+
+const element=document.createElement("div");
+
+element.className="food";
+element.textContent=food.name;
+element.draggable=true;
+element.dataset.category=food.category;
+
+
+/* PC DRAG */
+
+element.addEventListener("dragstart",function(){
+
+if(locked)return;
+
+draggedFood=element;
+
+element.classList.add("dragging");
+
+});
+
+
+element.addEventListener("dragend",function(){
+
+element.classList.remove("dragging");
+draggedFood=null;
+
+});
+
+
+/* MOBILE TOUCH */
+
+element.addEventListener("pointerdown",function(event){
+
+if(locked)return;
+
+if(event.pointerType==="mouse")return;
+
+touchFood=element;
+
+element.classList.add("dragging");
+
+element.setPointerCapture(event.pointerId);
+
+touchClone=element.cloneNode(true);
+
+touchClone.classList.add("touch-clone");
+
+touchClone.style.width=element.offsetWidth+"px";
+touchClone.style.height=element.offsetHeight+"px";
+
+document.body.appendChild(touchClone);
+
+moveTouchClone(event);
+
+});
+
+
+element.addEventListener("pointermove",function(event){
+
+if(!touchClone||touchFood!==element)return;
+
+moveTouchClone(event);
+
+document.querySelectorAll(".category")
+.forEach(category=>{
+category.classList.remove("over");
+});
+
+const target=document.elementFromPoint(
+event.clientX,
+event.clientY
 );
 
-/*
-    CHECK ANSWER
-*/
+const category=
+target?.closest(".category");
 
-document.getElementById(
-    "checkButton"
-).addEventListener(
-    "click",
-    function() {
+if(category){
+category.classList.add("over");
+}
 
-        if (locked) return;
+});
 
-        const foods =
-            document.querySelectorAll(".food");
 
-        let placed = 0;
-        let correct = 0;
+element.addEventListener("pointerup",function(event){
 
-        foods.forEach(food => {
+if(!touchClone||touchFood!==element)return;
 
-            const parent =
-                food.parentElement;
-
-            if (
-                parent.classList.contains(
-                    "category-items"
-                )
-            ) {
-
-                placed++;
-
-                const category =
-                    parent.parentElement
-                    .dataset.category;
-
-                if (
-                    category ===
-                    food.dataset.category
-                ) {
-
-                    correct++;
-                }
-            }
-        });
-
-        if (
-            placed <
-            meals[currentMeal].foods.length
-        ) {
-
-            showFeedback(
-                "yellow",
-                "Move every food into a group first."
-            );
-
-            return;
-        }
-
-        if (
-            correct ===
-            meals[currentMeal].foods.length
-        ) {
-
-            correctAnswer();
-
-        } else if (correct >= 2) {
-
-            showFeedback(
-                "yellow",
-                "Almost there. Have another look at the foods."
-            );
-
-        } else {
-
-            showFeedback(
-                "red",
-                "Not quite. Try again. You can use a hint if you need one."
-            );
-        }
-    }
+const target=document.elementFromPoint(
+event.clientX,
+event.clientY
 );
 
-/*
-    CORRECT ANSWER
-*/
+const category=
+target?.closest(".category");
 
-function correctAnswer() {
+if(category&&!locked){
 
-    locked = true;
+category
+.querySelector(".category-items")
+.appendChild(element);
 
-    const feedback =
-        document.getElementById("feedback");
-
-    feedback.className =
-        "feedback green";
-
-    feedback.textContent =
-        "Correct!";
-
-    document.getElementById(
-        "mainCard"
-    ).classList.add(
-        "correct-pop"
-    );
-
-    document.getElementById(
-        "checkButton"
-    ).style.display =
-        "none";
-
-    document.getElementById(
-        "hintButton"
-    ).style.display =
-        "none";
-
-    const nextProgress =
-        (
-            (currentMeal + 1) /
-            meals.length
-        ) * 100;
-
-    document.getElementById(
-        "progress"
-    ).style.width =
-        nextProgress + "%";
-
-    setTimeout(
-        function() {
-
-            currentMeal++;
-
-            if (
-                currentMeal >=
-                meals.length
-            ) {
-
-                finishLesson();
-
-            } else {
-
-                document.getElementById(
-                    "mainCard"
-                ).classList.remove(
-                    "correct-pop"
-                );
-
-                loadMeal();
-            }
-
-        },
-        900
-    );
 }
 
-/*
-    HINT
-*/
+finishTouchDrag();
 
-document.getElementById(
-    "hintButton"
-).addEventListener(
-    "click",
-    function() {
+});
 
-        const hints =
-            meals[currentMeal].hints;
 
-        if (
-            hintNumber >=
-            hints.length
-        ) {
-            return;
-        }
+element.addEventListener("pointercancel",function(){
 
-        const hint =
-            document.getElementById("hint");
+if(touchFood===element){
+finishTouchDrag();
+}
 
-        hint.textContent =
-            "Hint: " +
-            hints[hintNumber];
+});
 
-        hint.style.display =
-            "block";
 
-        hintNumber++;
-    }
+document.getElementById("foodPool")
+.appendChild(element);
+
+}
+
+
+/* MOVE TOUCH CLONE */
+
+function moveTouchClone(event){
+
+if(!touchClone)return;
+
+touchClone.style.left=
+(event.clientX-touchClone.offsetWidth/2)+"px";
+
+touchClone.style.top=
+(event.clientY-touchClone.offsetHeight/2)+"px";
+
+}
+
+
+/* FINISH TOUCH DRAG */
+
+function finishTouchDrag(){
+
+if(touchClone){
+touchClone.remove();
+}
+
+touchClone=null;
+
+if(touchFood){
+touchFood.classList.remove("dragging");
+}
+
+touchFood=null;
+
+document.querySelectorAll(".category")
+.forEach(category=>{
+category.classList.remove("over");
+});
+
+}
+
+
+/* PC DROP */
+
+document.querySelectorAll(".category")
+.forEach(category=>{
+
+category.addEventListener("dragover",function(event){
+
+event.preventDefault();
+
+if(locked)return;
+
+category.classList.add("over");
+
+});
+
+
+category.addEventListener("dragleave",function(){
+
+category.classList.remove("over");
+
+});
+
+
+category.addEventListener("drop",function(event){
+
+event.preventDefault();
+
+category.classList.remove("over");
+
+if(!draggedFood||locked)return;
+
+category
+.querySelector(".category-items")
+.appendChild(draggedFood);
+
+});
+
+});
+
+
+/* CONTINUE */
+
+document.getElementById("continueButton")
+.addEventListener("click",function(){
+
+if(locked)return;
+
+locked=true;
+
+currentMeal++;
+
+if(currentMeal>=meals.length){
+
+finishLesson();
+
+}else{
+
+loadMeal();
+
+}
+
+});
+
+
+/* CHECK */
+
+document.getElementById("checkButton")
+.addEventListener("click",function(){
+
+if(locked)return;
+
+const foods=document.querySelectorAll(".food");
+
+let placed=0;
+let correct=0;
+
+foods.forEach(food=>{
+
+const parent=food.parentElement;
+
+if(
+parent.classList.contains("category-items")
+){
+
+placed++;
+
+const category=
+parent.parentElement.dataset.category;
+
+if(category===food.dataset.category){
+correct++;
+}
+
+}
+
+});
+
+
+if(
+placed<meals[currentMeal].foods.length
+){
+
+showFeedback(
+"yellow",
+"Move every food into a group first."
 );
 
-/*
-    FEEDBACK
-*/
+return;
 
-function showFeedback(
-    colour,
-    message
-) {
-
-    const feedback =
-        document.getElementById("feedback");
-
-    feedback.className =
-        "feedback " + colour;
-
-    feedback.textContent =
-        message;
 }
 
-/*
-    PROGRESS
-*/
 
-function updateProgress() {
+if(
+correct===meals[currentMeal].foods.length
+){
 
-    const percentage =
-        (
-            currentMeal /
-            meals.length
-        ) * 100;
+correctAnswer();
 
-    document.getElementById(
-        "progress"
-    ).style.width =
-        percentage + "%";
+}else if(correct>=2){
+
+showFeedback(
+"yellow",
+"Almost there. Have another look at the foods."
+);
+
+}else{
+
+showFeedback(
+"red",
+"Not quite. Try again. You can use a hint if you need one."
+);
+
 }
 
-/*
-    COMPLETE
-*/
+});
 
-function finishLesson() {
 
-    document.getElementById(
-        "progress"
-    ).style.width =
-        "100%";
+/* CORRECT */
 
-    document.getElementById(
-        "lesson"
-    ).style.display =
-        "none";
+function correctAnswer(){
 
-    document.getElementById(
-        "complete"
-    ).style.display =
-        "flex";
+locked=true;
+
+const feedback=
+document.getElementById("feedback");
+
+feedback.className="feedback green";
+feedback.textContent="Correct!";
+
+document.getElementById("mainCard")
+.classList.add("correct-pop");
+
+document.getElementById("checkButton")
+.style.display="none";
+
+document.getElementById("hintButton")
+.style.display="none";
+
+
+const nextProgress=
+((currentMeal+1)/meals.length)*100;
+
+document.getElementById("progress")
+.style.width=nextProgress+"%";
+
+
+setTimeout(function(){
+
+currentMeal++;
+
+if(currentMeal>=meals.length){
+
+finishLesson();
+
+}else{
+
+document.getElementById("mainCard")
+.classList.remove("correct-pop");
+
+loadMeal();
+
 }
+
+},900);
+
+}
+
+
+/* HINT */
+
+document.getElementById("hintButton")
+.addEventListener("click",function(){
+
+const hints=meals[currentMeal].hints;
+
+if(hintNumber>=hints.length)return;
+
+const hint=
+document.getElementById("hint");
+
+hint.textContent=
+"Hint: "+hints[hintNumber];
+
+hint.style.display="block";
+
+hintNumber++;
+
+});
+
+
+/* FEEDBACK */
+
+function showFeedback(colour,message){
+
+const feedback=
+document.getElementById("feedback");
+
+feedback.className=
+"feedback "+colour;
+
+feedback.textContent=message;
+
+}
+
+
+/* PROGRESS */
+
+function updateProgress(){
+
+const percentage=
+(currentMeal/meals.length)*100;
+
+document.getElementById("progress")
+.style.width=percentage+"%";
+
+}
+
+
+/* FINISH */
+
+function finishLesson(){
+
+document.getElementById("progress")
+.style.width="100%";
+
+document.getElementById("lesson")
+.style.display="none";
+
+document.getElementById("complete")
+.style.display="flex";
+
+}
+
 
 loadMeal();
 
