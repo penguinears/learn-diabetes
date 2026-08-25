@@ -1,1 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+<title>Beta Tester</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    background:white;
+    font-family:"Comic Sans MS","Comic Sans",cursive;
+    overflow-x:hidden;
+}
+
+/* CALCULATOR BUTTON */
+
+.calc-button{
+    position:fixed;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#48b8b2;
+    border:0;
+    color:white;
+    font-size:25px;
+    cursor:pointer;
+    z-index:1000;
+    box-shadow:0 3px 8px rgba(0,0,0,.18);
+}
+
+/* CALCULATOR */
+
+.calculator{
+    position:fixed;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    width:255px;
+    background:#222;
+    border-radius:16px;
+    padding:12px;
+    display:none;
+    z-index:999;
+    box-shadow:0 8px 30px rgba(0,0,0,.3);
+}
+
+.display{
+    width:100%;
+    height:55px;
+    background:#eee;
+    border:0;
+    border-radius:9px;
+    margin-bottom:10px;
+    padding:8px 10px;
+    font-family:Arial,sans-serif;
+    font-size:27px;
+    text-align:right;
+    color:#111;
+}
+
+.keys{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:7px;
+}
+
+.keys button{
+    height:48px;
+    border:0;
+    border-radius:9px;
+    background:#444;
+    color:white;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.keys button:active{
+    transform:scale(.95);
+}
+
+.keys .operator{
+    background:#48b8b2;
+}
+
+.keys .clear{
+    background:#b73f4d;
+}
+
+.keys .equals{
+    background:#48b8b2;
+}
+
+/* TEST AREA */
+
+.test-area{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:80px;
+}
+
+/* HIPPO */
+
+.hippo-area{
+    width:280px;
+    height:120px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hippo{
+    position:absolute;
+    left:100px;
+    top:35px;
+    font-size:48px;
+    color:#b197fc;
+    transition:transform .15s linear;
+}
+
+/* NUMBER LOADING */
+
+.loading-block{
+    width:280px;
+    margin-top:25px;
+    text-align:center;
+}
+
+.loading-title{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.loading-numbers{
+    font-family:Arial,sans-serif;
+    font-size:25px;
+    letter-spacing:3px;
+    height:32px;
+}
+
+/* LOGO LOADING */
+
+.logo-loading{
+    margin-top:35px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.logo-loading img{
+    width:180px;
+    height:auto;
+    animation:breathe 1.7s ease-in-out infinite;
+}
+
+.logo-text{
+    margin-top:8px;
+    font-size:18px;
+}
+
+/* SPINNING LOGO */
+
+.spinner-block{
+    margin-top:35px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.spinning-logo{
+    width:120px;
+    height:auto;
+    animation:spinLogo 1.5s linear infinite;
+}
+
+/* ANIMATIONS */
+
+@keyframes breathe{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.13);
+    }
+
+}
+
+@keyframes spinLogo{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .calc-button{
+        left:10px;
+        width:52px;
+        height:52px;
+        font-size:22px;
+    }
+
+    .calculator{
+        left:10px;
+        width:245px;
+    }
+
+    .test-area{
+        padding-top:60px;
+    }
+
+    .hippo-area{
+        width:240px;
+    }
+
+    .logo-loading img{
+        width:155px;
+    }
+
+    .spinning-logo{
+        width:105px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+<h1>The test page bro</h1>
+
+
+<!-- CALCULATOR BUTTON -->
+
+<button class="calc-button" id="calcButton">
+
+    <i class="fa-solid fa-calculator"></i>
+
+</button>
+
+
+<!-- CALCULATOR -->
+
+<div class="calculator" id="calculator">
+
+    <input
+        class="display"
+        id="display"
+        readonly
+    >
+
+    <div class="keys">
+
+        <button
+            class="clear"
+            onclick="clearCalc()"
+        >
+            C
+        </button>
+
+        <button onclick="backspace()">
+            ⌫
+        </button>
+
+        <button onclick="addValue('(')">
+            (
+        </button>
+
+        <button
+            class="operator"
+            onclick="addValue('/')"
+        >
+            ÷
+        </button>
+
+
+        <button onclick="addValue('7')">
+            7
+        </button>
+
+        <button onclick="addValue('8')">
+            8
+        </button>
+
+        <button onclick="addValue('9')">
+            9
+        </button>
+
+        <button
+            class="operator"
+            onclick="addValue('*')"
+        >
+            ×
+        </button>
+
+
+        <button onclick="addValue('4')">
+            4
+        </button>
+
+        <button onclick="addValue('5')">
+            5
+        </button>
+
+        <button onclick="addValue('6')">
+            6
+        </button>
+
+        <button
+            class="operator"
+            onclick="addValue('-')"
+        >
+            −
+        </button>
+
+
+        <button onclick="addValue('1')">
+            1
+        </button>
+
+        <button onclick="addValue('2')">
+            2
+        </button>
+
+        <button onclick="addValue('3')">
+            3
+        </button>
+
+        <button
+            class="operator"
+            onclick="addValue('+')"
+        >
+            +
+        </button>
+
+
+        <button onclick="addValue('0')">
+            0
+        </button>
+
+        <button onclick="addValue('.')">
+            .
+        </button>
+
+        <button onclick="addValue(')')">
+            )
+        </button>
+
+        <button
+            class="equals"
+            onclick="calculate()"
+        >
+            =
+        </button>
+
+    </div>
+
+</div>
+<p> Yo, we are thinking of adding a calulator like this to the lessons Just press it to test it.</p>
+
+
+<!-- TEST AREA -->
+
+<div class="test-area">
+<h1> For when we turn this into an app we want  aloading screen so here r our ideas idk. we migh tnot probablly wont even need one but idk and idc becouse they r cool</h1>
+
+
+    <!-- HIPPO -->
+
+    <div class="hippo-area">
+
+        <div class="hippo" id="hippo">
+
+            <i class="fa-solid fa-hippo"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- NUMBER LOADING -->
+
+    <div class="loading-block">
+
+        <div class="loading-title">
+            Loading
+        </div>
+
+        <div
+            class="loading-numbers"
+            id="loadingNumbers"
+        >
+            0000000000
+        </div>
+
+    </div>
+
+
+    <!-- LOGO LOADING -->
+
+    <div class="logo-loading">
+
+        <img
+            src="home/title.png"
+            alt="Learn Diabetes"
+        >
+
+        <div
+            class="logo-text"
+            id="logoLoading"
+        >
+            Loading.
+        </div>
+
+    </div>
+
+
+    <!-- SPINNING LOGO -->
+
+    <div class="spinner-block">
+
+        <img
+            class="spinning-logo"
+            src="home/title.png"
+            alt="Learn Diabetes"
+        >
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================
+   CALCULATOR
+========================= */
+
+const calcButton =
+    document.getElementById("calcButton");
+
+const calculator =
+    document.getElementById("calculator");
+
+const display =
+    document.getElementById("display");
+
+
+calcButton.onclick=function(){
+
+    if(calculator.style.display==="block"){
+
+        calculator.style.display="none";
+
+    }else{
+
+        calculator.style.display="block";
+
+    }
+
+};
+
+
+function addValue(value){
+
+    if(display.value==="Error"){
+
+        display.value="";
+
+    }
+
+    display.value+=value;
+
+}
+
+
+function clearCalc(){
+
+    display.value="";
+
+}
+
+
+function backspace(){
+
+    display.value=
+        display.value.slice(0,-1);
+
+}
+
+
+function calculate(){
+
+    try{
+
+        const result=
+            Function(
+                '"use strict";return ('+
+                display.value+
+                ')'
+            )();
+
+        if(
+            typeof result==="number" &&
+            isFinite(result)
+        ){
+
+            display.value=
+                Math.round(
+                    result*100000
+                )/100000;
+
+        }else{
+
+            display.value="Error";
+
+        }
+
+    }catch{
+
+        display.value="Error";
+
+    }
+
+}
+
+
+/* =========================
+   HIPPO
+========================= */
+
+const hippo=
+    document.getElementById("hippo");
+
+let hippoX=100;
+
+let direction=1;
+
+
+function moveHippo(){
+
+    hippoX+=direction*0.7;
+
+
+    if(hippoX>=180){
+
+        direction=-1;
+
+        hippo.style.transform=
+            "scaleX(-1)";
+
+    }
+
+
+    if(hippoX<=25){
+
+        direction=1;
+
+        hippo.style.transform=
+            "scaleX(1)";
+
+    }
+
+
+    hippo.style.left=
+        hippoX+"px";
+
+
+    requestAnimationFrame(
+        moveHippo
+    );
+
+}
+
+
+moveHippo();
+
+
+/* =========================
+   NUMBER LOADING
+========================= */
+
+const loadingNumbers=
+    document.getElementById(
+        "loadingNumbers"
+    );
+
+let zeros=10;
+
+
+setInterval(function(){
+
+    zeros--;
+
+    if(zeros<0){
+
+        zeros=10;
+
+    }
+
+    loadingNumbers.textContent=
+        "0".repeat(zeros);
+
+},180);
+
+
+/* =========================
+   DOT LOADING
+========================= */
+
+const logoLoading=
+    document.getElementById(
+        "logoLoading"
+    );
+
+let dots=1;
+
+
+setInterval(function(){
+
+    dots++;
+
+    if(dots>3){
+
+        dots=1;
+
+    }
+
+    logoLoading.textContent=
+        "Loading"+
+        ".".repeat(dots);
+
+},500);
+
+</script>
+
+</body>
+</html>
