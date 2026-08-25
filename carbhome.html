@@ -18,6 +18,15 @@ body {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
+body,
+button,
+a,
+h1,
+p,
+div {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
 .banner {
     height: 85px;
     background: #7b4bb7;
@@ -26,40 +35,46 @@ body {
     padding-left: 18px;
 }
 
+.banner a {
+    display: flex;
+    align-items: center;
+}
+
 .banner img {
     height: 62px;
     width: auto;
+    cursor: pointer;
 }
 
 .page {
-    max-width: 600px;
+    max-width: 700px;
     margin: 28px auto;
     padding: 0 20px 50px;
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 34px;
     margin: 0 0 8px;
 }
 
 .intro {
-    font-size: 16px;
+    font-size: 19px;
     color: #666;
-    margin: 0 0 18px;
+    margin: 0 0 20px;
 }
 
 .progress-text {
-    font-size: 14px;
-    margin-bottom: 7px;
+    font-size: 17px;
+    margin-bottom: 8px;
 }
 
 .progress {
     width: 100%;
-    height: 10px;
+    height: 12px;
     background: #eee;
     border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 }
 
 .progress-bar {
@@ -72,7 +87,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 34px;
 }
 
 .lesson {
@@ -83,24 +98,24 @@ h1 {
 
 .lesson.left {
     justify-content: flex-start;
-    padding-left: 15%;
+    padding-left: 12%;
 }
 
 .lesson.right {
     justify-content: flex-end;
-    padding-right: 15%;
+    padding-right: 12%;
 }
 
 .level-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 190px;
+    width: 210px;
 }
 
 .level {
-    width: 72px;
-    height: 72px;
+    width: 82px;
+    height: 82px;
     border-radius: 50%;
     background: #7b4bb7;
     color: white;
@@ -108,9 +123,9 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 29px;
     font-weight: bold;
-    box-shadow: 0 4px 0 #5f3790;
+    box-shadow: 0 5px 0 #5f3790;
     transition: .15s;
 }
 
@@ -120,44 +135,109 @@ h1 {
 
 .lesson-name {
     text-align: center;
-    margin-top: 9px;
-    font-size: 15px;
+    margin-top: 11px;
+    font-size: 18px;
     line-height: 1.2;
     font-weight: bold;
 }
 
 .final {
     background: #e4b83e;
-    box-shadow: 0 4px 0 #b18b20;
+    box-shadow: 0 5px 0 #b18b20;
 }
 
 @media (max-width: 600px) {
 
     .banner {
-        height: 70px;
+        height: 80px;
         padding-left: 12px;
     }
 
     .banner img {
-        height: 50px;
+        height: 57px;
+        max-width: 90%;
+        object-fit: contain;
     }
 
     .page {
-        margin-top: 22px;
-        padding-left: 15px;
-        padding-right: 15px;
+        width: 100%;
+        margin-top: 25px;
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-bottom: 40px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .intro {
+        font-size: 18px;
+    }
+
+    .progress-text {
+        font-size: 17px;
+    }
+
+    .progress {
+        height: 12px;
+        margin-bottom: 35px;
+    }
+
+    .trail {
+        gap: 32px;
     }
 
     .lesson.left {
-        padding-left: 5%;
+        padding-left: 2%;
     }
 
     .lesson.right {
-        padding-right: 5%;
+        padding-right: 2%;
     }
 
     .level-box {
-        width: 170px;
+        width: 190px;
+    }
+
+    .level {
+        width: 80px;
+        height: 80px;
+        font-size: 28px;
+    }
+
+    .lesson-name {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    h1 {
+        font-size: 29px;
+    }
+
+    .intro {
+        font-size: 17px;
+    }
+
+    .level-box {
+        width: 175px;
+    }
+
+    .level {
+        width: 76px;
+        height: 76px;
+        font-size: 27px;
+    }
+
+    .lesson-name {
+        font-size: 17px;
     }
 }
 </style>
@@ -166,7 +246,9 @@ h1 {
 <body>
 
 <div class="banner">
-    <img src="home/title.png" alt="Learn Diabetes">
+    <a href="index.html">
+        <img src="home/title.png" alt="Learn Diabetes">
+    </a>
 </div>
 
 <div class="page">
