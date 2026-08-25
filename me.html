@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Updates – Learn Diabetes</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: white;
+    color: #222;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+body,
+button,
+a,
+h1,
+h2,
+p,
+div {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+/* TOP BANNER */
+
+.banner {
+    height: 85px;
+    background: #7b4bb7;
+    display: flex;
+    align-items: center;
+    padding-left: 18px;
+}
+
+.banner a {
+    display: flex;
+    align-items: center;
+}
+
+.banner img {
+    height: 62px;
+    width: auto;
+    cursor: pointer;
+}
+
+/* PAGE */
+
+.page {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 20px 60px;
+}
+
+h1 {
+    font-size: 36px;
+    margin: 0 0 8px;
+}
+
+.intro {
+    color: #666;
+    font-size: 18px;
+    margin: 0 0 30px;
+}
+
+/* UPDATE */
+
+.update {
+    margin-bottom: 28px;
+}
+
+.update-date {
+    color: #7b4bb7;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.update-title {
+    font-size: 24px;
+    margin: 0 0 10px;
+}
+
+.update-text {
+    color: #555;
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.update-list {
+    margin: 10px 0 0;
+    padding-left: 25px;
+    color: #555;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+/* NEW BADGE */
+
+.new {
+    display: inline-block;
+    background: #7b4bb7;
+    color: white;
+    font-size: 13px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+/* DIVIDER */
+
+.divider {
+    height: 1px;
+    background: #eee;
+    margin: 28px 0;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .banner {
+        height: 80px;
+        padding-left: 12px;
+    }
+
+    .banner img {
+        height: 57px;
+        max-width: 90%;
+        object-fit: contain;
+    }
+
+    .page {
+        width: 100%;
+        margin-top: 25px;
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-bottom: 40px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .intro {
+        font-size: 17px;
+        margin-bottom: 28px;
+    }
+
+    .update-title {
+        font-size: 22px;
+    }
+
+    .update-text,
+    .update-list {
+        font-size: 16px;
+    }
+
+    .new {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    h1 {
+        font-size: 29px;
+    }
+
+    .update-title {
+        font-size: 21px;
+    }
+
+    .update-text,
+    .update-list {
+        font-size: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="banner">
+    <a href="index.html">
+        <img src="home/title.png" alt="Learn Diabetes">
+    </a>
+</div>
+
+<div class="page">
+
+    <h1>Updates</h1>
+
+    <p class="intro">
+        See what's new on Learn Diabetes.
+    </p>
+
+    <!-- LATEST UPDATE -->
+
+    <div class="update">
+
+        <div class="update-date">
+            25 August 2026
+        </div>
+
+        <h2 class="update-title">
+            Leon Bastien Gullick
+            <span class="new">The developer</span>
+        </h2>
+
+        <p class="update-text">
+            I decsided to make this site to help kids learn about diabetes in a fun way and actaully understand it becouse when I was diagnosed I dont think I got it all.
+            I also want to make it completley free so anypne can use it as diabetes is already to expesnive and diabetes apps that are overpriced already annoy me.
+        </p>
+    </div>
+
+    <div class="divider"></div>
+
+
+    <!-- UPDATE -->
+
+    <div class="update">
+
+        <div class="update-date">
+            22 August 2026
+        </div>
+
+        <h2 class="update-title">
+            I started development
+        </h2>
+
+        <p class="update-text">
+            I made like the first lesson.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
