@@ -97,8 +97,8 @@ gap:15px;
 }
 
 .sort-box{
-min-height:110px;
-padding:5px;
+min-height:120px;
+padding:8px;
 text-align:center;
 background:#f3f3f3;
 }
@@ -134,14 +134,14 @@ background:#e9e2ff;
 }
 
 .answer{
-    width:90%;
-    max-width:400px;
-    padding:10px;
-    font-size:18px;
-    text-align:center;
-    border:2px solid #6c3fc5;
-    border-radius:7px;
-    outline:none;
+width:90%;
+max-width:400px;
+padding:10px;
+font-size:18px;
+text-align:center;
+border:2px solid #6c3fc5;
+border-radius:7px;
+outline:none;
 }
 
 .feedback{
@@ -208,7 +208,7 @@ gap:8px;
 }
 
 .sort-box{
-min-height:90px;
+min-height:100px;
 }
 
 .drinks{
@@ -304,52 +304,52 @@ const lessons=[
 
 {
 type:"image",
-image:"carbcounting4/28.jpg"
+image:"carbcount4/28.jpg"
 },
 
 {
 type:"sort",
-image:"carbcounting4/29.jpg"
+image:"carbcount4/29.jpg"
 },
 
 {
 type:"image",
-image:"carbcounting4/30.jpg"
+image:"carbcount4/30.jpg"
 },
 
 {
 type:"calc",
-image:"carbcounting4/31.jpg",
+image:"carbcount4/31.jpg",
 answer:8.25
 },
 
 {
 type:"calc",
-image:"carbcounting4/32.jpg",
+image:"carbcount4/32.jpg",
 answer:3.6
 },
 
 {
 type:"calc",
-image:"carbcounting4/33.jpg",
+image:"carbcount4/33.jpg",
 answer:5.025
 },
 
 {
 type:"calc",
-image:"carbcounting4/34.jpg",
+image:"carbcount4/34.jpg",
 answer:5.625
 },
 
 {
 type:"calc",
-image:"carbcounting4/35.jpg",
+image:"carbcount4/35.jpg",
 answer:0
 },
 
 {
 type:"image",
-image:"carbcounting4/36.jpg"
+image:"carbcount4/36.jpg"
 }
 
 ];
@@ -483,7 +483,7 @@ d.draggable=true;
 d.dataset.answer=item.answer;
 
 
-/* PC */
+/* PC DRAG */
 
 d.addEventListener(
 "dragstart",
@@ -510,7 +510,7 @@ d.classList.remove("dragging");
 );
 
 
-/* MOBILE */
+/* MOBILE DRAG */
 
 let clone=null;
 let startX=0;
