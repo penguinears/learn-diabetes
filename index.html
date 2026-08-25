@@ -55,7 +55,10 @@ body {
     cursor: pointer;
 }
 
+/* MOBILE */
+
 @media (max-width: 600px) {
+
     .banner {
         height: 70px;
         padding-left: 12px;
@@ -66,13 +69,27 @@ body {
     }
 
     .home {
-        margin-top: 20px;
-        padding: 0 12px;
+        width: 100%;
+        max-width: none;
+        margin: 20px auto;
+        padding: 0 10px;
     }
 
     .buttons {
-        gap: 11px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
+
+    .buttons a {
+        width: 100%;
+    }
+
+    .buttons img {
+        width: 100%;
+        height: auto;
+    }
+
 }
 </style>
 </head>
@@ -101,6 +118,10 @@ body {
 
         <a href="refresher.html">
             <img src="home/4.png" alt="Refresher">
+        </a>
+
+        <a href="timed.html">
+            <img src="home/5.png" alt="Timed Challenge">
         </a>
 
     </div>
