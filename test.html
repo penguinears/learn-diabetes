@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +28,9 @@ body{
     overflow-x:hidden;
 }
 
-/* CALCULATOR BUTTON */
+/* =========================
+   CALCULATOR BUTTON
+========================= */
 
 .calc-button{
     position:fixed;
@@ -46,7 +49,9 @@ body{
     box-shadow:0 3px 8px rgba(0,0,0,.18);
 }
 
-/* CALCULATOR */
+/* =========================
+   CALCULATOR
+========================= */
 
 .calculator{
     position:fixed;
@@ -60,6 +65,12 @@ body{
     display:none;
     z-index:999;
     box-shadow:0 8px 30px rgba(0,0,0,.3);
+    cursor:grab;
+    user-select:none;
+}
+
+.calculator.dragging{
+    cursor:grabbing;
 }
 
 .display{
@@ -108,7 +119,9 @@ body{
     background:#48b8b2;
 }
 
-/* TEST AREA */
+/* =========================
+   TEST AREA
+========================= */
 
 .test-area{
     min-height:100vh;
@@ -118,7 +131,9 @@ body{
     padding-top:80px;
 }
 
-/* HIPPO */
+/* =========================
+   HIPPO
+========================= */
 
 .hippo-area{
     width:280px;
@@ -133,10 +148,11 @@ body{
     top:35px;
     font-size:48px;
     color:#b197fc;
-    transition:transform .15s linear;
 }
 
-/* NUMBER LOADING */
+/* =========================
+   NUMBER LOADING
+========================= */
 
 .loading-block{
     width:280px;
@@ -156,7 +172,9 @@ body{
     height:32px;
 }
 
-/* LOGO LOADING */
+/* =========================
+   LOGO LOADING
+========================= */
 
 .logo-loading{
     margin-top:35px;
@@ -176,7 +194,9 @@ body{
     font-size:18px;
 }
 
-/* SPINNING LOGO */
+/* =========================
+   SPINNING LOGO
+========================= */
 
 .spinner-block{
     margin-top:35px;
@@ -191,7 +211,158 @@ body{
     animation:spinLogo 1.5s linear infinite;
 }
 
-/* ANIMATIONS */
+/* =========================
+   SINGLE HOPPING HEART
+========================= */
+
+.heart-hop{
+    margin-top:45px;
+    height:65px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.heart-hop i{
+    color:rgb(212,23,38);
+    font-size:38px;
+    animation:heartHop .7s ease-in-out infinite;
+}
+
+@keyframes heartHop{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-28px);
+    }
+
+}
+
+/* =========================
+   HEART MEXICAN WAVE
+========================= */
+
+.heart-wave{
+    margin-top:35px;
+    height:75px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:12px;
+}
+
+.wave-heart{
+    color:rgb(212,23,38);
+    font-size:30px;
+    animation:waveHop .9s ease-in-out infinite;
+}
+
+.wave-heart:nth-child(1){
+    animation-delay:0s;
+}
+
+.wave-heart:nth-child(2){
+    animation-delay:.12s;
+}
+
+.wave-heart:nth-child(3){
+    animation-delay:.24s;
+}
+
+.wave-heart:nth-child(4){
+    animation-delay:.36s;
+}
+
+.wave-heart:nth-child(5){
+    animation-delay:.48s;
+}
+
+.wave-heart:nth-child(6){
+    animation-delay:.60s;
+}
+
+.wave-heart:nth-child(7){
+    animation-delay:.72s;
+}
+
+@keyframes waveHop{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-32px);
+    }
+
+}
+
+/* =========================
+   MULTIPLE HEART CIRCLE
+========================= */
+
+.heart-circle{
+    position:relative;
+    width:190px;
+    height:190px;
+    margin-top:40px;
+}
+
+.circle-heart{
+    position:absolute;
+    inset:0;
+    animation:circleSpin 3s linear infinite;
+}
+
+.circle-heart i{
+    position:absolute;
+    left:50%;
+    top:0;
+    transform:translateX(-50%);
+    color:rgb(212,23,38);
+    font-size:27px;
+}
+
+/* Rotate each heart's orbit */
+
+.circle-heart:nth-child(2){
+    animation-delay:-.5s;
+}
+
+.circle-heart:nth-child(3){
+    animation-delay:-1s;
+}
+
+.circle-heart:nth-child(4){
+    animation-delay:-1.5s;
+}
+
+.circle-heart:nth-child(5){
+    animation-delay:-2s;
+}
+
+.circle-heart:nth-child(6){
+    animation-delay:-2.5s;
+}
+
+@keyframes circleSpin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
 
 @keyframes breathe{
 
@@ -217,7 +388,9 @@ body{
 
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
@@ -249,25 +422,32 @@ body{
         width:105px;
     }
 
+    .heart-wave{
+        gap:8px;
+    }
+
+    .wave-heart{
+        font-size:25px;
+    }
+
+    .heart-circle{
+        width:165px;
+        height:165px;
+    }
+
 }
 
 </style>
 </head>
 
 <body>
-<h1>The test page bro</h1>
-
-
-<!-- CALCULATOR BUTTON -->
+    <h1>test place for things i want to add</h1>
+    <p> i want to add a calcualtor in the lessons so u can do the lessons anywhere in the carb counting lessons 
+    and a loading intro for when i mak ethis a mobile app</p>
 
 <button class="calc-button" id="calcButton">
-
     <i class="fa-solid fa-calculator"></i>
-
 </button>
-
-
-<!-- CALCULATOR -->
 
 <div class="calculator" id="calculator">
 
@@ -279,134 +459,46 @@ body{
 
     <div class="keys">
 
-        <button
-            class="clear"
-            onclick="clearCalc()"
-        >
-            C
-        </button>
+        <button class="clear" onclick="clearCalc()">C</button>
+        <button onclick="backspace()">⌫</button>
+        <button onclick="addValue('(')">(</button>
+        <button class="operator" onclick="addValue('/')">÷</button>
 
-        <button onclick="backspace()">
-            ⌫
-        </button>
+        <button onclick="addValue('7')">7</button>
+        <button onclick="addValue('8')">8</button>
+        <button onclick="addValue('9')">9</button>
+        <button class="operator" onclick="addValue('*')">×</button>
 
-        <button onclick="addValue('(')">
-            (
-        </button>
+        <button onclick="addValue('4')">4</button>
+        <button onclick="addValue('5')">5</button>
+        <button onclick="addValue('6')">6</button>
+        <button class="operator" onclick="addValue('-')">−</button>
 
-        <button
-            class="operator"
-            onclick="addValue('/')"
-        >
-            ÷
-        </button>
+        <button onclick="addValue('1')">1</button>
+        <button onclick="addValue('2')">2</button>
+        <button onclick="addValue('3')">3</button>
+        <button class="operator" onclick="addValue('+')">+</button>
 
-
-        <button onclick="addValue('7')">
-            7
-        </button>
-
-        <button onclick="addValue('8')">
-            8
-        </button>
-
-        <button onclick="addValue('9')">
-            9
-        </button>
-
-        <button
-            class="operator"
-            onclick="addValue('*')"
-        >
-            ×
-        </button>
-
-
-        <button onclick="addValue('4')">
-            4
-        </button>
-
-        <button onclick="addValue('5')">
-            5
-        </button>
-
-        <button onclick="addValue('6')">
-            6
-        </button>
-
-        <button
-            class="operator"
-            onclick="addValue('-')"
-        >
-            −
-        </button>
-
-
-        <button onclick="addValue('1')">
-            1
-        </button>
-
-        <button onclick="addValue('2')">
-            2
-        </button>
-
-        <button onclick="addValue('3')">
-            3
-        </button>
-
-        <button
-            class="operator"
-            onclick="addValue('+')"
-        >
-            +
-        </button>
-
-
-        <button onclick="addValue('0')">
-            0
-        </button>
-
-        <button onclick="addValue('.')">
-            .
-        </button>
-
-        <button onclick="addValue(')')">
-            )
-        </button>
-
-        <button
-            class="equals"
-            onclick="calculate()"
-        >
-            =
-        </button>
+        <button onclick="addValue('0')">0</button>
+        <button onclick="addValue('.')">.</button>
+        <button onclick="addValue(')')">)</button>
+        <button class="equals" onclick="calculate()">=</button>
 
     </div>
 
 </div>
-<p> Yo, we are thinking of adding a calulator like this to the lessons Just press it to test it.</p>
-<p> we will make it so u can drag it around and its no tbehind the butto nthough. but rn we have more important things to make like the courses and the levels. I just work on theese
-when im burnt out and cant be asked</p>
-
-
-<!-- TEST AREA -->
 
 <div class="test-area">
-<p> For when we turn this into an app we want  aloading screen so here r our ideas idk. we migh tnot probablly wont even need one but idk and idc becouse they r cool</p>
-
 
     <!-- HIPPO -->
 
     <div class="hippo-area">
 
         <div class="hippo" id="hippo">
-
             <i class="fa-solid fa-hippo"></i>
-
         </div>
 
     </div>
-
 
     <!-- NUMBER LOADING -->
 
@@ -424,7 +516,6 @@ when im burnt out and cant be asked</p>
         </div>
 
     </div>
-
 
     <!-- LOGO LOADING -->
 
@@ -444,7 +535,6 @@ when im burnt out and cant be asked</p>
 
     </div>
 
-
     <!-- SPINNING LOGO -->
 
     <div class="spinner-block">
@@ -457,9 +547,59 @@ when im burnt out and cant be asked</p>
 
     </div>
 
+    <!-- SINGLE HOPPING HEART -->
+
+    <div class="heart-hop">
+
+        <i class="fa-solid fa-heart"></i>
+
+    </div>
+
+    <!-- HEART MEXICAN WAVE -->
+
+    <div class="heart-wave">
+
+        <i class="fa-solid fa-heart wave-heart"></i>
+        <i class="fa-solid fa-heart wave-heart"></i>
+        <i class="fa-solid fa-heart wave-heart"></i>
+        <i class="fa-solid fa-heart wave-heart"></i>
+        <i class="fa-solid fa-heart wave-heart"></i>
+        <i class="fa-solid fa-heart wave-heart"></i>
+        <i class="fa-solid fa-heart wave-heart"></i>
+
+    </div>
+
+    <!-- MULTIPLE HEARTS SPINNING IN A CIRCLE -->
+
+    <div class="heart-circle">
+
+        <div class="circle-heart">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div class="circle-heart">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div class="circle-heart">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div class="circle-heart">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div class="circle-heart">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div class="circle-heart">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+    </div>
 
 </div>
-
 
 <script>
 
@@ -476,41 +616,29 @@ const calculator =
 const display =
     document.getElementById("display");
 
-
 calcButton.onclick=function(){
 
     if(calculator.style.display==="block"){
-
         calculator.style.display="none";
-
     }else{
-
         calculator.style.display="block";
-
     }
 
 };
 
-
 function addValue(value){
 
     if(display.value==="Error"){
-
         display.value="";
-
     }
 
     display.value+=value;
 
 }
 
-
 function clearCalc(){
-
     display.value="";
-
 }
-
 
 function backspace(){
 
@@ -518,7 +646,6 @@ function backspace(){
         display.value.slice(0,-1);
 
 }
-
 
 function calculate(){
 
@@ -555,6 +682,151 @@ function calculate(){
 
 }
 
+/* =========================
+   DRAG CALCULATOR
+========================= */
+
+let dragging=false;
+let offsetX=0;
+let offsetY=0;
+
+calculator.addEventListener(
+    "mousedown",
+    function(e){
+
+        if(
+            e.target.closest("button") ||
+            e.target===display
+        ){
+            return;
+        }
+
+        dragging=true;
+
+        const rect=
+            calculator.getBoundingClientRect();
+
+        offsetX=
+            e.clientX-rect.left;
+
+        offsetY=
+            e.clientY-rect.top;
+
+        calculator.style.transform="none";
+
+        calculator.classList.add("dragging");
+
+    }
+);
+
+document.addEventListener(
+    "mousemove",
+    function(e){
+
+        if(!dragging)return;
+
+        let x=
+            e.clientX-offsetX;
+
+        let y=
+            e.clientY-offsetY;
+
+        const maxX=
+            window.innerWidth-
+            calculator.offsetWidth;
+
+        const maxY=
+            window.innerHeight-
+            calculator.offsetHeight;
+
+        x=Math.max(0,Math.min(x,maxX));
+        y=Math.max(0,Math.min(y,maxY));
+
+        calculator.style.left=x+"px";
+        calculator.style.top=y+"px";
+
+    }
+);
+
+document.addEventListener(
+    "mouseup",
+    function(){
+
+        dragging=false;
+
+        calculator.classList.remove("dragging");
+
+    }
+);
+
+/* TOUCH DRAGGING */
+
+calculator.addEventListener(
+    "touchstart",
+    function(e){
+
+        if(
+            e.target.closest("button") ||
+            e.target===display
+        ){
+            return;
+        }
+
+        const touch=e.touches[0];
+        const rect=calculator.getBoundingClientRect();
+
+        dragging=true;
+
+        offsetX=
+            touch.clientX-rect.left;
+
+        offsetY=
+            touch.clientY-rect.top;
+
+        calculator.style.transform="none";
+
+    },
+    {passive:true}
+);
+
+document.addEventListener(
+    "touchmove",
+    function(e){
+
+        if(!dragging)return;
+
+        const touch=e.touches[0];
+
+        let x=
+            touch.clientX-offsetX;
+
+        let y=
+            touch.clientY-offsetY;
+
+        const maxX=
+            window.innerWidth-
+            calculator.offsetWidth;
+
+        const maxY=
+            window.innerHeight-
+            calculator.offsetHeight;
+
+        x=Math.max(0,Math.min(x,maxX));
+        y=Math.max(0,Math.min(y,maxY));
+
+        calculator.style.left=x+"px";
+        calculator.style.top=y+"px";
+
+    },
+    {passive:true}
+);
+
+document.addEventListener(
+    "touchend",
+    function(){
+        dragging=false;
+    }
+);
 
 /* =========================
    HIPPO
@@ -564,14 +836,11 @@ const hippo=
     document.getElementById("hippo");
 
 let hippoX=100;
-
 let direction=1;
-
 
 function moveHippo(){
 
     hippoX+=direction*0.7;
-
 
     if(hippoX>=180){
 
@@ -582,7 +851,6 @@ function moveHippo(){
 
     }
 
-
     if(hippoX<=25){
 
         direction=1;
@@ -592,20 +860,14 @@ function moveHippo(){
 
     }
 
-
     hippo.style.left=
         hippoX+"px";
 
-
-    requestAnimationFrame(
-        moveHippo
-    );
+    requestAnimationFrame(moveHippo);
 
 }
 
-
 moveHippo();
-
 
 /* =========================
    NUMBER LOADING
@@ -618,22 +880,18 @@ const loadingNumbers=
 
 let zeros=10;
 
-
 setInterval(function(){
 
     zeros--;
 
     if(zeros<0){
-
         zeros=10;
-
     }
 
     loadingNumbers.textContent=
         "0".repeat(zeros);
 
 },180);
-
 
 /* =========================
    DOT LOADING
@@ -646,15 +904,12 @@ const logoLoading=
 
 let dots=1;
 
-
 setInterval(function(){
 
     dots++;
 
     if(dots>3){
-
         dots=1;
-
     }
 
     logoLoading.textContent=
@@ -667,3 +922,4 @@ setInterval(function(){
 
 </body>
 </html>
+```
