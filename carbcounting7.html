@@ -1,1 +1,970 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
+<title>Building a Meal</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  touch-action:manipulation;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f7f5fb;
+  color:#29233a;
+}
+
+.top{
+  height:55px;
+  background:white;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+}
+
+.back{
+  color:#555;
+  text-decoration:none;
+}
+
+.bar{
+  width:50%;
+  height:8px;
+  background:#eee;
+  margin:auto;
+  border-radius:10px;
+}
+
+.progress{
+  height:100%;
+  width:0;
+  background:#6c3fc5;
+  border-radius:10px;
+}
+
+.page{
+  height:calc(100dvh - 55px);
+  max-width:850px;
+  margin:auto;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+}
+
+.card{
+  background:white;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:8px;
+}
+
+.img{
+  width:100%;
+  height:min(45vh,350px);
+  object-fit:contain;
+  user-select:none;
+}
+
+.pool{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:5px;
+}
+
+.answer{
+  width:90%;
+  max-width:400px;
+  padding:10px;
+  font-size:18px;
+  text-align:center;
+  border:2px solid #6c3fc5;
+  border-radius:7px;
+  outline:none;
+}
+
+.feedback{
+  display:none;
+  text-align:center;
+  padding:8px;
+}
+
+.feedback.red{
+  color:#b00020;
+}
+
+.feedback.yellow{
+  color:#8a6d1b;
+}
+
+.feedback.green{
+  color:#1b5e20;
+}
+
+.controls{
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+.mainbtn{
+  border:0;
+  background:#6c3fc5;
+  color:white;
+  font-weight:bold;
+  padding:11px 28px;
+  border-radius:7px;
+}
+
+.secondarybtn{
+  border:2px solid #6c3fc5;
+  background:white;
+  color:#6c3fc5;
+  font-weight:bold;
+  padding:9px 24px;
+  border-radius:7px;
+}
+
+.complete{
+  position:fixed;
+  inset:0;
+  background:#f7f5fb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.completeButtons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.toppingList{
+  width:95%;
+  max-width:600px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.toppingRow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:5px 8px;
+  border-radius:6px;
+  background:#f7f5fb;
+}
+
+.toppingRow input[type="checkbox"]{
+  width:19px;
+  height:19px;
+  accent-color:#6c3fc5;
+  flex-shrink:0;
+}
+
+.toppingName{
+  flex:1;
+  font-size:16px;
+  text-align:left;
+}
+
+.grams{
+  width:90px;
+  padding:6px;
+  border:2px solid #ddd;
+  border-radius:6px;
+  font-size:15px;
+  text-align:center;
+  display:none;
+}
+
+.toppingRow.selected .grams{
+  display:block;
+  border-color:#6c3fc5;
+}
+
+.calcList{
+  width:95%;
+  max-width:500px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  max-height:100%;
+  overflow:auto;
+}
+
+.calcRow{
+  display:flex;
+  justify-content:space-between;
+  padding:7px 10px;
+  border-radius:6px;
+  background:#f7f5fb;
+}
+
+.calcRow.none{
+  opacity:.35;
+}
+
+.total{
+  margin-top:8px;
+  padding:10px;
+  border-radius:7px;
+  background:#eee;
+  font-size:19px;
+  font-weight:bold;
+}
+
+.questionText{
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  margin:4px 0 8px;
+}
+
+@media(max-width:600px){
+
+  .page{
+    padding:5px;
+  }
+
+  .img{
+    height:min(35vh,240px);
+  }
+
+  .mainbtn{
+    padding:10px 24px;
+  }
+
+  .toppingRow{
+    padding:3px 6px;
+  }
+
+  .toppingName{
+    font-size:14px;
+  }
+
+  .grams{
+    width:75px;
+    padding:5px;
+  }
+
+  .questionText{
+    font-size:16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+
+  <a class="back" href="../index.html">
+    Back
+  </a>
+
+  <div class="bar">
+    <div class="progress" id="progress"></div>
+  </div>
+
+</header>
+
+
+<main class="page" id="lesson">
+
+  <div class="card">
+
+    <img
+      id="img"
+      class="img"
+      draggable="false"
+      alt=""
+    >
+
+    <div id="pool" class="pool"></div>
+
+    <div id="feedback" class="feedback"></div>
+
+  </div>
+
+  <div class="controls">
+
+    <button
+      id="continue"
+      class="mainbtn">
+      Continue
+    </button>
+
+    <button
+      id="check"
+      class="mainbtn"
+      style="display:none">
+      Check
+    </button>
+
+  </div>
+
+</main>
+
+
+<section
+  id="complete"
+  class="complete"
+  style="display:none">
+
+  <div>
+
+    <h1>Lesson complete</h1>
+
+    <p>
+      You have finished Carb Counting!
+    </p>
+
+    <div class="completeButtons">
+
+      <button
+        class="mainbtn"
+        onclick="location.href='../index.html'">
+        Go to Home
+      </button>
+
+      <button
+        class="secondarybtn"
+        onclick="location.href='../finalchallenge/index.html'">
+        Go to Final Challenge
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+const lessons = [
+
+  /* SLIDE 43 */
+  {
+    type:"image",
+    image:"build/43.jpg"
+  },
+
+  /* SLIDE 44 */
+  {
+    type:"image",
+    image:"build/44.jpg"
+  },
+
+  /* SLIDE 45 */
+  {
+    type:"calc",
+    image:"build/45.jpg",
+    answer:28.025
+  },
+
+  /* SLIDE 46 */
+  {
+    type:"calc",
+    image:"build/46.jpg",
+    answer:31.725
+  },
+
+  /* SLIDE 47 */
+  {
+    type:"toppings",
+    image:"build/47.jpg"
+  },
+
+  /* SLIDE 48 */
+  {
+    type:"toppingCalc",
+    image:"build/48.jpg"
+  },
+
+  /* SLIDE 49 */
+  {
+    type:"image",
+    image:"build/49.jpg"
+  }
+
+];
+
+
+const toppings = {
+
+  "Cheddar cheese":0.1,
+  "Ham":1.5,
+  "Chicken breast":0,
+  "Tuna":0,
+  "Egg":0.7,
+  "Cucumber":1.5,
+  "Tomato":3.0,
+  "Lettuce":1.4,
+  "Sweetcorn":18.6,
+  "Hummus":14,
+  "Mayonnaise":1.0,
+  "Coleslaw":7,
+  "Avocado":1.8,
+  "Cream cheese":4.1,
+  "Peanut butter":9.1
+
+};
+
+
+let n = 0;
+let locked = false;
+
+let selectedToppings = {};
+
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function load(){
+
+  locked = false;
+
+  $("feedback").style.display = "none";
+  $("feedback").textContent = "";
+
+  $("progress").style.width =
+    (n / lessons.length * 100) + "%";
+
+  $("img").src =
+    lessons[n].image;
+
+  $("pool").innerHTML = "";
+
+  $("continue").style.display = "block";
+  $("check").style.display = "none";
+
+
+  if(lessons[n].type === "calc"){
+
+    loadCalc();
+
+    $("continue").style.display = "none";
+    $("check").style.display = "block";
+
+  }
+
+
+  if(lessons[n].type === "toppings"){
+
+    loadToppings();
+
+    $("continue").style.display = "none";
+    $("check").style.display = "block";
+
+  }
+
+
+  if(lessons[n].type === "toppingCalc"){
+
+    loadToppingCalculation();
+
+    $("continue").style.display = "none";
+    $("check").style.display = "block";
+
+  }
+
+}
+
+
+/* NORMAL CALCULATION QUESTION */
+
+function loadCalc(){
+
+  let input =
+    document.createElement("input");
+
+  input.type = "number";
+  input.step = "0.001";
+  input.inputMode = "decimal";
+  input.placeholder = "Enter answer";
+  input.className = "answer";
+  input.id = "answerBox";
+
+  $("pool").appendChild(input);
+
+
+  input.addEventListener("keydown", e => {
+
+    if(e.key === "Enter"){
+      $("check").click();
+    }
+
+  });
+
+}
+
+
+/* TOPPING SELECTION */
+
+function loadToppings(){
+
+  let title =
+    document.createElement("div");
+
+  title.className = "questionText";
+
+  title.textContent =
+    "Choose your toppings:";
+
+  $("pool").appendChild(title);
+
+
+  let list =
+    document.createElement("div");
+
+  list.className = "toppingList";
+
+
+  Object.keys(toppings).forEach(name => {
+
+    let row =
+      document.createElement("div");
+
+    row.className = "toppingRow";
+
+
+    let checkbox =
+      document.createElement("input");
+
+    checkbox.type = "checkbox";
+
+
+    let label =
+      document.createElement("div");
+
+    label.className = "toppingName";
+    label.textContent = name;
+
+
+    let grams =
+      document.createElement("input");
+
+    grams.type = "number";
+    grams.min = "0";
+    grams.step = "0.1";
+    grams.inputMode = "decimal";
+    grams.placeholder = "grams";
+    grams.className = "grams";
+
+
+    checkbox.addEventListener("change", () => {
+
+      if(checkbox.checked){
+
+        row.classList.add("selected");
+
+        selectedToppings[name] = {
+          grams:0
+        };
+
+      }else{
+
+        row.classList.remove("selected");
+
+        delete selectedToppings[name];
+
+        grams.value = "";
+
+      }
+
+    });
+
+
+    grams.addEventListener("input", () => {
+
+      if(selectedToppings[name]){
+
+        selectedToppings[name].grams =
+          parseFloat(grams.value) || 0;
+
+      }
+
+    });
+
+
+    row.appendChild(checkbox);
+    row.appendChild(label);
+    row.appendChild(grams);
+
+    list.appendChild(row);
+
+  });
+
+
+  $("pool").appendChild(list);
+
+}
+
+
+/* CALCULATE THE SELECTED TOPPINGS */
+
+function loadToppingCalculation(){
+
+  let list =
+    document.createElement("div");
+
+  list.className = "calcList";
+
+
+  let total = 0;
+
+
+  Object.keys(toppings).forEach(name => {
+
+    let row =
+      document.createElement("div");
+
+    row.className = "calcRow";
+
+
+    if(!selectedToppings[name]){
+
+      row.classList.add("none");
+
+      row.innerHTML =
+        "<span>" + name + "</span>" +
+        "<span>None</span>";
+
+    }else{
+
+      let grams =
+        selectedToppings[name].grams;
+
+      let carbsPer100 =
+        toppings[name];
+
+      let carbs =
+        grams * carbsPer100 / 100;
+
+      total += carbs;
+
+
+      row.innerHTML =
+        "<span>" +
+        name +
+        " (" +
+        grams +
+        "g)" +
+        "</span>" +
+
+        "<span>" +
+        carbs.toFixed(3) +
+        "g" +
+        "</span>";
+
+    }
+
+
+    list.appendChild(row);
+
+  });
+
+
+  let totalBox =
+    document.createElement("div");
+
+  totalBox.className = "total";
+
+  totalBox.id = "calculatedTotal";
+
+  totalBox.textContent =
+    "Total: " +
+    total.toFixed(3) +
+    "g carbohydrate";
+
+
+  $("pool").appendChild(list);
+  $("pool").appendChild(totalBox);
+
+
+  let input =
+    document.createElement("input");
+
+  input.type = "number";
+  input.step = "0.001";
+  input.inputMode = "decimal";
+  input.placeholder = "Enter your answer";
+  input.className = "answer";
+  input.id = "answerBox";
+
+  $("pool").appendChild(input);
+
+
+  input.addEventListener("keydown", e => {
+
+    if(e.key === "Enter"){
+      $("check").click();
+    }
+
+  });
+
+}
+
+
+/* CHECK */
+
+$("check").onclick = () => {
+
+  if(locked)
+    return;
+
+
+  let x =
+    lessons[n];
+
+
+  /* NORMAL CALC */
+
+  if(x.type === "calc"){
+
+    let value =
+      parseFloat(
+        $("answerBox").value
+      );
+
+
+    if(isNaN(value)){
+
+      showFeedback(
+        "yellow",
+        "Enter a number."
+      );
+
+      return;
+
+    }
+
+
+    if(
+      Math.abs(value - x.answer) < 0.01
+    ){
+
+      correctAdvance();
+
+    }else{
+
+      showFeedback(
+        "red",
+        "Not right. Try again."
+      );
+
+    }
+
+  }
+
+
+  /* TOPPING SELECTION */
+
+  if(x.type === "toppings"){
+
+    let amount =
+      Object.keys(selectedToppings).length;
+
+
+    if(amount === 0){
+
+      showFeedback(
+        "yellow",
+        "Choose at least one topping."
+      );
+
+      return;
+
+    }
+
+
+    n++;
+
+    load();
+
+  }
+
+
+  /* TOPPING CALCULATION */
+
+  if(x.type === "toppingCalc"){
+
+    let value =
+      parseFloat(
+        $("answerBox").value
+      );
+
+
+    if(isNaN(value)){
+
+      showFeedback(
+        "yellow",
+        "Enter your total."
+      );
+
+      return;
+
+    }
+
+
+    let total = 0;
+
+
+    Object.keys(selectedToppings)
+      .forEach(name => {
+
+        let grams =
+          selectedToppings[name].grams || 0;
+
+        total +=
+          grams *
+          toppings[name] /
+          100;
+
+      });
+
+
+    if(
+      Math.abs(value - total) < 0.01
+    ){
+
+      correctAdvance();
+
+    }else{
+
+      showFeedback(
+        "red",
+        "Not right. Check your calculations and try again."
+      );
+
+    }
+
+  }
+
+};
+
+
+function showFeedback(type,text){
+
+  $("feedback").className =
+    "feedback " + type;
+
+  $("feedback").textContent =
+    text;
+
+  $("feedback").style.display =
+    "block";
+
+}
+
+
+function correctAdvance(){
+
+  locked = true;
+
+  showFeedback(
+    "green",
+    "Correct!"
+  );
+
+
+  setTimeout(() => {
+
+    n++;
+
+
+    if(n >= lessons.length){
+
+      finish();
+      return;
+
+    }
+
+
+    load();
+
+  },600);
+
+}
+
+
+/* CONTINUE */
+
+$("continue").onclick = () => {
+
+  if(locked)
+    return;
+
+
+  n++;
+
+
+  if(n >= lessons.length){
+
+    finish();
+    return;
+
+  }
+
+
+  load();
+
+};
+
+
+/* FINISH */
+
+function finish(){
+
+  $("lesson").style.display =
+    "none";
+
+  $("complete").style.display =
+    "flex";
+
+  $("progress").style.width =
+    "100%";
+
+}
+
+
+load();
+
+</script>
+
+</body>
+</html>
+```
