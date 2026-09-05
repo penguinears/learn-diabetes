@@ -1,0 +1,455 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Suggest a Lesson</title>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  font-family:Arial,sans-serif;
+  background:#f7f5fb;
+  color:#29233a;
+}
+
+.top{
+  height:55px;
+  background:white;
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  border-bottom:1px solid #eee;
+}
+
+.back{
+  color:#555;
+  text-decoration:none;
+  font-size:16px;
+}
+
+.page{
+  max-width:700px;
+  margin:auto;
+  padding:25px 15px 40px;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:25px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:28px;
+  text-align:center;
+}
+
+.intro{
+  text-align:center;
+  color:#666;
+  margin:0 0 25px;
+  line-height:1.5;
+}
+
+.field{
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  font-size:17px;
+  margin-bottom:7px;
+}
+
+.help{
+  font-size:14px;
+  color:#777;
+  margin:0 0 8px;
+}
+
+input,
+textarea{
+  width:100%;
+  border:2px solid #ddd;
+  border-radius:8px;
+  padding:12px;
+  font:inherit;
+  font-size:16px;
+  outline:none;
+  background:white;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#6c3fc5;
+}
+
+textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.submit{
+  width:100%;
+  border:0;
+  background:#6c3fc5;
+  color:white;
+  font-weight:bold;
+  font-size:17px;
+  padding:13px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.submit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.error{
+  display:none;
+  color:#b00020;
+  text-align:center;
+  margin-top:15px;
+}
+
+.success{
+  position:fixed;
+  inset:0;
+  background:#f7f5fb;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.success i{
+  font-size:90px;
+  color:#22a447;
+  margin-bottom:20px;
+}
+
+.success h1{
+  font-size:30px;
+  margin:0;
+}
+
+.success p{
+  color:#666;
+  margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="top">
+
+  <a href="index.html" class="back">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back
+  </a>
+
+</header>
+
+
+<main class="page">
+
+  <div class="card">
+
+    <h1>Suggest a Lesson</h1>
+
+    <p class="intro">
+      Have an idea for a new Learn Diabetes lesson?
+      Tell us about it!
+    </p>
+
+
+    <form id="suggestionForm">
+
+
+      <!-- LESSON NAME -->
+
+      <div class="field">
+
+        <label for="lessonName">
+          1. Lesson name
+        </label>
+
+        <p class="help">
+          Example: Understanding Blood Glucose
+        </p>
+
+        <input
+          id="lessonName"
+          type="text"
+          placeholder="Enter your lesson name..."
+          maxlength="100"
+          required>
+
+      </div>
+
+
+      <!-- CONTENT -->
+
+      <div class="field">
+
+        <label for="lessonContent">
+          2. Lesson contents
+        </label>
+
+        <p class="help">
+          Example: Explain what blood glucose is,
+          why it changes and what can make it go up or down.
+        </p>
+
+        <textarea
+          id="lessonContent"
+          placeholder="What should the lesson teach?"
+          maxlength="2000"
+          required></textarea>
+
+      </div>
+
+
+      <!-- EXTRA NOTES -->
+
+      <div class="field">
+
+        <label for="extraNotes">
+          3. Extra notes
+        </label>
+
+        <p class="help">
+          Example: I'd like this lesson to include
+          a short video, a quiz and some interactive questions.
+        </p>
+
+        <textarea
+          id="extraNotes"
+          placeholder="Anything else we should know?"
+          maxlength="2000"
+          required></textarea>
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="submit"
+        id="submitButton">
+
+        Submit Suggestion
+
+      </button>
+
+      <div
+        id="error"
+        class="error">
+        Something went wrong. Please try again.
+      </div>
+
+    </form>
+
+  </div>
+
+</main>
+
+
+<!-- SUCCESS SCREEN -->
+
+<section
+  id="success"
+  class="success">
+
+  <div>
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <h1>
+      Submission sent
+    </h1>
+
+    <p>
+      Thanks for helping improve Learn Diabetes.
+    </p>
+
+  </div>
+
+</section>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyBMAFSxXeDkSNVuKRLbVWrkFQCOjmNcdgM",
+
+  authDomain:
+    "studio-455799439-399e9.firebaseapp.com",
+
+  databaseURL:
+    "https://studio-455799439-399e9-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+    "studio-455799439-399e9",
+
+  storageBucket:
+    "studio-455799439-399e9.firebasestorage.app",
+
+  messagingSenderId:
+    "462470140143",
+
+  appId:
+    "1:462470140143:web:aaeeb9123d62153245cb1a"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const database = getDatabase(app);
+
+
+/* ELEMENTS */
+
+const form =
+  document.getElementById("suggestionForm");
+
+const submitButton =
+  document.getElementById("submitButton");
+
+const error =
+  document.getElementById("error");
+
+const success =
+  document.getElementById("success");
+
+
+/* SUBMIT */
+
+form.addEventListener("submit", async (event) => {
+
+  event.preventDefault();
+
+  error.style.display = "none";
+
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending...";
+
+
+  const lessonName =
+    document.getElementById("lessonName").value.trim();
+
+  const lessonContent =
+    document.getElementById("lessonContent").value.trim();
+
+  const extraNotes =
+    document.getElementById("extraNotes").value.trim();
+
+
+  if(
+    !lessonName ||
+    !lessonContent ||
+    !extraNotes
+  ){
+
+    error.textContent =
+      "Please complete all three boxes.";
+
+    error.style.display = "block";
+
+    submitButton.disabled = false;
+    submitButton.textContent =
+      "Submit Suggestion";
+
+    return;
+
+  }
+
+
+  try{
+
+    await push(
+      ref(database, "lessonSuggestions"),
+      {
+        lessonName: lessonName,
+        lessonContent: lessonContent,
+        extraNotes: extraNotes,
+        submittedAt: serverTimestamp()
+      }
+    );
+
+
+    /* SHOW SUCCESS */
+
+    success.style.display = "flex";
+
+
+    /* RETURN HOME AFTER 2 SECONDS */
+
+    setTimeout(() => {
+
+      window.location.href =
+        "index.html";
+
+    }, 2000);
+
+
+  }catch(err){
+
+    console.error(err);
+
+    error.textContent =
+      "Something went wrong. Please try again.";
+
+    error.style.display = "block";
+
+    submitButton.disabled = false;
+    submitButton.textContent =
+      "Submit Suggestion";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
+```
