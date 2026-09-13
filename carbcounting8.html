@@ -1,12 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+>
 
 <title>Final Level</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 
 <style>
 
@@ -14,7 +24,8 @@
   box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
   margin:0;
   width:100%;
   height:100%;
@@ -50,12 +61,30 @@ body{
   overflow:hidden;
 }
 
-.progress{
+.progressTrack{
+  width:100%;
   height:100%;
-  width:0;
-  background:#6c3fc5;
-  border-radius:10px;
-  transition:width .3s ease,background .3s ease;
+  display:flex;
+}
+
+.progressPart{
+  height:100%;
+  flex:1;
+  background:#eee;
+  border-right:1px solid white;
+  transition:background .2s ease;
+}
+
+.progressPart:last-child{
+  border-right:0;
+}
+
+.progressPart.correct{
+  background:#2e9b45;
+}
+
+.progressPart.wrong{
+  background:#d62f2f;
 }
 
 .page{
@@ -113,26 +142,6 @@ body{
   min-height:60px;
 }
 
-.resultIcon{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:auto;
-  color:white;
-  font-size:25px;
-}
-
-.resultIcon.green{
-  background:#2e9b45;
-}
-
-.resultIcon.red{
-  background:#d62f2f;
-}
-
 .controls{
   height:58px;
   display:flex;
@@ -171,6 +180,35 @@ button{
   margin:2px 0 5px;
 }
 
+.resultPage{
+  position:fixed;
+  inset:0;
+  background:#f7f5fb;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:15;
+}
+
+.resultPage .resultIcon{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:38px;
+}
+
+.resultPage .resultIcon.green{
+  background:#2e9b45;
+}
+
+.resultPage .resultIcon.red{
+  background:#d62f2f;
+}
+
 .complete{
   position:fixed;
   inset:0;
@@ -190,11 +228,6 @@ button{
 .score{
   font-size:30px;
   font-weight:bold;
-  margin:10px;
-}
-
-.percentage{
-  font-size:22px;
   margin:10px;
 }
 
@@ -230,9 +263,11 @@ button{
 }
 
 @keyframes fall{
+
   to{
     transform:translateY(110vh) rotate(720deg);
   }
+
 }
 
 @media(max-width:600px){
@@ -260,35 +295,43 @@ button{
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header class="top">
 
-  <a class="back" href="../index.html">
+  <a
+    class="back"
+    href="../index.html"
+  >
     Back
   </a>
 
   <div class="bar">
+
     <div
-      class="progress"
-      id="progress">
-    </div>
+      class="progressTrack"
+      id="progress"
+    ></div>
+
   </div>
 
 </header>
 
+
 <main
   class="page"
-  id="lesson">
+  id="lesson"
+>
 
   <div class="card">
 
     <div
       id="questionNumber"
-      class="questionNumber">
-    </div>
+      class="questionNumber"
+    ></div>
 
     <img
       id="img"
@@ -299,28 +342,31 @@ button{
 
     <div
       id="pool"
-      class="pool">
-    </div>
+      class="pool"
+    ></div>
 
     <div
       id="feedback"
-      class="feedback">
-    </div>
+      class="feedback"
+    ></div>
 
   </div>
+
 
   <div class="controls">
 
     <button
       id="continue"
-      class="mainbtn">
+      class="mainbtn"
+    >
       Continue
     </button>
 
     <button
       id="check"
       class="mainbtn"
-      style="display:none">
+      style="display:none"
+    >
       Check
     </button>
 
@@ -328,10 +374,25 @@ button{
 
 </main>
 
+
+<section
+  id="resultPage"
+  class="resultPage"
+>
+
+  <div
+    id="resultIcon"
+    class="resultIcon"
+  ></div>
+
+</section>
+
+
 <section
   id="complete"
   class="complete"
-  style="display:none">
+  style="display:none"
+>
 
   <div>
 
@@ -339,24 +400,20 @@ button{
 
     <div
       id="score"
-      class="score">
-    </div>
-
-    <div
-      id="percentage"
-      class="percentage">
-    </div>
+      class="score"
+    ></div>
 
     <div
       id="status"
-      class="status">
-    </div>
+      class="status"
+    ></div>
 
     <div class="completeButtons">
 
       <button
         id="redo"
-        class="mainbtn">
+        class="mainbtn"
+      >
 
         <i class="fa-solid fa-rotate-right"></i>
         Redo
@@ -365,10 +422,9 @@ button{
 
       <button
         class="secondarybtn"
-        onclick="location.href='../index.html'">
-
+        onclick="location.href='../index.html'"
+      >
         Go to Home
-
       </button>
 
     </div>
@@ -376,6 +432,7 @@ button{
   </div>
 
 </section>
+
 
 <script>
 
@@ -443,79 +500,155 @@ const questions = [
 
 ];
 
+
 let n = 0;
 let score = 0;
 let locked = false;
 
-const $ = id => document.getElementById(id);
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function createProgress(){
+
+  $("progress").innerHTML = "";
+
+  questions.forEach(() => {
+
+    const part =
+      document.createElement("div");
+
+    part.className =
+      "progressPart";
+
+    $("progress").appendChild(part);
+
+  });
+
+}
+
+
+function setProgress(index,correct){
+
+  const parts =
+    $("progress").children;
+
+  if(parts[index]){
+
+    parts[index].className =
+      "progressPart " +
+      (correct ? "correct" : "wrong");
+
+  }
+
+}
+
 
 function loadIntro(){
 
   locked = false;
 
-  $("img").src = "fimages/50.jpg";
+  $("img").src =
+    "fimages/50.jpg";
 
-  $("pool").innerHTML = "";
+  $("pool").innerHTML =
+    "";
 
-  $("questionNumber").textContent = "";
+  $("questionNumber").textContent =
+    "";
 
-  $("feedback").innerHTML = "";
+  $("feedback").innerHTML =
+    "";
 
-  $("feedback").style.display = "none";
+  $("feedback").style.display =
+    "none";
 
-  $("continue").style.display = "block";
+  $("continue").style.display =
+    "block";
 
-  $("check").style.display = "none";
+  $("check").style.display =
+    "none";
 
-  $("progress").style.width = "0%";
-
-  $("progress").style.background = "#6c3fc5";
+  createProgress();
 
 }
+
 
 function loadQuestion(){
 
   locked = false;
 
-  const q = questions[n];
+  const q =
+    questions[n];
 
-  $("img").src = q.image;
+  $("img").src =
+    q.image;
 
   $("questionNumber").textContent =
-    "Question " + (n + 1) + " of " + questions.length;
+    "Question " +
+    (n + 1) +
+    " of " +
+    questions.length;
 
-  $("pool").innerHTML = "";
+  $("pool").innerHTML =
+    "";
 
-  $("feedback").innerHTML = "";
+  $("feedback").innerHTML =
+    "";
 
-  $("feedback").style.display = "none";
+  $("feedback").style.display =
+    "none";
 
-  $("continue").style.display = "none";
+  $("continue").style.display =
+    "none";
 
-  $("check").style.display = "block";
+  $("check").style.display =
+    "block";
 
-  const input = document.createElement("input");
 
-  input.type = "number";
-  input.step = "any";
-  input.inputMode = "decimal";
-  input.placeholder = "Enter answer";
-  input.className = "answer";
-  input.id = "answerBox";
+  const input =
+    document.createElement("input");
+
+  input.type =
+    "number";
+
+  input.step =
+    "any";
+
+  input.inputMode =
+    "decimal";
+
+  input.placeholder =
+    "Enter answer";
+
+  input.className =
+    "answer";
+
+  input.id =
+    "answerBox";
+
 
   $("pool").appendChild(input);
 
   input.focus();
 
-  input.addEventListener("keydown", e => {
 
-    if(e.key === "Enter"){
-      $("check").click();
+  input.addEventListener(
+    "keydown",
+    e => {
+
+      if(e.key === "Enter"){
+
+        $("check").click();
+
+      }
+
     }
-
-  });
+  );
 
 }
+
 
 $("check").onclick = () => {
 
@@ -523,45 +656,99 @@ $("check").onclick = () => {
     return;
   }
 
-  const q = questions[n];
 
-  const value = parseFloat($("answerBox").value);
+  const q =
+    questions[n];
+
+
+  const value =
+    parseFloat(
+      $("answerBox").value
+    );
+
 
   if(isNaN(value)){
 
-    $("feedback").textContent = "Enter a number.";
-    $("feedback").style.display = "block";
+    $("feedback").textContent =
+      "Enter a number.";
+
+    $("feedback").style.display =
+      "block";
 
     return;
+
   }
 
+
   const correct =
-    Math.abs(value - q.answer) <= q.tolerance;
+    Math.abs(
+      value - q.answer
+    ) <= q.tolerance;
+
 
   locked = true;
+
 
   if(correct){
 
     score++;
 
-    showAnswerResult(true);
-
-    $("progress").style.background = "#2e9b45";
-
-  }else{
-
-    showAnswerResult(false);
-
-    $("progress").style.background = "#d62f2f";
-
   }
 
-  $("progress").style.width =
-    ((n + 1) / questions.length * 100) + "%";
+
+  setProgress(
+    n,
+    correct
+  );
+
+
+  showResultPage(
+    correct
+  );
+
+};
+
+
+function showResultPage(correct){
+
+  $("lesson").style.display =
+    "none";
+
+  $("resultPage").style.display =
+    "flex";
+
+
+  $("resultIcon").className =
+    "resultIcon " +
+    (correct ? "green" : "red");
+
+
+  $("resultIcon").innerHTML =
+    "";
+
+
+  const icon =
+    document.createElement("i");
+
+
+  icon.className =
+    correct
+      ? "fa-solid fa-check"
+      : "fa-solid fa-xmark";
+
+
+  $("resultIcon").appendChild(
+    icon
+  );
+
 
   setTimeout(() => {
 
+    $("resultPage").style.display =
+      "none";
+
     n++;
+
 
     if(n >= questions.length){
 
@@ -569,39 +756,17 @@ $("check").onclick = () => {
 
     }else{
 
+      $("lesson").style.display =
+        "flex";
+
       loadQuestion();
 
     }
 
   },700);
 
-};
-
-function showAnswerResult(correct){
-
-  $("feedback").style.display = "block";
-
-  $("feedback").innerHTML = "";
-
-  const icon = document.createElement("div");
-
-  icon.className =
-    correct
-      ? "resultIcon green"
-      : "resultIcon red";
-
-  const iconElement = document.createElement("i");
-
-  iconElement.className =
-    correct
-      ? "fa-solid fa-check"
-      : "fa-solid fa-xmark";
-
-  icon.appendChild(iconElement);
-
-  $("feedback").appendChild(icon);
-
 }
+
 
 $("continue").onclick = () => {
 
@@ -617,40 +782,48 @@ $("continue").onclick = () => {
 
 };
 
+
 function finish(){
 
-  $("lesson").style.display = "none";
+  $("lesson").style.display =
+    "none";
 
-  $("complete").style.display = "flex";
+  $("resultPage").style.display =
+    "none";
 
-  $("progress").style.width = "100%";
+  $("complete").style.display =
+    "flex";
 
-  const percentage =
-    Math.round(score / questions.length * 100);
 
   $("score").textContent =
-    "You got " + score + " out of " + questions.length;
+    "You got " +
+    score +
+    " out of " +
+    questions.length;
 
-  $("percentage").textContent =
-    percentage + "% correct";
 
   if(score >= 8){
 
-    $("status").textContent = "PASSED!";
+    $("status").textContent =
+      "You passed";
 
-    $("status").className = "status pass";
+    $("status").className =
+      "status pass";
 
     createConfetti();
 
   }else{
 
-    $("status").textContent = "FAILED";
+    $("status").textContent =
+      "You didn't pass";
 
-    $("status").className = "status fail";
+    $("status").className =
+      "status fail";
 
   }
 
 }
+
 
 $("redo").onclick = () => {
 
@@ -658,30 +831,45 @@ $("redo").onclick = () => {
 
   n = 0;
 
-  $("complete").style.display = "none";
+  $("complete").style.display =
+    "none";
 
-  $("lesson").style.display = "flex";
+  $("resultPage").style.display =
+    "none";
+
+  $("lesson").style.display =
+    "flex";
 
   loadIntro();
 
 };
 
+
 function createConfetti(){
 
   for(let i = 0; i < 120; i++){
 
-    const piece = document.createElement("div");
+    const piece =
+      document.createElement("div");
 
-    piece.className = "confetti";
+    piece.className =
+      "confetti";
+
 
     piece.style.left =
-      Math.random() * 100 + "vw";
+      Math.random() * 100 +
+      "vw";
+
 
     piece.style.animationDuration =
-      (2.5 + Math.random() * 3) + "s";
+      (2.5 + Math.random() * 3) +
+      "s";
+
 
     piece.style.animationDelay =
-      Math.random() * 1.5 + "s";
+      Math.random() * 1.5 +
+      "s";
+
 
     piece.style.backgroundColor =
       [
@@ -690,22 +878,34 @@ function createConfetti(){
         "#d62f2f",
         "#f2c94c",
         "#3498db"
-      ][Math.floor(Math.random() * 5)];
+      ][
+        Math.floor(
+          Math.random() * 5
+        )
+      ];
 
-    document.body.appendChild(piece);
+
+    document.body.appendChild(
+      piece
+    );
+
 
     setTimeout(() => {
+
       piece.remove();
+
     },6000);
 
   }
 
 }
 
+
 loadIntro();
 
 </script>
 
 </body>
+
 </html>
 
