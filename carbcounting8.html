@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Final Level</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  touch-action:manipulation;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f7f5fb;
+  color:#29233a;
+}
+
+.top{
+  height:55px;
+  background:white;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+}
+
+.back{
+  color:#555;
+  text-decoration:none;
+}
+
+.bar{
+  width:50%;
+  height:8px;
+  background:#eee;
+  margin:auto;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress{
+  height:100%;
+  width:0;
+  background:#6c3fc5;
+  border-radius:10px;
+  transition:width .3s ease,background .3s ease;
+}
+
+.page{
+  height:calc(100dvh - 55px);
+  max-width:850px;
+  margin:auto;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+}
+
+.card{
+  background:white;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:8px;
+}
+
+.img{
+  width:100%;
+  height:min(50vh,380px);
+  object-fit:contain;
+  user-select:none;
+}
+
+.pool{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:5px;
+}
+
+.answer{
+  width:90%;
+  max-width:400px;
+  padding:10px;
+  font-size:18px;
+  text-align:center;
+  border:2px solid #6c3fc5;
+  border-radius:7px;
+  outline:none;
+}
+
+.feedback{
+  display:none;
+  text-align:center;
+  padding:8px;
+  min-height:60px;
+}
+
+.resultIcon{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  color:white;
+  font-size:25px;
+}
+
+.resultIcon.green{
+  background:#2e9b45;
+}
+
+.resultIcon.red{
+  background:#d62f2f;
+}
+
+.controls{
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+.mainbtn{
+  border:0;
+  background:#6c3fc5;
+  color:white;
+  font-weight:bold;
+  padding:11px 28px;
+  border-radius:7px;
+}
+
+.secondarybtn{
+  border:2px solid #6c3fc5;
+  background:white;
+  color:#6c3fc5;
+  font-weight:bold;
+  padding:9px 24px;
+  border-radius:7px;
+}
+
+.questionNumber{
+  text-align:center;
+  font-size:15px;
+  color:#666;
+  margin:2px 0 5px;
+}
+
+.complete{
+  position:fixed;
+  inset:0;
+  background:#f7f5fb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:20;
+}
+
+.complete h1{
+  font-size:32px;
+  margin-bottom:15px;
+}
+
+.score{
+  font-size:30px;
+  font-weight:bold;
+  margin:10px;
+}
+
+.percentage{
+  font-size:22px;
+  margin:10px;
+}
+
+.status{
+  font-size:26px;
+  font-weight:bold;
+  margin:18px;
+}
+
+.status.pass{
+  color:#2e9b45;
+}
+
+.status.fail{
+  color:#d62f2f;
+}
+
+.completeButtons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.confetti{
+  position:fixed;
+  top:-20px;
+  width:9px;
+  height:14px;
+  z-index:100;
+  pointer-events:none;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+  }
+}
+
+@media(max-width:600px){
+
+  .page{
+    padding:5px;
+  }
+
+  .img{
+    height:min(40vh,260px);
+  }
+
+  .mainbtn{
+    padding:10px 24px;
+  }
+
+  .questionNumber{
+    font-size:14px;
+  }
+
+  .complete h1{
+    font-size:28px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="top">
+
+  <a class="back" href="../index.html">
+    Back
+  </a>
+
+  <div class="bar">
+    <div
+      class="progress"
+      id="progress">
+    </div>
+  </div>
+
+</header>
+
+<main
+  class="page"
+  id="lesson">
+
+  <div class="card">
+
+```
+<div
+  id="questionNumber"
+  class="questionNumber">
+</div>
+
+<img
+  id="img"
+  class="img"
+  draggable="false"
+  alt=""
+>
+
+<div
+  id="pool"
+  class="pool">
+</div>
+
+<div
+  id="feedback"
+  class="feedback">
+</div>
+```
+
+  </div>
+
+  <div class="controls">
+
+```
+<button
+  id="continue"
+  class="mainbtn">
+  Continue
+</button>
+
+<button
+  id="check"
+  class="mainbtn"
+  style="display:none">
+  Check
+</button>
+```
+
+  </div>
+
+</main>
+
+<section
+  id="complete"
+  class="complete"
+  style="display:none">
+
+  <div>
+
+```
+<h1>Final Level</h1>
+
+<div
+  id="score"
+  class="score">
+</div>
+
+<div
+  id="percentage"
+  class="percentage">
+</div>
+
+<div
+  id="status"
+  class="status">
+</div>
+
+<div class="completeButtons">
+
+  <button
+    id="redo"
+    class="mainbtn">
+
+    <i class="fa-solid fa-rotate-right"></i>
+    Redo
+
+  </button>
+
+  <button
+    class="secondarybtn"
+    onclick="location.href='../index.html'">
+
+    Go to Home
+
+  </button>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<script>
+
+const questions = [
+
+  {
+    image:"build/51.jpg",
+    answer:90,
+    tolerance:0.1
+  },
+
+  {
+    image:"build/52.jpg",
+    answer:3.792,
+    tolerance:0.1
+  },
+
+  {
+    image:"build/53.jpg",
+    answer:93.729,
+    tolerance:0.5
+  },
+
+  {
+    image:"build/54.jpg",
+    answer:35.4,
+    tolerance:0.5
+  },
+
+  {
+    image:"build/55.jpg",
+    answer:0,
+    tolerance:0.1
+  },
+
+  {
+    image:"build/56.jpg",
+    answer:6.16,
+    tolerance:0.5
+  },
+
+  {
+    image:"build/57.jpg",
+    answer:1.8,
+    tolerance:0.5
+  },
+
+  {
+    image:"build/58.jpg",
+    answer:30,
+    tolerance:0.5
+  },
+
+  {
+    image:"build/59.jpg",
+    answer:0,
+    tolerance:0.1
+  },
+
+  {
+    image:"build/60.jpg",
+    answer:51.52,
+    tolerance:0.5
+  }
+
+];
+
+
+let n = 0;
+let score = 0;
+let locked = false;
+
+
+const $ = id =>
+  document.getElementById(id);
+
+
+/* INTRO */
+
+function loadIntro(){
+
+  locked = false;
+
+  $("img").src =
+    "build/50.jpg";
+
+  $("pool").innerHTML = "";
+
+  $("questionNumber").textContent = "";
+
+  $("feedback").innerHTML = "";
+
+  $("feedback").style.display =
+    "none";
+
+  $("continue").style.display =
+    "block";
+
+  $("check").style.display =
+    "none";
+
+  $("progress").style.width =
+    "0%";
+
+  $("progress").style.background =
+    "#6c3fc5";
+
+}
+
+
+/* LOAD QUESTION */
+
+function loadQuestion(){
+
+  locked = false;
+
+  const q =
+    questions[n];
+
+  $("img").src =
+    q.image;
+
+  $("questionNumber").textContent =
+    "Question " +
+    (n + 1) +
+    " of 10";
+
+  $("pool").innerHTML = "";
+
+  $("feedback").innerHTML = "";
+
+  $("feedback").style.display =
+    "none";
+
+  $("continue").style.display =
+    "none";
+
+  $("check").style.display =
+    "block";
+
+
+  const input =
+    document.createElement("input");
+
+  input.type =
+    "number";
+
+  input.step =
+    "any";
+
+  input.inputMode =
+    "decimal";
+
+  input.placeholder =
+    "Enter answer";
+
+  input.className =
+    "answer";
+
+  input.id =
+    "answerBox";
+
+
+  $("pool").appendChild(input);
+
+
+  input.addEventListener(
+    "keydown",
+    e => {
+
+      if(e.key === "Enter"){
+
+        $("check").click();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* CHECK */
+
+$("check").onclick = () => {
+
+  if(locked)
+    return;
+
+
+  const q =
+    questions[n];
+
+
+  const value =
+    parseFloat(
+      $("answerBox").value
+    );
+
+
+  if(isNaN(value)){
+
+    $("feedback").innerHTML =
+      "Enter a number.";
+
+    $("feedback").style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  const correct =
+    Math.abs(
+      value - q.answer
+    ) <= q.tolerance;
+
+
+  locked = true;
+
+
+  if(correct){
+
+    score++;
+
+    showAnswerResult(true);
+
+    $("progress").style.background =
+      "#2e9b45";
+
+  }else{
+
+    showAnswerResult(false);
+
+    $("progress").style.background =
+      "#d62f2f";
+
+  }
+
+
+  /*
+    Fill the progress bar after
+    the answer is submitted.
+  */
+
+  $("progress").style.width =
+    ((n + 1) / questions.length * 100)
+    + "%";
+
+
+  setTimeout(() => {
+
+    n++;
+
+
+    if(n >= questions.length){
+
+      finish();
+
+    }else{
+
+      loadQuestion();
+
+    }
+
+  },700);
+
+};
+
+
+/* RESULT ICON */
+
+function showAnswerResult(correct){
+
+  $("feedback").style.display =
+    "block";
+
+
+  if(correct){
+
+    $("feedback").innerHTML =
+
+      '<div class="resultIcon green">' +
+      '<i class="fa-solid fa-check"></i>' +
+      '</div>';
+
+  }else{
+
+    $("feedback").innerHTML =
+
+      '<div class="resultIcon red">' +
+      '<i class="fa-solid fa-xmark"></i>' +
+      '</div>';
+
+  }
+
+}
+
+
+/* CONTINUE FROM 50 */
+
+$("continue").onclick = () => {
+
+  if(locked)
+    return;
+
+  locked = true;
+
+  n = 0;
+
+  loadQuestion();
+
+};
+
+
+/* FINISH */
+
+function finish(){
+
+  $("lesson").style.display =
+    "none";
+
+  $("complete").style.display =
+    "flex";
+
+  $("progress").style.width =
+    "100%";
+
+
+  const percentage =
+    Math.round(
+      score / 10 * 100
+    );
+
+
+  $("score").textContent =
+    "You got " +
+    score +
+    " out of 10";
+
+
+  $("percentage").textContent =
+    percentage +
+    "% correct";
+
+
+  if(score >= 8){
+
+    $("status").textContent =
+      "PASSED!";
+
+    $("status").className =
+      "status pass";
+
+    createConfetti();
+
+  }else{
+
+    $("status").textContent =
+      "FAILED";
+
+    $("status").className =
+      "status fail";
+
+  }
+
+}
+
+
+/* REDO */
+
+$("redo").onclick = () => {
+
+  score = 0;
+
+  n = 0;
+
+  $("complete").style.display =
+    "none";
+
+  $("lesson").style.display =
+    "flex";
+
+  loadIntro();
+
+};
+
+
+/* CONFETTI */
+
+function createConfetti(){
+
+  for(let i = 0; i < 120; i++){
+
+    const piece =
+      document.createElement("div");
+
+    piece.className =
+      "confetti";
+
+
+    piece.style.left =
+      Math.random() * 100 +
+      "vw";
+
+
+    piece.style.animationDuration =
+      (2.5 + Math.random() * 3) +
+      "s";
+
+
+    piece.style.animationDelay =
+      Math.random() * 1.5 +
+      "s";
+
+
+    piece.style.backgroundColor =
+      [
+        "#6c3fc5",
+        "#2e9b45",
+        "#d62f2f",
+        "#f2c94c",
+        "#3498db"
+      ][
+        Math.floor(
+          Math.random() * 5
+        )
+      ];
+
+
+    document.body.appendChild(piece);
+
+
+    setTimeout(() => {
+
+      piece.remove();
+
+    },6000);
+
+  }
+
+}
+
+
+/* START */
+
+loadIntro();
+
+</script>
+
+<!-- YOUR EXISTING CALCULATOR -->
+
+<script src="calculator.js"></script>
+
+</body>
+</html>
