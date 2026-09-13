@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,8 +6,7 @@
 
 <title>Final Level</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 
@@ -262,7 +260,6 @@ button{
 }
 
 </style>
-
 </head>
 
 <body>
@@ -288,48 +285,44 @@ button{
 
   <div class="card">
 
-```
-<div
-  id="questionNumber"
-  class="questionNumber">
-</div>
+    <div
+      id="questionNumber"
+      class="questionNumber">
+    </div>
 
-<img
-  id="img"
-  class="img"
-  draggable="false"
-  alt=""
->
+    <img
+      id="img"
+      class="img"
+      draggable="false"
+      alt=""
+    >
 
-<div
-  id="pool"
-  class="pool">
-</div>
+    <div
+      id="pool"
+      class="pool">
+    </div>
 
-<div
-  id="feedback"
-  class="feedback">
-</div>
-```
+    <div
+      id="feedback"
+      class="feedback">
+    </div>
 
   </div>
 
   <div class="controls">
 
-```
-<button
-  id="continue"
-  class="mainbtn">
-  Continue
-</button>
+    <button
+      id="continue"
+      class="mainbtn">
+      Continue
+    </button>
 
-<button
-  id="check"
-  class="mainbtn"
-  style="display:none">
-  Check
-</button>
-```
+    <button
+      id="check"
+      class="mainbtn"
+      style="display:none">
+      Check
+    </button>
 
   </div>
 
@@ -342,45 +335,43 @@ button{
 
   <div>
 
-```
-<h1>Final Level</h1>
+    <h1>Final Level</h1>
 
-<div
-  id="score"
-  class="score">
-</div>
+    <div
+      id="score"
+      class="score">
+    </div>
 
-<div
-  id="percentage"
-  class="percentage">
-</div>
+    <div
+      id="percentage"
+      class="percentage">
+    </div>
 
-<div
-  id="status"
-  class="status">
-</div>
+    <div
+      id="status"
+      class="status">
+    </div>
 
-<div class="completeButtons">
+    <div class="completeButtons">
 
-  <button
-    id="redo"
-    class="mainbtn">
+      <button
+        id="redo"
+        class="mainbtn">
 
-    <i class="fa-solid fa-rotate-right"></i>
-    Redo
+        <i class="fa-solid fa-rotate-right"></i>
+        Redo
 
-  </button>
+      </button>
 
-  <button
-    class="secondarybtn"
-    onclick="location.href='../index.html'">
+      <button
+        class="secondarybtn"
+        onclick="location.href='../index.html'">
 
-    Go to Home
+        Go to Home
 
-  </button>
+      </button>
 
-</div>
-```
+    </div>
 
   </div>
 
@@ -391,85 +382,78 @@ button{
 const questions = [
 
   {
-    image:"build/51.jpg",
+    image:"fimages/51.jpg",
     answer:90,
     tolerance:0.1
   },
 
   {
-    image:"build/52.jpg",
+    image:"fimages/52.jpg",
     answer:3.792,
     tolerance:0.1
   },
 
   {
-    image:"build/53.jpg",
+    image:"fimages/53.jpg",
     answer:93.729,
     tolerance:0.5
   },
 
   {
-    image:"build/54.jpg",
+    image:"fimages/54.jpg",
     answer:35.4,
     tolerance:0.5
   },
 
   {
-    image:"build/55.jpg",
+    image:"fimages/55.jpg",
     answer:0,
     tolerance:0.1
   },
 
   {
-    image:"build/56.jpg",
+    image:"fimages/56.jpg",
     answer:6.16,
     tolerance:0.5
   },
 
   {
-    image:"build/57.jpg",
+    image:"fimages/57.jpg",
     answer:1.8,
     tolerance:0.5
   },
 
   {
-    image:"build/58.jpg",
+    image:"fimages/58.jpg",
     answer:30,
     tolerance:0.5
   },
 
   {
-    image:"build/59.jpg",
+    image:"fimages/59.jpg",
     answer:0,
     tolerance:0.1
   },
 
   {
-    image:"build/60.jpg",
+    image:"fimages/60.jpg",
     answer:51.52,
     tolerance:0.5
   }
 
 ];
 
-
 let n = 0;
 let score = 0;
 let locked = false;
 
-
-const $ = id =>
-  document.getElementById(id);
-
-
-/* INTRO */
+const $ = id => document.getElementById(id);
 
 function loadIntro(){
 
   locked = false;
 
-  $("img").src =
-    "build/50.jpg";
+  $("img").src = "fimages/50.jpg";
 
   $("pool").innerHTML = "";
 
@@ -477,135 +461,84 @@ function loadIntro(){
 
   $("feedback").innerHTML = "";
 
-  $("feedback").style.display =
-    "none";
+  $("feedback").style.display = "none";
 
-  $("continue").style.display =
-    "block";
+  $("continue").style.display = "block";
 
-  $("check").style.display =
-    "none";
+  $("check").style.display = "none";
 
-  $("progress").style.width =
-    "0%";
+  $("progress").style.width = "0%";
 
-  $("progress").style.background =
-    "#6c3fc5";
+  $("progress").style.background = "#6c3fc5";
 
 }
-
-
-/* LOAD QUESTION */
 
 function loadQuestion(){
 
   locked = false;
 
-  const q =
-    questions[n];
+  const q = questions[n];
 
-  $("img").src =
-    q.image;
+  $("img").src = q.image;
 
   $("questionNumber").textContent =
-    "Question " +
-    (n + 1) +
-    " of 10";
+    "Question " + (n + 1) + " of " + questions.length;
 
   $("pool").innerHTML = "";
 
   $("feedback").innerHTML = "";
 
-  $("feedback").style.display =
-    "none";
+  $("feedback").style.display = "none";
 
-  $("continue").style.display =
-    "none";
+  $("continue").style.display = "none";
 
-  $("check").style.display =
-    "block";
+  $("check").style.display = "block";
 
+  const input = document.createElement("input");
 
-  const input =
-    document.createElement("input");
-
-  input.type =
-    "number";
-
-  input.step =
-    "any";
-
-  input.inputMode =
-    "decimal";
-
-  input.placeholder =
-    "Enter answer";
-
-  input.className =
-    "answer";
-
-  input.id =
-    "answerBox";
-
+  input.type = "number";
+  input.step = "any";
+  input.inputMode = "decimal";
+  input.placeholder = "Enter answer";
+  input.className = "answer";
+  input.id = "answerBox";
 
   $("pool").appendChild(input);
 
+  input.focus();
 
-  input.addEventListener(
-    "keydown",
-    e => {
+  input.addEventListener("keydown", e => {
 
-      if(e.key === "Enter"){
-
-        $("check").click();
-
-      }
-
+    if(e.key === "Enter"){
+      $("check").click();
     }
-  );
+
+  });
 
 }
 
-
-/* CHECK */
-
 $("check").onclick = () => {
 
-  if(locked)
+  if(locked){
     return;
+  }
 
+  const q = questions[n];
 
-  const q =
-    questions[n];
-
-
-  const value =
-    parseFloat(
-      $("answerBox").value
-    );
-
+  const value = parseFloat($("answerBox").value);
 
   if(isNaN(value)){
 
-    $("feedback").innerHTML =
-      "Enter a number.";
-
-    $("feedback").style.display =
-      "block";
+    $("feedback").textContent = "Enter a number.";
+    $("feedback").style.display = "block";
 
     return;
-
   }
 
-
   const correct =
-    Math.abs(
-      value - q.answer
-    ) <= q.tolerance;
-
+    Math.abs(value - q.answer) <= q.tolerance;
 
   locked = true;
-
 
   if(correct){
 
@@ -613,33 +546,22 @@ $("check").onclick = () => {
 
     showAnswerResult(true);
 
-    $("progress").style.background =
-      "#2e9b45";
+    $("progress").style.background = "#2e9b45";
 
   }else{
 
     showAnswerResult(false);
 
-    $("progress").style.background =
-      "#d62f2f";
+    $("progress").style.background = "#d62f2f";
 
   }
 
-
-  /*
-    Fill the progress bar after
-    the answer is submitted.
-  */
-
   $("progress").style.width =
-    ((n + 1) / questions.length * 100)
-    + "%";
-
+    ((n + 1) / questions.length * 100) + "%";
 
   setTimeout(() => {
 
     n++;
-
 
     if(n >= questions.length){
 
@@ -655,42 +577,37 @@ $("check").onclick = () => {
 
 };
 
-
-/* RESULT ICON */
-
 function showAnswerResult(correct){
 
-  $("feedback").style.display =
-    "block";
+  $("feedback").style.display = "block";
 
+  $("feedback").innerHTML = "";
 
-  if(correct){
+  const icon = document.createElement("div");
 
-    $("feedback").innerHTML =
+  icon.className =
+    correct
+      ? "resultIcon green"
+      : "resultIcon red";
 
-      '<div class="resultIcon green">' +
-      '<i class="fa-solid fa-check"></i>' +
-      '</div>';
+  const iconElement = document.createElement("i");
 
-  }else{
+  iconElement.className =
+    correct
+      ? "fa-solid fa-check"
+      : "fa-solid fa-xmark";
 
-    $("feedback").innerHTML =
+  icon.appendChild(iconElement);
 
-      '<div class="resultIcon red">' +
-      '<i class="fa-solid fa-xmark"></i>' +
-      '</div>';
-
-  }
+  $("feedback").appendChild(icon);
 
 }
 
-
-/* CONTINUE FROM 50 */
-
 $("continue").onclick = () => {
 
-  if(locked)
+  if(locked){
     return;
+  }
 
   locked = true;
 
@@ -700,62 +617,40 @@ $("continue").onclick = () => {
 
 };
 
-
-/* FINISH */
-
 function finish(){
 
-  $("lesson").style.display =
-    "none";
+  $("lesson").style.display = "none";
 
-  $("complete").style.display =
-    "flex";
+  $("complete").style.display = "flex";
 
-  $("progress").style.width =
-    "100%";
-
+  $("progress").style.width = "100%";
 
   const percentage =
-    Math.round(
-      score / 10 * 100
-    );
-
+    Math.round(score / questions.length * 100);
 
   $("score").textContent =
-    "You got " +
-    score +
-    " out of 10";
-
+    "You got " + score + " out of " + questions.length;
 
   $("percentage").textContent =
-    percentage +
-    "% correct";
-
+    percentage + "% correct";
 
   if(score >= 8){
 
-    $("status").textContent =
-      "PASSED!";
+    $("status").textContent = "PASSED!";
 
-    $("status").className =
-      "status pass";
+    $("status").className = "status pass";
 
     createConfetti();
 
   }else{
 
-    $("status").textContent =
-      "FAILED";
+    $("status").textContent = "FAILED";
 
-    $("status").className =
-      "status fail";
+    $("status").className = "status fail";
 
   }
 
 }
-
-
-/* REDO */
 
 $("redo").onclick = () => {
 
@@ -763,44 +658,30 @@ $("redo").onclick = () => {
 
   n = 0;
 
-  $("complete").style.display =
-    "none";
+  $("complete").style.display = "none";
 
-  $("lesson").style.display =
-    "flex";
+  $("lesson").style.display = "flex";
 
   loadIntro();
 
 };
 
-
-/* CONFETTI */
-
 function createConfetti(){
 
   for(let i = 0; i < 120; i++){
 
-    const piece =
-      document.createElement("div");
+    const piece = document.createElement("div");
 
-    piece.className =
-      "confetti";
-
+    piece.className = "confetti";
 
     piece.style.left =
-      Math.random() * 100 +
-      "vw";
-
+      Math.random() * 100 + "vw";
 
     piece.style.animationDuration =
-      (2.5 + Math.random() * 3) +
-      "s";
-
+      (2.5 + Math.random() * 3) + "s";
 
     piece.style.animationDelay =
-      Math.random() * 1.5 +
-      "s";
-
+      Math.random() * 1.5 + "s";
 
     piece.style.backgroundColor =
       [
@@ -809,36 +690,22 @@ function createConfetti(){
         "#d62f2f",
         "#f2c94c",
         "#3498db"
-      ][
-        Math.floor(
-          Math.random() * 5
-        )
-      ];
-
+      ][Math.floor(Math.random() * 5)];
 
     document.body.appendChild(piece);
 
-
     setTimeout(() => {
-
       piece.remove();
-
     },6000);
 
   }
 
 }
 
-
-/* START */
-
 loadIntro();
 
 </script>
 
-<!-- YOUR EXISTING CALCULATOR -->
-
-<script src="calculator.js"></script>
-
 </body>
 </html>
+
