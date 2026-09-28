@@ -8,6 +8,7 @@
 <title>What Is Diabetes?</title>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
@@ -21,7 +22,7 @@ html,body{
 }
 
 body{
-  font-family:Arial,sans-serif;
+  font-family:"Comic Sans MS","Comic Sans",Arial,sans-serif;
   background:#f7f5fb;
   color:#29233a;
 }
@@ -97,38 +98,47 @@ body{
   text-align:center;
   font-size:23px;
   font-weight:bold;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .option{
   width:90%;
   max-width:500px;
-  padding:12px;
+  padding:13px 12px;
   font-size:18px;
   text-align:center;
-  border:2px solid #6c3fc5;
-  border-radius:7px;
+  border:0;
+  border-radius:8px;
   outline:none;
-  background:white;
-  color:#29233a;
+  background:#6c3fc5;
+  color:white;
+  font-family:inherit;
+  font-weight:bold;
+  transition:transform .12s;
 }
 
-.option:active{
-  background:#f0eafa;
+.option.selected{
+  transform:scale(1.04);
+}
+
+.option.correct{
+  background:#3b8d40;
+}
+
+.option.wrong{
+  background:#b00020;
 }
 
 .feedback{
   display:none;
   text-align:center;
   padding:8px;
+  font-size:18px;
+  font-weight:bold;
 }
 
 .feedback.red{
   color:#b00020;
-}
-
-.feedback.yellow{
-  color:#8a6d1b;
 }
 
 .feedback.green{
@@ -140,6 +150,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  gap:10px;
 }
 
 button{
@@ -181,14 +192,16 @@ button{
   }
 
   .option{
-    padding:10px;
+    padding:11px;
     font-size:17px;
   }
 
   .mainbtn{
     padding:10px 24px;
   }
+
 }
+
 </style>
 
 </head>
@@ -216,7 +229,9 @@ button{
   controls
   playsinline
   preload="metadata">
+
   <source src="videos/0919 (1).mp4" type="video/mp4">
+
 </video>
 
 <div id="pool" class="pool"></div>
@@ -233,6 +248,13 @@ button{
   id="continue"
   class="mainbtn">
   Continue
+</button>
+
+<button
+  id="check"
+  class="mainbtn"
+  style="display:none">
+  Check
 </button>
 ```
 
@@ -315,6 +337,7 @@ const lessons = [
 
 
 let n = 0;
+let selected = null;
 let locked = false;
 
 const $ = id => document.getElementById(id);
@@ -322,6 +345,7 @@ const $ = id => document.getElementById(id);
 
 function load(){
 
+  selected = null;
   locked = false;
 
   $("feedback").style.display = "none";
@@ -332,12 +356,14 @@ function load(){
 
   $("pool").innerHTML = "";
 
-  $("continue").style.display = "block";
+  $("continue").style.display = "none";
+  $("check").style.display = "none";
 
 
   if(lessons[n].type === "video"){
 
     $("video").style.display = "block";
+    $("continue").style.display = "block";
 
   }else{
 
@@ -376,18 +402,17 @@ function loadQuestion(){
       if(locked)
         return;
 
-      if(index === x.answer){
+      selected = index;
 
-        correctAdvance();
+      document
+        .querySelectorAll(".option")
+        .forEach(b => {
+          b.classList.remove("selected");
+        });
 
-      }else{
+      button.classList.add("selected");
 
-        showFeedback(
-          "red",
-          "Not quite. Try again."
-        );
-
-      }
+      $("check").style.display = "block";
 
     };
 
@@ -398,6 +423,59 @@ function loadQuestion(){
 }
 
 
+$("check").onclick = () => {
+
+  if(locked || selected === null)
+    return;
+
+  let x = lessons[n];
+
+  let buttons =
+    document.querySelectorAll(".option");
+
+
+  if(selected === x.answer){
+
+    buttons[selected].classList.add("correct");
+
+    locked = true;
+
+    $("check").style.display = "none";
+
+    showFeedback(
+      "green",
+      "Correct!"
+    );
+
+    setTimeout(() => {
+
+      n++;
+
+      if(n >= lessons.length){
+
+        finish();
+        return;
+
+      }
+
+      load();
+
+    },700);
+
+  }else{
+
+    buttons[selected].classList.add("wrong");
+
+    showFeedback(
+      "red",
+      "Not right. Try again."
+    );
+
+  }
+
+};
+
+
 function showFeedback(type,text){
 
   $("feedback").className =
@@ -406,33 +484,6 @@ function showFeedback(type,text){
   $("feedback").textContent = text;
 
   $("feedback").style.display = "block";
-
-}
-
-
-function correctAdvance(){
-
-  locked = true;
-
-  showFeedback(
-    "green",
-    "Correct!"
-  );
-
-  setTimeout(() => {
-
-    n++;
-
-    if(n >= lessons.length){
-
-      finish();
-      return;
-
-    }
-
-    load();
-
-  },600);
 
 }
 
