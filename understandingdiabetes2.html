@@ -1,0 +1,532 @@
+<!DOCTYPE html> 
+
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> 
+
+<title>How Does Insulin Work?</title> 
+
+<style> 
+ 
+*{ 
+  box-sizing:border-box; 
+} 
+ 
+html,body{ 
+  margin:0; 
+  width:100%; 
+  height:100%; 
+  overflow:hidden; 
+  touch-action:manipulation; 
+} 
+ 
+body{ 
+  font-family:"Comic Sans MS","Comic Sans",Arial,sans-serif; 
+  background:#f7f5fb; 
+  color:#29233a; 
+} 
+ 
+.top{ 
+  height:55px; 
+  background:white; 
+  display:flex; 
+  align-items:center; 
+  padding:0 12px; 
+} 
+ 
+.back{ 
+  color:#555; 
+  text-decoration:none; 
+} 
+ 
+.bar{ 
+  width:50%; 
+  height:8px; 
+  background:#eee; 
+  margin:auto; 
+  border-radius:10px; 
+} 
+ 
+.progress{ 
+  height:100%; 
+  width:0; 
+  background:#6c3fc5; 
+  border-radius:10px; 
+} 
+ 
+.page{ 
+  height:calc(100dvh - 55px); 
+  max-width:850px; 
+  margin:auto; 
+  padding:8px; 
+  display:flex; 
+  flex-direction:column; 
+} 
+ 
+.card{ 
+  background:white; 
+  flex:1; 
+  min-height:0; 
+  overflow:hidden; 
+  display:flex; 
+  flex-direction:column; 
+  padding:8px; 
+} 
+ 
+.video{ 
+  width:100%; 
+  height:min(55vh,450px); 
+  object-fit:contain; 
+  background:#000; 
+} 
+ 
+.pool{ 
+  flex:1; 
+  min-height:0; 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center; 
+  overflow:auto; 
+  gap:10px; 
+} 
+ 
+.question{ 
+  width:95%; 
+  max-width:650px; 
+  text-align:center; 
+  font-size:23px; 
+  font-weight:bold; 
+  margin-bottom:12px; 
+} 
+ 
+.option{ 
+  width:90%; 
+  max-width:500px; 
+  padding:13px 12px; 
+  font-size:18px; 
+  text-align:center; 
+  border:0; 
+  border-radius:8px; 
+  outline:none; 
+  background:#6c3fc5; 
+  color:white; 
+  font-family:inherit; 
+  font-weight:bold; 
+  transition:transform .12s; 
+} 
+ 
+.option.selected{ 
+  transform:scale(1.04); 
+} 
+ 
+.option.correct{ 
+  background:#3b8d40; 
+} 
+ 
+.option.wrong{ 
+  background:#b00020; 
+} 
+ 
+.feedback{ 
+  display:none; 
+  text-align:center; 
+  padding:8px; 
+  font-size:18px; 
+  font-weight:bold; 
+} 
+ 
+.feedback.red{ 
+  color:#b00020; 
+} 
+ 
+.feedback.green{ 
+  color:#1b5e20; 
+} 
+ 
+.controls{ 
+  height:58px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  gap:10px; 
+} 
+ 
+button{ 
+  font:inherit; 
+  cursor:pointer; 
+} 
+ 
+.mainbtn{ 
+  border:0; 
+  background:#6c3fc5; 
+  color:white; 
+  font-weight:bold; 
+  padding:11px 28px; 
+  border-radius:7px; 
+} 
+ 
+.complete{ 
+  position:fixed; 
+  inset:0; 
+  background:#f7f5fb; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  text-align:center; 
+} 
+ 
+@media(max-width:600px){ 
+ 
+  .page{ 
+    padding:5px; 
+  } 
+ 
+  .video{ 
+    height:min(42vh,280px); 
+  } 
+ 
+  .question{ 
+    font-size:20px; 
+  } 
+ 
+  .option{ 
+    padding:11px; 
+    font-size:17px; 
+  } 
+ 
+  .mainbtn{ 
+    padding:10px 24px; 
+  } 
+ 
+} 
+ 
+</style> 
+
+</head> 
+
+<body> 
+
+<header class="top"> 
+
+<a class="back" href="../index.html">Back</a>
+
+  <div class="bar"> 
+    <div class="progress" id="progress"></div> 
+  </div> 
+
+</header> 
+
+<main class="page" id="lesson"> 
+
+  <div class="card"> 
+
+<video 
+id="video" 
+class="video" 
+controls 
+playsinline 
+preload="metadata">
+
+  <source src="videos/1003.mp4" type="video/mp4"> 
+
+</video> 
+
+<div id="pool" class="pool"></div> 
+
+<div id="feedback" class="feedback"></div> 
+
+  </div> 
+
+  <div class="controls"> 
+
+<button 
+id="continue" 
+class="mainbtn">
+Continue </button>
+
+<button 
+id="check" 
+class="mainbtn" 
+style="display:none">
+Check </button>
+
+  </div> 
+
+</main> 
+
+<section 
+  id="complete" 
+  class="complete" 
+  style="display:none"> 
+
+  <div> 
+
+<h1>Lesson complete</h1> 
+
+<p>Great work!</p> 
+
+  </div> 
+
+</section> 
+
+<script> 
+ 
+const lessons = [ 
+ 
+  { 
+    type:"video" 
+  }, 
+ 
+  { 
+    type:"question", 
+    question:"What is insulin?", 
+    options:[ 
+      "A type of food", 
+      "A hormone made by the pancreas", 
+      "A type of glucose", 
+      "A type of blood cell" 
+    ], 
+    answer:1 
+  }, 
+ 
+  { 
+    type:"question", 
+    question:"What does insulin help glucose do?", 
+    options:[ 
+      "Leave the body", 
+      "Turn into water", 
+      "Move from the blood into cells", 
+      "Turn into oxygen" 
+    ], 
+    answer:2 
+  }, 
+ 
+  { 
+    type:"question", 
+    question:"What happens to glucose when it gets into your cells?", 
+    options:[ 
+      "It can be used for energy", 
+      "It disappears", 
+      "It becomes insulin", 
+      "It becomes blood" 
+    ], 
+    answer:0 
+  }, 
+ 
+  { 
+    type:"question", 
+    question:"What happens in Type 1 diabetes?", 
+    options:[ 
+      "The body makes too much insulin", 
+      "The pancreas stops making insulin", 
+      "The body stops making glucose", 
+      "The stomach stops working" 
+    ], 
+    answer:1 
+  }, 
+ 
+  { 
+    type:"question", 
+    question:"Why do people with Type 1 diabetes need insulin?", 
+    options:[ 
+      "To help glucose get into their cells", 
+      "To make them hungry", 
+      "To replace water in the body", 
+      "To stop them eating sugar" 
+    ], 
+    answer:0 
+  } 
+ 
+]; 
+ 
+ 
+let n = 0; 
+let selected = null; 
+let locked = false; 
+ 
+const $ = id => document.getElementById(id); 
+ 
+ 
+function load(){ 
+ 
+  selected = null; 
+  locked = false; 
+ 
+  $("feedback").style.display = "none"; 
+  $("feedback").textContent = ""; 
+ 
+  $("progress").style.width = 
+    (n / lessons.length * 100) + "%"; 
+ 
+  $("pool").innerHTML = ""; 
+ 
+  $("continue").style.display = "none"; 
+  $("check").style.display = "none"; 
+ 
+ 
+  if(lessons[n].type === "video"){ 
+ 
+    $("video").style.display = "block"; 
+    $("continue").style.display = "block"; 
+ 
+  }else{ 
+ 
+    $("video").style.display = "none"; 
+ 
+    loadQuestion(); 
+ 
+  } 
+ 
+} 
+ 
+ 
+function loadQuestion(){ 
+ 
+  let x = lessons[n]; 
+ 
+  let question = 
+    document.createElement("div"); 
+ 
+  question.className = "question"; 
+  question.textContent = x.question; 
+ 
+  $("pool").appendChild(question); 
+ 
+ 
+  x.options.forEach((option,index) => { 
+ 
+    let button = 
+      document.createElement("button"); 
+ 
+    button.className = "option"; 
+    button.textContent = option; 
+ 
+    button.onclick = () => { 
+ 
+      if(locked) 
+        return; 
+ 
+      selected = index; 
+ 
+      document 
+        .querySelectorAll(".option") 
+        .forEach(b => { 
+          b.classList.remove("selected"); 
+        }); 
+ 
+      button.classList.add("selected"); 
+ 
+      $("check").style.display = "block"; 
+ 
+    }; 
+ 
+    $("pool").appendChild(button); 
+ 
+  }); 
+ 
+} 
+ 
+ 
+$("check").onclick = () => { 
+ 
+  if(locked || selected === null) 
+    return; 
+ 
+  let x = lessons[n]; 
+ 
+  let buttons = 
+    document.querySelectorAll(".option"); 
+ 
+ 
+  if(selected === x.answer){ 
+ 
+    buttons[selected].classList.add("correct"); 
+ 
+    locked = true; 
+ 
+    $("check").style.display = "none"; 
+ 
+    showFeedback( 
+      "green", 
+      "Correct!" 
+    ); 
+ 
+    setTimeout(() => { 
+ 
+      n++; 
+ 
+      if(n >= lessons.length){ 
+ 
+        finish(); 
+        return; 
+ 
+      } 
+ 
+      load(); 
+ 
+    },700); 
+ 
+  }else{ 
+ 
+    buttons[selected].classList.add("wrong"); 
+ 
+    showFeedback( 
+      "red", 
+      "Not right. Try again." 
+    ); 
+ 
+  } 
+ 
+}; 
+ 
+ 
+function showFeedback(type,text){ 
+ 
+  $("feedback").className = 
+    "feedback " + type; 
+ 
+  $("feedback").textContent = text; 
+ 
+  $("feedback").style.display = "block"; 
+ 
+} 
+ 
+ 
+$("continue").onclick = () => { 
+ 
+  if(locked) 
+    return; 
+ 
+  n++; 
+ 
+  if(n >= lessons.length){ 
+ 
+    finish(); 
+    return; 
+ 
+  } 
+ 
+  load(); 
+ 
+}; 
+ 
+ 
+function finish(){ 
+ 
+  $("lesson").style.display = "none"; 
+ 
+  $("complete").style.display = "flex"; 
+ 
+  $("progress").style.width = "100%"; 
+ 
+} 
+ 
+ 
+load(); 
+ 
+</script> 
+
+</body> 
+</html>
