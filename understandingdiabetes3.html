@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Type 1 vs Type 2</title>
+
+<style>
+
+:root{
+  --purple:#6c3fc5;
+  --purple-dark:#51309b;
+  --purple-light:#f0eaff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  font-family:Arial,sans-serif;
+  background:#f7f5fb;
+}
+
+body{
+  overflow:hidden;
+}
+
+/* TOP BAR */
+
+.topbar{
+  height:55px;
+  background:white;
+  display:flex;
+  align-items:center;
+  padding:0 18px;
+  position:relative;
+  border-bottom:1px solid #eee;
+}
+
+.back{
+  color:var(--purple);
+  text-decoration:none;
+  font-size:16px;
+  font-weight:bold;
+  z-index:2;
+}
+
+.progress-wrap{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:300px;
+  max-width:45%;
+  height:9px;
+  background:#e8e2f5;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress{
+  height:100%;
+  width:0%;
+  background:var(--purple);
+  border-radius:20px;
+  transition:width .3s ease;
+}
+
+/* MAIN */
+
+.lesson{
+  height:calc(100vh - 55px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  width:min(900px,100%);
+  max-height:calc(100vh - 95px);
+  overflow:auto;
+  background:white;
+  border-radius:20px;
+  padding:28px;
+  text-align:center;
+  box-shadow:0 5px 25px rgba(0,0,0,.06);
+}
+
+h1{
+  margin:0 0 22px;
+  color:var(--purple);
+  font-size:38px;
+}
+
+.video{
+  width:100%;
+  max-height:58vh;
+  border-radius:14px;
+  background:#000;
+  display:block;
+}
+
+.continue,
+.check{
+  margin-top:22px;
+  border:0;
+  border-radius:12px;
+  padding:14px 35px;
+  background:var(--purple);
+  color:white;
+  font-size:19px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.continue:hover,
+.check:hover{
+  background:var(--purple-dark);
+}
+
+/* QUIZ */
+
+#quiz{
+  display:none;
+}
+
+.question{
+  font-size:26px;
+  font-weight:bold;
+  margin:5px auto 22px;
+  max-width:750px;
+  line-height:1.3;
+}
+
+.answers{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:700px;
+  margin:auto;
+}
+
+.answer{
+  width:100%;
+  padding:15px 18px;
+  border:2px solid #ddd5ef;
+  border-radius:12px;
+  background:white;
+  color:#222;
+  font-size:18px;
+  cursor:pointer;
+  text-align:left;
+}
+
+.answer:hover{
+  background:var(--purple-light);
+  border-color:var(--purple);
+}
+
+.answer.selected{
+  background:var(--purple-light);
+  border-color:var(--purple);
+}
+
+.feedback{
+  min-height:30px;
+  margin-top:18px;
+  font-size:19px;
+  font-weight:bold;
+}
+
+.correct{
+  color:#159447;
+}
+
+.wrong{
+  color:#d32626;
+}
+
+/* COMPLETION */
+
+#complete{
+  display:none;
+}
+
+.complete-title{
+  color:var(--purple);
+  font-size:40px;
+  margin-bottom:15px;
+}
+
+.complete-text{
+  font-size:21px;
+  line-height:1.5;
+  margin:0 auto 20px;
+  max-width:650px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  .topbar{
+    height:50px;
+  }
+
+  .progress-wrap{
+    width:220px;
+    max-width:42%;
+  }
+
+  .lesson{
+    height:calc(100vh - 50px);
+    padding:10px;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:15px;
+  }
+
+  h1{
+    font-size:29px;
+    margin-bottom:15px;
+  }
+
+  .question{
+    font-size:22px;
+  }
+
+  .answer{
+    font-size:17px;
+    padding:13px;
+  }
+
+  .continue,
+  .check{
+    width:100%;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+  <a href="javascript:history.back()" class="back">← Back</a>
+
+  <div class="progress-wrap">
+    <div class="progress" id="progress"></div>
+  </div>
+
+</div>
+
+
+<div class="lesson">
+
+  <div class="card">
+
+    <!-- VIDEO -->
+
+    <div id="videoScreen">
+
+      <h1>Type 1 vs Type 2</h1>
+
+      <video
+        class="video"
+        controls
+        playsinline
+        preload="metadata">
+
+        <source src="videos/1004.mp4" type="video/mp4">
+
+      </video>
+
+      <button class="continue" onclick="startQuiz()">
+        Continue
+      </button>
+
+    </div>
+
+
+    <!-- QUIZ -->
+
+    <div id="quiz">
+
+      <h1>Type 1 vs Type 2</h1>
+
+      <div class="question" id="question"></div>
+
+      <div class="answers" id="answers"></div>
+
+      <div class="feedback" id="feedback"></div>
+
+      <button
+        class="check"
+        id="check"
+        onclick="checkAnswer()">
+
+        Check
+
+      </button>
+
+    </div>
+
+
+    <!-- COMPLETE -->
+
+    <div id="complete">
+
+      <div class="complete-title">
+        Lesson complete!
+      </div>
+
+      <p class="complete-text">
+        You now know the difference between Type 1 and Type 2 diabetes.
+      </p>
+
+      <button
+        class="continue"
+        onclick="location.reload()">
+
+        Do it again
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+  {
+    question:"What happens in Type 1 diabetes?",
+    answers:[
+      "The immune system attacks the cells that make insulin",
+      "The body makes too much insulin",
+      "The body stops using glucose"
+    ],
+    correct:0
+  },
+
+  {
+    question:"What happens in Type 2 diabetes?",
+    answers:[
+      "The body cannot make glucose",
+      "The body does not use insulin properly",
+      "The immune system destroys all the body's cells"
+    ],
+    correct:1
+  },
+
+  {
+    question:"Do people with Type 1 diabetes need insulin?",
+    answers:[
+      "Yes",
+      "No",
+      "Only sometimes"
+    ],
+    correct:0
+  },
+
+  {
+    question:"Can Type 2 diabetes sometimes go into remission?",
+    answers:[
+      "Yes",
+      "No",
+      "Never"
+    ],
+    correct:0
+  },
+
+  {
+    question:"Is Type 1 diabetes caused by eating too much sugar?",
+    answers:[
+      "Yes",
+      "No",
+      "Only in children"
+    ],
+    correct:1
+  }
+
+];
+
+
+let current=0;
+let selected=null;
+let answered=false;
+
+
+function updateProgress(){
+
+  const total=questions.length+1;
+
+  const position=current+1;
+
+  document.getElementById("progress").style.width=
+    ((position/total)*100)+"%";
+
+}
+
+
+function startQuiz(){
+
+  document.getElementById("videoScreen").style.display="none";
+  document.getElementById("quiz").style.display="block";
+
+  current=0;
+
+  updateProgress();
+  loadQuestion();
+
+}
+
+
+function loadQuestion(){
+
+  selected=null;
+  answered=false;
+
+  const q=questions[current];
+
+  document.getElementById("question").textContent=q.question;
+
+  const answers=document.getElementById("answers");
+
+  answers.innerHTML="";
+
+  document.getElementById("feedback").textContent="";
+
+  document.getElementById("feedback").className="feedback";
+
+  document.getElementById("check").style.display="inline-block";
+
+
+  q.answers.forEach((answer,index)=>{
+
+    const button=document.createElement("button");
+
+    button.className="answer";
+
+    button.textContent=answer;
+
+    button.onclick=function(){
+
+      if(answered) return;
+
+      selected=index;
+
+      document.querySelectorAll(".answer").forEach(b=>{
+        b.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+
+    };
+
+    answers.appendChild(button);
+
+  });
+
+}
+
+
+function checkAnswer(){
+
+  if(selected===null) return;
+
+  if(answered) return;
+
+  const q=questions[current];
+
+  const feedback=document.getElementById("feedback");
+
+  if(selected===q.correct){
+
+    answered=true;
+
+    feedback.textContent="Correct!";
+
+    feedback.className="feedback correct";
+
+    document.getElementById("check").textContent=
+      current===questions.length-1 ? "Finish" : "Continue";
+
+    document.getElementById("check").onclick=nextQuestion;
+
+  }else{
+
+    feedback.textContent="Not right. Try again.";
+
+    feedback.className="feedback wrong";
+
+  }
+
+}
+
+
+function nextQuestion(){
+
+  current++;
+
+  if(current>=questions.length){
+
+    document.getElementById("quiz").style.display="none";
+    document.getElementById("complete").style.display="block";
+
+    document.getElementById("progress").style.width="100%";
+
+    return;
+
+  }
+
+  document.getElementById("check").textContent="Check";
+
+  document.getElementById("check").onclick=checkAnswer;
+
+  updateProgress();
+
+  loadQuestion();
+
+}
+
+</script>
+
+</body>
+</html>
+
