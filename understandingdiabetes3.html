@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,244 +6,166 @@
 <title>Type 1 vs Type 2</title>
 
 <style>
-
-:root{
-  --purple:#6c3fc5;
-  --purple-dark:#51309b;
-  --purple-light:#f0eaff;
-}
-
-*{
-  box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 html,body{
   margin:0;
   width:100%;
   height:100%;
-  font-family:Arial,sans-serif;
-  background:#f7f5fb;
-}
-
-body{
   overflow:hidden;
+  touch-action:manipulation;
 }
-
-/* TOP BAR */
-
+body{
+  font-family:"Comic Sans MS","Comic Sans",Arial,sans-serif;
+  background:#f7f5fb;
+  color:#29233a;
+}
 .topbar{
   height:55px;
+  flex-shrink:0;
   background:white;
   display:flex;
   align-items:center;
-  padding:0 18px;
-  position:relative;
-  border-bottom:1px solid #eee;
+  padding:0 12px;
 }
-
 .back{
-  color:var(--purple);
+  color:#555;
   text-decoration:none;
   font-size:16px;
-  font-weight:bold;
-  z-index:2;
 }
-
 .progress-wrap{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  width:300px;
-  max-width:45%;
-  height:9px;
-  background:#e8e2f5;
-  border-radius:20px;
+  width:50%;
+  height:8px;
+  background:#eee;
+  margin:auto;
+  border-radius:10px;
   overflow:hidden;
 }
-
 .progress{
   height:100%;
-  width:0%;
-  background:var(--purple);
-  border-radius:20px;
-  transition:width .3s ease;
+  width:0;
+  background:#6c3fc5;
+  border-radius:10px;
+  transition:width .25s ease;
 }
-
-/* MAIN */
-
 .lesson{
-  height:calc(100vh - 55px);
+  height:calc(100dvh - 55px);
+  max-width:850px;
+  margin:auto;
+  padding:8px;
   display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:stretch;
+}
+.card{
+  width:100%;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  background:white;
+  display:flex;
+  flex-direction:column;
+  padding:8px;
+  text-align:center;
+}
+#videoScreen,#quiz,#complete{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding:20px;
-}
-
-.card{
-  width:min(900px,100%);
-  max-height:calc(100vh - 95px);
   overflow:auto;
-  background:white;
-  border-radius:20px;
-  padding:28px;
-  text-align:center;
-  box-shadow:0 5px 25px rgba(0,0,0,.06);
+  gap:10px;
 }
-
+#quiz,#complete{display:none}
 h1{
-  margin:0 0 22px;
-  color:var(--purple);
-  font-size:38px;
+  margin:0 0 12px;
+  color:#29233a;
+  font-size:25px;
 }
-
 .video{
   width:100%;
-  max-height:58vh;
-  border-radius:14px;
+  height:min(55vh,450px);
+  object-fit:contain;
   background:#000;
   display:block;
 }
-
-.continue,
-.check{
-  margin-top:22px;
+.continue,.check{
   border:0;
-  border-radius:12px;
-  padding:14px 35px;
-  background:var(--purple);
+  background:#6c3fc5;
   color:white;
-  font-size:19px;
+  font-family:inherit;
+  font-size:18px;
   font-weight:bold;
+  padding:11px 28px;
+  border-radius:7px;
   cursor:pointer;
+  margin-top:8px;
 }
-
-.continue:hover,
-.check:hover{
-  background:var(--purple-dark);
-}
-
-/* QUIZ */
-
-#quiz{
-  display:none;
-}
-
+.continue:hover,.check:hover{background:#51309b}
 .question{
-  font-size:26px;
+  width:95%;
+  max-width:650px;
+  text-align:center;
+  font-size:23px;
   font-weight:bold;
-  margin:5px auto 22px;
-  max-width:750px;
+  margin-bottom:12px;
   line-height:1.3;
 }
-
 .answers{
+  width:90%;
+  max-width:500px;
   display:flex;
   flex-direction:column;
-  gap:12px;
-  max-width:700px;
-  margin:auto;
+  align-items:center;
+  gap:10px;
 }
-
 .answer{
   width:100%;
-  padding:15px 18px;
-  border:2px solid #ddd5ef;
-  border-radius:12px;
-  background:white;
-  color:#222;
+  padding:13px 12px;
   font-size:18px;
+  text-align:center;
+  border:0;
+  border-radius:8px;
+  background:#6c3fc5;
+  color:white;
+  font-family:inherit;
+  font-weight:bold;
   cursor:pointer;
-  text-align:left;
+  transition:transform .12s;
 }
-
-.answer:hover{
-  background:var(--purple-light);
-  border-color:var(--purple);
-}
-
-.answer.selected{
-  background:var(--purple-light);
-  border-color:var(--purple);
-}
-
+.answer.selected{transform:scale(1.03)}
+.answer:hover{background:#51309b}
 .feedback{
-  min-height:30px;
-  margin-top:18px;
-  font-size:19px;
+  display:block;
+  min-height:24px;
+  text-align:center;
+  padding:8px;
+  font-size:18px;
   font-weight:bold;
 }
-
-.correct{
-  color:#159447;
-}
-
-.wrong{
-  color:#d32626;
-}
-
-/* COMPLETION */
-
-#complete{
-  display:none;
-}
-
+.feedback.correct{color:#1b5e20}
+.feedback.wrong{color:#b00020}
 .complete-title{
-  color:var(--purple);
-  font-size:40px;
-  margin-bottom:15px;
+  color:#6c3fc5;
+  font-size:30px;
+  margin-bottom:8px;
 }
-
 .complete-text{
-  font-size:21px;
+  font-size:19px;
   line-height:1.5;
-  margin:0 auto 20px;
+  margin:0 auto 12px;
   max-width:650px;
 }
-
-/* MOBILE */
-
 @media(max-width:600px){
-
-  .topbar{
-    height:50px;
-  }
-
-  .progress-wrap{
-    width:220px;
-    max-width:42%;
-  }
-
-  .lesson{
-    height:calc(100vh - 50px);
-    padding:10px;
-  }
-
-  .card{
-    padding:18px;
-    border-radius:15px;
-  }
-
-  h1{
-    font-size:29px;
-    margin-bottom:15px;
-  }
-
-  .question{
-    font-size:22px;
-  }
-
-  .answer{
-    font-size:17px;
-    padding:13px;
-  }
-
-  .continue,
-  .check{
-    width:100%;
-  }
-
+  .lesson{padding:5px}
+  .video{height:min(42vh,280px)}
+  h1{font-size:22px}
+  .question{font-size:20px}
+  .answer{padding:11px;font-size:17px}
+  .continue,.check{padding:10px 24px}
 }
-
 </style>
 </head>
 
@@ -253,7 +173,7 @@ h1{
 
 <div class="topbar">
 
-  <a href="javascript:history.back()" class="back">← Back</a>
+  <a href="../index.html" class="back">Back</a>
 
   <div class="progress-wrap">
     <div class="progress" id="progress"></div>
@@ -539,4 +459,3 @@ function nextQuestion(){
 
 </body>
 </html>
-
