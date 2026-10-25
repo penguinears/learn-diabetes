@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Final Challenge | Understanding Diabetes</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  touch-action:manipulation;
+}
+
+body{
+  font-family:"Comic Sans MS","Comic Sans",Arial,sans-serif;
+  background:#f7f5fb;
+  color:#29233a;
+}
+
+.top{
+  height:55px;
+  background:white;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+}
+
+.back{
+  color:#555;
+  text-decoration:none;
+}
+
+.bar{
+  width:50%;
+  height:8px;
+  background:#eee;
+  margin:auto;
+  border-radius:10px;
+}
+
+.progress{
+  height:100%;
+  width:0;
+  background:#6c3fc5;
+  border-radius:10px;
+  transition:width .2s;
+}
+
+.page{
+  height:calc(100dvh - 55px);
+  max-width:850px;
+  margin:auto;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+}
+
+.card{
+  background:white;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:8px;
+}
+
+.pool{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  gap:10px;
+}
+
+.counter{
+  color:#6c3fc5;
+  font-size:15px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.question{
+  width:95%;
+  max-width:650px;
+  text-align:center;
+  font-size:23px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.option{
+  width:90%;
+  max-width:500px;
+  padding:13px 12px;
+  font-size:18px;
+  text-align:center;
+  border:0;
+  border-radius:8px;
+  outline:none;
+  background:#6c3fc5;
+  color:white;
+  font-family:inherit;
+  font-weight:bold;
+  transition:transform .12s;
+}
+
+.option.selected{
+  transform:scale(1.04);
+}
+
+.option.correct{
+  background:#3b8d40;
+}
+
+.option.wrong{
+  background:#b00020;
+}
+
+.option:disabled{
+  opacity:1;
+}
+
+.feedback{
+  display:none;
+  text-align:center;
+  padding:8px;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.feedback.red{
+  color:#b00020;
+}
+
+.feedback.green{
+  color:#1b5e20;
+}
+
+.controls{
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-shrink:0;
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+.mainbtn{
+  border:0;
+  background:#6c3fc5;
+  color:white;
+  font-weight:bold;
+  padding:11px 28px;
+  border-radius:7px;
+}
+
+.complete{
+  position:fixed;
+  inset:55px 0 0;
+  background:#f7f5fb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  overflow:auto;
+}
+
+.resultbox{
+  width:100%;
+  max-width:500px;
+}
+
+.resultbox h1{
+  color:#6c3fc5;
+  font-size:32px;
+}
+
+.resultbox p{
+  font-size:19px;
+}
+
+.resultbuttons{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:25px;
+}
+
+@media(max-width:600px){
+
+  .page{
+    padding:5px;
+  }
+
+  .question{
+    font-size:20px;
+  }
+
+  .option{
+    padding:11px;
+    font-size:17px;
+  }
+
+  .mainbtn{
+    padding:10px 24px;
+  }
+
+  .resultbox h1{
+    font-size:27px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="top">
+
+<a class="back" href="understandingdiabetes3.html">Back</a>
+
+<div class="bar">
+  <div class="progress" id="progress"></div>
+</div>
+
+</header>
+
+<main class="page" id="lesson">
+
+<div class="card">
+
+<div id="pool" class="pool"></div>
+
+<div id="feedback" class="feedback"></div>
+
+</div>
+
+<div class="controls">
+
+<button id="check" class="mainbtn" style="display:none">
+Check
+</button>
+
+</div>
+
+</main>
+
+<section id="complete" class="complete" style="display:none">
+
+<div class="resultbox">
+
+<h1 id="resultTitle">Challenge complete!</h1>
+
+<p id="resultScore"></p>
+
+<p id="resultMessage"></p>
+
+<div class="resultbuttons">
+
+<button class="mainbtn" onclick="restart()">
+Try Again
+</button>
+
+<button class="mainbtn" onclick="location.href='index.html'">
+Home
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const questions = [
+
+  {
+    question:"What is diabetes?",
+    options:[
+      "A condition affecting how the body controls blood glucose",
+      "An illness caused by eating too much sugar",
+      "A condition that stops the body digesting food",
+      "An illness that only affects children"
+    ],
+    answer:0,
+    explanation:"Diabetes affects how the body controls glucose, a type of sugar that the body uses for energy."
+  },
+
+  {
+    question:"Where is insulin made?",
+    options:[
+      "The stomach",
+      "The pancreas",
+      "The liver",
+      "The kidneys"
+    ],
+    answer:1,
+    explanation:"Insulin is a hormone made by beta cells in the pancreas."
+  },
+
+  {
+    question:"What does insulin help glucose do?",
+    options:[
+      "Leave the body through the lungs",
+      "Turn directly into insulin",
+      "Move from the blood into cells",
+      "Stop being used for energy"
+    ],
+    answer:2,
+    explanation:"Insulin helps glucose move from the bloodstream into cells, where it can be used for energy."
+  },
+
+  {
+    question:"What happens in Type 1 diabetes?",
+    options:[
+      "The body cannot make enough insulin because its immune system attacks insulin-producing cells",
+      "The body makes too much insulin after every meal",
+      "The body stops needing glucose",
+      "The condition is caused by eating sweets"
+    ],
+    answer:0,
+    explanation:"In Type 1 diabetes, the immune system attacks the cells in the pancreas that make insulin."
+  },
+
+  {
+    question:"Which statement about Type 2 diabetes is correct?",
+    options:[
+      "It only affects adults",
+      "It always means the pancreas makes no insulin at all",
+      "It is always caused by eating sweets",
+      "The body does not respond to insulin properly and may not make enough"
+    ],
+    answer:3,
+    explanation:"In Type 2 diabetes, the body does not respond to insulin properly and, over time, may not make enough."
+  },
+
+  {
+    question:"Can children develop Type 1 diabetes?",
+    options:[
+      "No, only adults can get it",
+      "Yes, children can develop Type 1 diabetes",
+      "Only if they eat too much sugar",
+      "Only if someone in their family has it"
+    ],
+    answer:1,
+    explanation:"Type 1 diabetes can develop at any age, including during childhood. It is not caused by eating too much sugar."
+  },
+
+  {
+    question:"What is glucose?",
+    options:[
+      "A hormone made by the pancreas",
+      "A medicine used for every illness",
+      "A type of sugar that the body uses for energy",
+      "A part of the immune system"
+    ],
+    answer:2,
+    explanation:"Glucose is a type of sugar that travels in the blood and provides energy for the body's cells."
+  },
+
+  {
+    question:"How are Type 1 and Type 2 diabetes different?",
+    options:[
+      "Type 1 affects blood, but Type 2 does not",
+      "Type 1 is always mild, but Type 2 is always severe",
+      "Type 1 is caused by sugar, but Type 2 is caused by insulin",
+      "They involve different problems with insulin production and how the body responds to insulin"
+    ],
+    answer:3,
+    explanation:"Type 1 involves the immune system destroying insulin-producing cells. Type 2 involves insulin resistance and may also involve reduced insulin production."
+  },
+
+  {
+    question:"What would happen if the body could not use insulin properly?",
+    options:[
+      "More glucose could remain in the bloodstream",
+      "The body would no longer need energy",
+      "Glucose would disappear from the blood immediately",
+      "The pancreas would turn glucose into water"
+    ],
+    answer:0,
+    explanation:"When insulin is missing or does not work properly, glucose can build up in the bloodstream."
+  },
+
+  {
+    question:"Which statement about Type 1 diabetes is true?",
+    options:[
+      "It can always be prevented by avoiding sweets",
+      "It is an autoimmune condition and is not caused by eating too much sugar",
+      "It happens only when someone eats too many carbohydrates",
+      "It means the body never needs glucose"
+    ],
+    answer:1,
+    explanation:"Type 1 diabetes is an autoimmune condition. It is not caused by eating too much sugar."
+  }
+
+];
+
+let n = 0;
+let selected = null;
+let locked = false;
+let missed = false;
+let score = 0;
+
+const $ = id => document.getElementById(id);
+
+function load(){
+
+  selected = null;
+  locked = false;
+  missed = false;
+
+  $("feedback").style.display = "none";
+  $("feedback").textContent = "";
+
+  $("progress").style.width =
+    (n / questions.length * 100) + "%";
+
+  $("pool").innerHTML = "";
+
+  $("check").style.display = "none";
+
+  const counter = document.createElement("div");
+  counter.className = "counter";
+  counter.textContent =
+    "QUESTION " + (n + 1) + " OF " + questions.length;
+
+  $("pool").appendChild(counter);
+
+  const question = document.createElement("div");
+  question.className = "question";
+  question.textContent = questions[n].question;
+
+  $("pool").appendChild(question);
+
+  questions[n].options.forEach((option,index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "option";
+    button.textContent = option;
+
+    button.onclick = () => {
+
+      if(locked) return;
+
+      selected = index;
+
+      document.querySelectorAll(".option").forEach(b => {
+        b.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+
+      $("check").style.display = "block";
+
+      $("feedback").style.display = "none";
+
+    };
+
+    $("pool").appendChild(button);
+
+  });
+
+}
+
+$("check").onclick = () => {
+
+  if(locked || selected === null) return;
+
+  const q = questions[n];
+
+  const buttons = document.querySelectorAll(".option");
+
+  if(selected === q.answer){
+
+    buttons[selected].classList.add("correct");
+
+    buttons.forEach(b => b.disabled = true);
+
+    locked = true;
+
+    if(!missed){
+      score++;
+    }
+
+    $("check").style.display = "none";
+
+    showFeedback(
+      "green",
+      "Correct! " + q.explanation
+    );
+
+    $("progress").style.width =
+      ((n + 1) / questions.length * 100) + "%";
+
+    setTimeout(() => {
+
+      n++;
+
+      if(n >= questions.length){
+        finish();
+      }else{
+        load();
+      }
+
+    },1800);
+
+  }else{
+
+    missed = true;
+
+    buttons[selected].classList.add("wrong");
+    buttons[selected].disabled = true;
+
+    showFeedback(
+      "red",
+      "Not quite! Try another answer."
+    );
+
+    selected = null;
+
+    $("check").style.display = "none";
+
+  }
+
+};
+
+function showFeedback(type,text){
+
+  $("feedback").className = "feedback " + type;
+  $("feedback").textContent = text;
+  $("feedback").style.display = "block";
+
+}
+
+function finish(){
+
+  $("lesson").style.display = "none";
+  $("complete").style.display = "flex";
+
+  $("progress").style.width = "100%";
+
+  $("resultScore").textContent =
+    "You scored " + score + " out of " + questions.length + ".";
+
+  if(score >= 8){
+
+    $("resultTitle").textContent = "Challenge passed!";
+    $("resultMessage").textContent =
+      "Amazing work! You've passed the Understanding Diabetes challenge.";
+
+  }else{
+
+    $("resultTitle").textContent = "Keep learning!";
+    $("resultMessage").textContent =
+      "You're getting there! Try again to practise what you've learned.";
+
+  }
+
+}
+
+function restart(){
+
+  n = 0;
+  score = 0;
+  selected = null;
+  locked = false;
+  missed = false;
+
+  $("complete").style.display = "none";
+  $("lesson").style.display = "flex";
+
+  load();
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
